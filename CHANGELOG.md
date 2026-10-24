@@ -2,8 +2,6 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
-
 ## [0.0.1] - First version: file readers, job planning, text-mode interface and a simulated machine
 
 - **HP-GL reader:** `.PLT` plot files with `IN`, `SP`, `PU`, `PD`, `PA` and `PR`; any other command is counted and ignored. The tool table (`.RTD`: depth, passes, feeds in XY and Z, spindle speed) and the machine configuration (`.RCF`).
@@ -18,3 +16,4 @@ All notable changes to this project are documented here.
 - **Steady motion:** moves go out as one continuous stream paced by the adapter's UART, Z moves byte by byte.
 - **Documentation:** protocol notes, the connection guide with the CH340 findings, and a machine file example with every value.
 - 21 tests, `cargo clippy -D warnings` and `cargo fmt --check` in CI on Linux and Windows, and a repository check of the manifest, the versions, the changelog and the eight README files.
+- **Ready-made packages for Windows, Linux and macOS:** the `Release binaries` workflow builds the program with its window for Windows (zip), Linux (tar.gz; X11 and Wayland) and macOS (Apple silicon and Intel, tar.gz), each package with its SHA-256, and the release carries them.

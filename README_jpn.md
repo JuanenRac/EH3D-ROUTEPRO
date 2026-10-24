@@ -81,6 +81,8 @@ python -I tools/ci_validate.py
 
 `run.bat`（Windows）または `./run.sh`（Linux と macOS）で実行します。どちらも必要ならプログラムを先にビルドします。どちらも Rust と隣のフォルダー `EH3D-DRILLPRO` が必要です：`run.bat [FILE.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`。`--data` は `ROUTEPRO.RTD` と `ROUTEPRO.RCF` があるフォルダー（既定：`testdata/`）、`--dump` は画面をプレーンテキストで出力します。キー：`Alt` とハイライトされた文字でメニューを開き、矢印で移動、`Enter` で決定、`Esc` で戻ります。メニューバーはクリックもできます。中国語と日本語にはシステムフォントに CJK フォントが必要です。 `--connection FILE` で既定とは別の機械ファイルを指定できます（既定は Windows では `%APPDATA%\EH3D\machine.cfg`、その他では `~/.config/eh3d/machine.cfg`）。機械ファイルがなければプログラムはシミュレーターで動きます。
 
+**ビルド済みパッケージ:** 公開される各バージョンには、Windows（zip）、Linux（tar.gz）、macOS（Apple シリコンと Intel、tar.gz）用のパッケージが含まれ、プログラム、ライセンス、この README が入っており、それぞれ隣に SHA-256 が付きます。このリポジトリの `Release binaries` ワークフローでビルドされます。Releases ページからダウンロードしてください。Linux ではウィンドウに X11 または Wayland が必要です。
+
 ## 🔗 関連プロジェクト
 
 * [EH3D-DRILLPRO](https://github.com/JuanenRac/EH3D-DRILLPRO): 穴あけ向けの姉妹プロジェクト。このプロジェクトはそのプロトコル、画面、言語を使います
