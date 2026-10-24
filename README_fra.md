@@ -34,6 +34,24 @@
 | Pile technique | Rust |
 | Sur du matériel réel | Oui, sur une Bungard CCD MTC : la référence et les déplacements de chaque axe ; un travail complet n'a pas encore tourné. Sans fichier de machine, il s'exécute sur le simulateur |
 
+## 🚦 État du projet
+
+Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'hui. Elle est écrite d'après ce que le dépôt peut montrer (tests, compilations, exécutions), pas d'après ce qui est prévu.
+
+🟢 Fait et vérifié · 🟡 Fonctionne, avec des limites connues · 🟠 À moitié fait ou pas encore vérifié · 🔴 Pas fait ou ne fonctionne pas
+
+| Domaine | État | Ce que cela veut dire ici |
+|---|---|---|
+| Logiciel | 🟡 | Un programme Rust à écran texte 80x25 lit des fichiers de tracé HP-GL, la table d'outils et le fichier de la machine, planifie des parcours de fraisage en plusieurs passes et les exécute sur un simulateur, ou sur une vraie machine si le fichier de la machine le dit ; le dossier d'EH3D-DRILLPRO doit se trouver à côté. |
+| Tests | 🟢 | 21 tests réussissent (`cargo test --workspace`) : le lecteur HP-GL, la planification des parcours et les écrans dans les huit langues ; le protocole est couvert par les 123 tests d'EH3D-DRILLPRO. |
+| Lecteur HP-GL | 🟡 | Seuls `IN`, `SP`, `PU`, `PD`, `PA` et `PR` sont compris ; toute autre commande est comptée et ignorée, jamais fatale. Essayé seulement avec de petits fichiers d'exemple écrits pour les tests. |
+| Planification des trajets | 🟡 | Chaque parcours devient, à chaque passe, un déplacement rapide, une plongée, la coupe et un dégagement, avec la profondeur répartie également et l'outil finissant toujours en surface ; vérifié seulement en tests et sur le simulateur. |
+| Matériel réel | 🟠 | Le protocole série qu'il partage avec EH3D-DRILLPRO a été essayé sur une Bungard CCD MTC (la prise de référence et les déplacements de chaque axe) ; aucun travail de fraisage n'a tourné sur une machine, et les sorties de broche et d'aspirateur n'ont pas été essayées. |
+| Sécurité d'emploi | 🟡 | `Esc` arrête le travail en une fraction de seconde et coupe les pilotes de moteurs, et l'unité de commande de la machine surveille les fins de course ; le logiciel n'a pas d'arrêt d'urgence propre. |
+| Connexion au serveur | 🟠 | Avec `connection = server`, le programme envoie le travail à EH3D-SERVER et suit sa progression ; ce chemin n'a été exercé que sur le simulateur. |
+| Paquets prêts à l'emploi | 🟡 | La première publication contient des paquets pour Windows, Linux et macOS (Apple silicon et Intel), chacun avec son SHA-256, construits par le workflow de publication. |
+| Documentation | 🟢 | README en huit langues et les notes du protocole avec ce qui reste hypothèse ; le guide du fichier de la machine se trouve dans EH3D-DRILLPRO. |
+
 ## 🎯 Vue d'ensemble
 
 * Les **lecteurs de fichiers** : fichiers de traçage HP-GL `.PLT` (`IN`, `SP`, `PU`, `PD`, `PA`, `PR` ; toute autre commande est comptée et ignorée, jamais fatale), la table d'outils `ROUTEPRO.RTD` (profondeur, passes, avances en XY et Z, vitesse de broche) et la configuration de la machine `ROUTEPRO.RCF`.

@@ -34,6 +34,24 @@
 | Stack | Rust |
 | On real hardware | Yes, on one Bungard CCD MTC: the reference run and the moves of every axis; a whole job has not run yet. Without a machine file it runs on the simulator |
 
+## 🚦 Project status
+
+Each line is one part of this repository and the light says how far it is today. It is written from what the repository can show (tests, builds, runs), not from what is planned.
+
+🟢 Done and verified · 🟡 Works, with known limits · 🟠 Partly done or not verified yet · 🔴 Not done or not working
+
+| Area | State | What it means here |
+|---|---|---|
+| Software | 🟡 | A Rust program with an 80x25 text-mode screen reads HP-GL plot files, the tool table and the machine file, plans multi-pass milling paths and runs them against a simulator, or on a real machine when the machine file says so; it needs the folder of EH3D-DRILLPRO next to it. |
+| Tests | 🟢 | 21 tests pass (`cargo test --workspace`): the HP-GL reader, the path planning and the screens in all eight languages; the protocol is covered by the 123 tests of EH3D-DRILLPRO. |
+| HP-GL reader | 🟡 | Only `IN`, `SP`, `PU`, `PD`, `PA` and `PR` are understood; any other command is counted and ignored, never fatal. Tried only with small sample files written for the tests. |
+| Path planning | 🟡 | Each path becomes a rapid move, a plunge, the cut and a lift for every pass, with the depth split evenly and the tool always ending at the surface; checked in tests and on the simulator only. |
+| Real hardware | 🟠 | The serial protocol it shares with EH3D-DRILLPRO has been tried on one Bungard CCD MTC (the reference run and the moves of every axis); no routing job has run on a machine, and the spindle and vacuum outputs are untried. |
+| Safety in use | 🟡 | `Esc` stops the job within a fraction of a second and switches the stepper drivers off, and the machine's own control unit watches the limit switches; the software has no emergency stop of its own. |
+| Server connection | 🟠 | With `connection = server` the program sends the job to EH3D-SERVER and follows its progress; this path has only been exercised against the simulator. |
+| Ready-made packages | 🟡 | The first release carries packages for Windows, Linux and macOS (Apple silicon and Intel), each with its SHA-256, built by the release workflow. |
+| Documentation | 🟢 | README in eight languages and the protocol notes with what is still a hypothesis; the machine-file guide lives in EH3D-DRILLPRO. |
+
 ## 🎯 Overview
 
 * The **file readers**: HP-GL `.PLT` plot files (`IN`, `SP`, `PU`, `PD`, `PA`, `PR`; any other command is counted and ignored, never fatal), the tool table `ROUTEPRO.RTD` (depth, passes, feed rates in XY and Z, spindle speed) and the machine configuration `ROUTEPRO.RCF`.
