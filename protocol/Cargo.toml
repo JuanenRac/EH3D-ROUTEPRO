@@ -1,0 +1,13 @@
+[package]
+name = "eh3d-routepro-protocol"
+version = "0.0.1"
+edition = "2021"
+description = "Routing layer on top of the Bungard CCD serial protocol (no GUI, no file formats)"
+license = "GPL-3.0-or-later"
+
+[features]
+default = []
+serial = ["eh3d-drillpro-protocol/serial"]
+
+[dependencies]
+eh3d-drillpro-protocol = { path = "../../EH3D-DRILLPRO/protocol" }

@@ -1,0 +1,26 @@
+[package]
+name = "eh3d-routepro"
+version = "0.0.1"
+edition = "2021"
+description = "Open implementation of the Bungard CCD routing workflow (HP-GL input and machine protocol)"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/JuanenRac/EH3D-ROUTEPRO"
+readme = "README.md"
+
+[workspace]
+members = ["protocol"]
+
+[features]
+default = []
+gui = ["eh3d-drillpro/gui", "dep:eframe"]
+
+[dependencies]
+serde_json = "1"
+eh3d-routepro-protocol = { path = "protocol" }
+eh3d-drillpro = { path = "../EH3D-DRILLPRO" }
+eframe = { version = "0.37.0", default-features = false, features = ["glow", "default_fonts"], optional = true }
+
+[[bin]]
+name = "routepro"
+path = "src/bin/routepro.rs"
+required-features = ["gui"]
