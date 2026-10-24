@@ -20,6 +20,10 @@ eh3d-routepro-protocol = { path = "protocol" }
 eh3d-drillpro = { path = "../EH3D-DRILLPRO" }
 eframe = { version = "0.37.0", default-features = false, features = ["glow", "default_fonts"], optional = true }
 
+# the window of Linux needs a windowing system chosen at build time (X11 and Wayland); Windows and macOS have their own
+[target.'cfg(target_os = "linux")'.dependencies]
+eframe = { version = "0.37.0", default-features = false, features = ["glow", "default_fonts", "x11", "wayland"], optional = true }
+
 [[bin]]
 name = "routepro"
 path = "src/bin/routepro.rs"
