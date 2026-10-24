@@ -24,6 +24,13 @@ jobs:
           - { os: macos-latest, label: macos-x86_64, target: x86_64-apple-darwin, ext: "", archive: tar.gz }
     steps:
       - uses: actions/checkout@v5
+        with:
+          path: EH3D-ROUTEPRO
+      - name: Check out the sibling EH3D-DRILLPRO (a path dependency)
+        uses: actions/checkout@v5
+        with:
+          repository: JuanenRac/EH3D-DRILLPRO
+          path: EH3D-DRILLPRO
       - name: Linux libraries of the window
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libxkbcommon-dev libwayland-dev libx11-dev libxcursor-dev libxrandr-dev libxi-dev libgl1-mesa-dev
@@ -31,8 +38,10 @@ jobs:
         run: rustup toolchain install stable --profile minimal --target ${{ matrix.target }}
       - name: Build
         run: cargo build --release --features gui --target ${{ matrix.target }}
+        working-directory: EH3D-ROUTEPRO
       - name: Package
         shell: bash
+        working-directory: EH3D-ROUTEPRO
         run: |
           set -euo pipefail
           version=$(python3 -c "import json;print(json.load(open('eh3d.project.json'))['version'])")
@@ -53,5 +62,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: routepro-${{ matrix.label }}
-          path: dist/*
+          path: EH3D-ROUTEPRO/dist/*
           if-no-files-found: error
