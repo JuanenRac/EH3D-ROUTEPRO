@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Jobs packed in ZIP archives:** the Select File window goes inside a `.zip` file and shows the routing files in it; `routepro JOB.ZIP` loads the first routing file of the archive. The archive code is the shared `eh3d-archive` crate of EH3D-COMMON.
+
 - **The build, build-test and test scripts show a live panel:** a banner with the name and version, one line per step with its time, the number of tests that passed and a summary at the end, with the whole output kept in a log file. `test.sh` and `test.bat` run only the tests and never change the version; without `tools/pretty_run.py` the scripts behave as they always did.
 
 ## [0.0.3] - The Offset teach-in, the interrupted-job question, examples and a 32-bit Windows build
