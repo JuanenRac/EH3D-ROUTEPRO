@@ -2,7 +2,7 @@
 //! The serial protocol, text-mode screen and language support are shared with `eh3d-drillpro`.
 
 pub mod app;
-pub mod hpgl;
+pub use eh3d_bungard_formats::hpgl;
 pub mod job;
 pub mod texts;
-pub mod tools;
+pub use eh3d_bungard_formats::route_tools as tools;

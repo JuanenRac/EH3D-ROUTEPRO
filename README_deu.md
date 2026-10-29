@@ -71,7 +71,7 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 
 ## 🧩 Rolle in EH3D
 
-EH3D-ROUTEPRO ist das Fräs-Geschwister von EH3D-DRILLPRO und hängt per Pfad davon ab: Der Ordner `EH3D-DRILLPRO` muss neben diesem liegen. Es verwendet das serielle Protokoll, den Bildschirm und die Sprachunterstützung wieder. Es hängt noch von keinem anderen EH3D-Repository ab.
+EH3D-ROUTEPRO ist das Fräs-Geschwister von EH3D-DRILLPRO und hängt per Pfad davon ab: Der Ordner `EH3D-DRILLPRO` muss neben diesem liegen. Es verwendet das serielle Protokoll, den Bildschirm und die Sprachunterstützung wieder. Es hängt noch von keinem anderen EH3D-Repository ab. Die Dateien der Maschine (die Bohrdatei, die HP-GL-Datei, die Werkzeugtabellen und die Maschinenkonfiguration) stammen aus dem Crate `eh3d-bungard-formats` von EH3D-COMMON, das ebenfalls daneben liegen muss.
 
 ## 🏛️ Architektur
 
@@ -117,8 +117,6 @@ Die Version steht in `Cargo.toml` und in `eh3d.project.json`, und jede Version h
 ```text
 EH3D-ROUTEPRO/
 ├── src/
-│   ├── hpgl.rs                                  der HP-GL-Leser (IN, SP, PU, PD, PA, PR)
-│   ├── tools.rs                                 die Werkzeugtabelle ROUTEPRO.RTD
 │   ├── job.rs                                   HP-GL-Bahnen als Fräsauftrag
 │   ├── app.rs texts.rs                          die Anwendung und ihre Texte in acht Sprachen
 │   └── bin/                                     die Programme routepro und routepro-console

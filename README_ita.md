@@ -71,7 +71,7 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 
 ## 🧩 Ruolo in EH3D
 
-EH3D-ROUTEPRO è il fratello per la fresatura di EH3D-DRILLPRO e ne dipende per percorso: la cartella `EH3D-DRILLPRO` deve stare accanto a questa. Riutilizza il protocollo seriale, lo schermo e il supporto delle lingue. Non dipende ancora da nessun altro repository EH3D.
+EH3D-ROUTEPRO è il fratello per la fresatura di EH3D-DRILLPRO e ne dipende per percorso: la cartella `EH3D-DRILLPRO` deve stare accanto a questa. Riutilizza il protocollo seriale, lo schermo e il supporto delle lingue. Non dipende ancora da nessun altro repository EH3D. I file della macchina (quello di foratura, l'HP-GL, le tabelle degli utensili e la configurazione della macchina) vengono dal crate `eh3d-bungard-formats` di EH3D-COMMON, che deve stare anch'esso accanto.
 
 ## 🏛️ Architettura
 
@@ -117,8 +117,6 @@ La versione sta in `Cargo.toml` e in `eh3d.project.json`, e ogni versione ha la 
 ```text
 EH3D-ROUTEPRO/
 ├── src/
-│   ├── hpgl.rs                                  il lettore HP-GL (IN, SP, PU, PD, PA, PR)
-│   ├── tools.rs                                 la tabella degli utensili ROUTEPRO.RTD
 │   ├── job.rs                                   i percorsi HP-GL trasformati nel lavoro di fresatura
 │   ├── app.rs texts.rs                          l'applicazione e i suoi testi in otto lingue
 │   └── bin/                                     gli eseguibili routepro e routepro-console

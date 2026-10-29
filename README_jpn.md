@@ -71,7 +71,7 @@
 
 ## 🧩 EH3D での役割
 
-EH3D-ROUTEPRO は EH3D-DRILLPRO のフライス加工向けの姉妹プロジェクトで、パスで依存しています。フォルダー `EH3D-DRILLPRO` をこのフォルダーの隣に置く必要があります。シリアルプロトコル、画面、言語対応を再利用します。今のところ他の EH3D リポジトリには依存していません。
+EH3D-ROUTEPRO は EH3D-DRILLPRO のフライス加工向けの姉妹プロジェクトで、パスで依存しています。フォルダー `EH3D-DRILLPRO` をこのフォルダーの隣に置く必要があります。シリアルプロトコル、画面、言語対応を再利用します。今のところ他の EH3D リポジトリには依存していません。 マシンのファイル（穴あけファイル、HP-GL ファイル、工具テーブル、マシン設定）は EH3D-COMMON のクレート `eh3d-bungard-formats` から来るため、これも隣のフォルダーに置く必要があります。
 
 ## 🏛️ アーキテクチャ
 
@@ -117,8 +117,6 @@ python -I tools/ci_validate.py
 ```text
 EH3D-ROUTEPRO/
 ├── src/
-│   ├── hpgl.rs                                  HP-GL リーダー（IN, SP, PU, PD, PA, PR）
-│   ├── tools.rs                                 ツールテーブル ROUTEPRO.RTD
 │   ├── job.rs                                   HP-GL の経路をルーティング作業に変換
 │   ├── app.rs texts.rs                          アプリケーションと 8 言語のテキスト
 │   └── bin/                                     実行ファイル routepro と routepro-console

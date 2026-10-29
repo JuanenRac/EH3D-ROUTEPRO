@@ -71,7 +71,7 @@ Each line is one part of this repository and the light says how far it is today.
 
 ## 🧩 Role in EH3D
 
-EH3D-ROUTEPRO is the milling sibling of EH3D-DRILLPRO and depends on it by path: the folder `EH3D-DRILLPRO` must sit next to this one. It reuses the serial protocol, the screen and the language support. It does not depend on any other EH3D repository yet.
+EH3D-ROUTEPRO is the milling sibling of EH3D-DRILLPRO and depends on it by path: the folder `EH3D-DRILLPRO` must sit next to this one. It reuses the serial protocol, the screen and the language support. It does not depend on any other EH3D repository yet. The files of the machine (the drill file, the HP-GL file, the tool tables and the machine configuration) come from the crate `eh3d-bungard-formats` of EH3D-COMMON, which has to be next to it as well.
 
 ## 🏛️ Architecture
 
@@ -117,8 +117,6 @@ The version lives in `Cargo.toml` and in `eh3d.project.json`, and each version h
 ```text
 EH3D-ROUTEPRO/
 ├── src/
-│   ├── hpgl.rs                                  the HP-GL reader (IN, SP, PU, PD, PA, PR)
-│   ├── tools.rs                                 the tool table ROUTEPRO.RTD
 │   ├── job.rs                                   HP-GL paths turned into the routing job
 │   ├── app.rs texts.rs                          the application and its texts in eight languages
 │   └── bin/                                     the routepro and routepro-console executables

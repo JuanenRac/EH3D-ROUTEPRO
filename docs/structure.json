@@ -1,6 +1,9 @@
 {
   "repo": "EH3D-ROUTEPRO",
-  "exempt": ["test.bat", "test.sh"],
+  "exempt": [
+    "test.bat",
+    "test.sh"
+  ],
   "ecosystem": "eh3d",
   "svg": "en",
   "tagline": {
@@ -29,32 +32,6 @@
         "pt": "a biblioteca: leitor HP-GL, planeamento de trajetos, ecrãs e textos"
       },
       "rows": [
-        {
-          "name": "hpgl.rs",
-          "desc": {
-            "en": "the HP-GL reader (IN, SP, PU, PD, PA, PR)",
-            "es": "el lector HP-GL (IN, SP, PU, PD, PA, PR)",
-            "de": "der HP-GL-Leser (IN, SP, PU, PD, PA, PR)",
-            "fr": "le lecteur HP-GL (IN, SP, PU, PD, PA, PR)",
-            "it": "il lettore HP-GL (IN, SP, PU, PD, PA, PR)",
-            "ja": "HP-GL リーダー（IN, SP, PU, PD, PA, PR）",
-            "zh": "HP-GL 读取器（IN、SP、PU、PD、PA、PR）",
-            "pt": "o leitor HP-GL (IN, SP, PU, PD, PA, PR)"
-          }
-        },
-        {
-          "name": "tools.rs",
-          "desc": {
-            "en": "the tool table ROUTEPRO.RTD",
-            "es": "la tabla de herramientas ROUTEPRO.RTD",
-            "de": "die Werkzeugtabelle ROUTEPRO.RTD",
-            "fr": "la table d'outils ROUTEPRO.RTD",
-            "it": "la tabella degli utensili ROUTEPRO.RTD",
-            "ja": "ツールテーブル ROUTEPRO.RTD",
-            "zh": "刀具表 ROUTEPRO.RTD",
-            "pt": "a tabela de ferramentas ROUTEPRO.RTD"
-          }
-        },
         {
           "name": "job.rs",
           "desc": {

@@ -71,7 +71,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 
 ## 🧩 Rôle dans EH3D
 
-EH3D-ROUTEPRO est le frère de fraisage d'EH3D-DRILLPRO et en dépend par chemin : le dossier `EH3D-DRILLPRO` doit se trouver à côté de celui-ci. Il réutilise le protocole série, l'écran et la prise en charge des langues. Il ne dépend encore d'aucun autre dépôt EH3D.
+EH3D-ROUTEPRO est le frère de fraisage d'EH3D-DRILLPRO et en dépend par chemin : le dossier `EH3D-DRILLPRO` doit se trouver à côté de celui-ci. Il réutilise le protocole série, l'écran et la prise en charge des langues. Il ne dépend encore d'aucun autre dépôt EH3D. Les fichiers de la machine (celui de perçage, le HP-GL, les tables d'outils et la configuration de la machine) viennent du crate `eh3d-bungard-formats` d'EH3D-COMMON, qui doit aussi se trouver à côté.
 
 ## 🏛️ Architecture
 
@@ -117,8 +117,6 @@ La version se trouve dans `Cargo.toml` et dans `eh3d.project.json`, et chaque ve
 ```text
 EH3D-ROUTEPRO/
 ├── src/
-│   ├── hpgl.rs                                  le lecteur HP-GL (IN, SP, PU, PD, PA, PR)
-│   ├── tools.rs                                 la table d'outils ROUTEPRO.RTD
 │   ├── job.rs                                   les trajets HP-GL transformés en travail de fraisage
 │   ├── app.rs texts.rs                          l'application et ses textes en huit langues
 │   └── bin/                                     les exécutables routepro et routepro-console

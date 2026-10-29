@@ -71,7 +71,7 @@
 
 ## 🧩 在 EH3D 中的角色
 
-EH3D-ROUTEPRO 是 EH3D-DRILLPRO 的铣削姊妹项目，并通过路径依赖它：文件夹 `EH3D-DRILLPRO` 必须与本文件夹并列。它复用串行协议、屏幕和语言支持。它目前不依赖 EH3D 的其他仓库。
+EH3D-ROUTEPRO 是 EH3D-DRILLPRO 的铣削姊妹项目，并通过路径依赖它：文件夹 `EH3D-DRILLPRO` 必须与本文件夹并列。它复用串行协议、屏幕和语言支持。它目前不依赖 EH3D 的其他仓库。 机器的文件（钻孔文件、HP-GL 文件、刀具表和机器配置）来自 EH3D-COMMON 的 crate `eh3d-bungard-formats`，它同样必须放在旁边。
 
 ## 🏛️ 架构
 
@@ -117,8 +117,6 @@ python -I tools/ci_validate.py
 ```text
 EH3D-ROUTEPRO/
 ├── src/
-│   ├── hpgl.rs                                  HP-GL 读取器（IN、SP、PU、PD、PA、PR）
-│   ├── tools.rs                                 刀具表 ROUTEPRO.RTD
 │   ├── job.rs                                   把 HP-GL 路径转换为铣削作业
 │   ├── app.rs texts.rs                          应用程序及其八种语言的文本
 │   └── bin/                                     可执行文件 routepro 和 routepro-console
