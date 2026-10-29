@@ -1074,6 +1074,17 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
                     .map_or(0.0, |t| t.depth_mm)
             })
             .sum();
+        // the length of the cuts the pen makes from here on
+        let mut run_mm = 0.0;
+        for p in run.plan[at..].iter().take_while(|p| p.pen == path.pen) {
+            for w in p.points.windows(2) {
+                let (dx, dy) = (
+                    f64::from(w[1].0 - w[0].0) * hpgl::UNIT_MM,
+                    f64::from(w[1].1 - w[0].1) * hpgl::UNIT_MM,
+                );
+                run_mm += (dx * dx + dy * dy).sqrt();
+            }
+        }
         Some(eh3d_drillpro::classic::engine::JobView {
             percent: (run.done * 100 / run.plan.len().max(1)).min(100) as u8,
             tool: Some(path.pen),
@@ -1085,7 +1096,29 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
             done: run.done,
             used_mm: used,
             skipped: run.skipped,
+            run_mm,
         })
+    }
+
+    fn question(&self) -> Option<eh3d_drillpro::classic::engine::Question> {
+        use eh3d_drillpro::classic::engine::Question;
+        use eh3d_drillpro::protocol::job::Pause;
+        match self.run.as_ref()?.real.as_ref()?.state() {
+            RunState::WaitPause(Pause::ToolChange { tool }) => Some(Question::ToolChange(tool)),
+            RunState::WaitPause(Pause::SpindleStart) => Some(Question::SpindleStart),
+            _ => None,
+        }
+    }
+
+    fn answer(&mut self, ok: bool) {
+        let Some(real) = self.run.as_ref().and_then(|r| r.real.as_ref()) else {
+            return;
+        };
+        if ok {
+            real.confirm();
+        } else {
+            real.cancel();
+        }
     }
 
     fn start(&mut self) {
