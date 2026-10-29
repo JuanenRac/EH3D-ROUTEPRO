@@ -34,3 +34,6 @@ required-features = ["gui"]
 name = "routepro-console"
 path = "src/bin/routepro_console.rs"
 required-features = ["console"]
+
+[dev-dependencies]
+zip = { version = "2", default-features = false, features = ["deflate"] }
