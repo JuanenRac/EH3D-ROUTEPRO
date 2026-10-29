@@ -1,0 +1,33 @@
+CONFIGURATION GUIDE - the files explained in plain words
+
+WHAT IS HERE
+  ROUTEPRO.RCF         the machine: table size, speeds, calibration. Every line says what it is right after the value.
+  ROUTEPRO.RTD         the tools: one line per drill with its extra stroke, feed and spindle speed.
+  machine.cfg.example  the connection to a REAL machine (serial port, USB adapter or the EH3D node). Copy it as machine.cfg to use it.
+
+HOW TO USE THEM
+  1. Keep the program, ROUTEPRO.RCF and ROUTEPRO.RTD in the same folder and start it from there.
+  2. Out of the box nothing is connected: the program runs on the SIMULATOR, so you can try everything without any risk.
+  3. Make a copy of each file before you change it. The program also keeps a .BAK copy when it saves.
+
+THE FIRST THINGS TO SET FOR YOUR MACHINE
+  - Clipping X and Y: the real size of your table (CCD 495 x 325 mm, CCD/2 325 x 270 mm). Nothing farther is ever drilled.
+  - Unit: the unit of your drill files (1 = mil, the usual one). A wrong unit puts the holes in the wrong place.
+  - Corrections X, Y, Z: drill two holes far apart, measure them, and multiply the correction by wanted / measured.
+  - Speeds: if the motors lose steps or stall, lower the fastest XY speed and try again.
+
+CONNECTING A REAL MACHINE
+  Copy machine.cfg.example as machine.cfg, set connection = and the port, and try first with the spindle OFF and the head free to move.
+  Start with the example 01_square.plt. Keep your hand near the stop; the limit switches are watched by the control unit, not by this program.
+
+MACHINES WITH AN AUTOMATIC TOOL CHANGER (ATC)
+  Their configuration file has the line "Tool change 1=Auto, 0=Man." and the positions of the rack after it; those lines are not in this basic file.
+  The ATC support is new and has only been compared with a recording, not run on a real machine.
+
+IF SOMETHING GOES WRONG
+  Put your copy back. Do not change the lines marked RESERVED. The examples folder has files from a simple square to a hundred thousand points.
+
+FOR ROUTEPRO
+  Read "drill" as "cut". The unit of the HP-GL files is the plotter step, 0.025 mm (2). The lines of ROUTEPRO.RTD are: tool, depth, passes,
+  feed along the path, feed of the plunge, spindle speed. The chord angle of ROUTEPRO.RCF says how finely circles are cut into straight pieces.
+  The tool changer (ATC) is not supported by ROUTEPRO yet.
