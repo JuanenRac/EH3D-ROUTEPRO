@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+- **The layout of the README is checked in the CI:** the validator runs `tools/universal_readme_check.py` and lists, as a warning, what differs from the universal layout of the README.
+
 ## [0.0.1] - First version: file readers, job planning, text-mode interface and a simulated machine
 
 - **HP-GL reader:** `.PLT` plot files with `IN`, `SP`, `PU`, `PD`, `PA` and `PR`; any other command is counted and ignored. The tool table (`.RTD`: depth, passes, feeds in XY and Z, spindle speed) and the machine configuration (`.RCF`).
