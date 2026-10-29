@@ -1,0 +1,188 @@
+{
+  "repo": "EH3D-ROUTEPRO",
+  "ecosystem": "eh3d",
+  "tagline": "The routing (milling) workflow of a classic DOS program for Bungard CCD machines, in Rust.",
+  "description": "EH3D-ROUTEPRO reads HP-GL plot files, the tool table and the machine file, plans multi-pass milling paths and runs them through the classic or modern text-mode screens of EH3D-DRILLPRO, whose protocol, screens and languages it reuses. The job goes to a simulator, to the serial port or a USB adapter, to the EH3D-NODE-BUNGARD node or to EH3D-SERVER. Everything is tested on a computer; no routing job has run on a real machine.",
+  "columns": [
+    "WHO USES IT",
+    "THIS REPOSITORY",
+    "WHERE THE JOB GOES"
+  ],
+  "nodes": [
+    {
+      "id": "op",
+      "column": 0,
+      "level": "external",
+      "title": "The operator",
+      "lines": [
+        "keyboard and mouse, in a window",
+        "or in a terminal (SSH, a text",
+        "console, an old PC)"
+      ]
+    },
+    {
+      "id": "files",
+      "column": 0,
+      "level": "external",
+      "title": "Plot files",
+      "lines": [
+        "HP-GL .PLT, the tool table",
+        "ROUTEPRO.RTD and the machine",
+        "file ROUTEPRO.RCF"
+      ]
+    },
+    {
+      "id": "drill",
+      "column": 0,
+      "level": "external",
+      "title": "EH3D-DRILLPRO",
+      "lines": [
+        "the drilling sibling: supplies",
+        "the protocol, the screens and",
+        "the languages (a path dependency)"
+      ]
+    },
+    {
+      "id": "screens",
+      "column": 1,
+      "level": "tested",
+      "title": "Screens",
+      "lines": [
+        "the classic 80x25 screens of",
+        "the routing program; --modern",
+        "menus; eight languages"
+      ],
+      "code": [
+        "src/app.rs",
+        "src/texts.rs",
+        "tests/classic_golden.rs"
+      ]
+    },
+    {
+      "id": "plan",
+      "column": 1,
+      "level": "tested",
+      "title": "Reader and planner",
+      "lines": [
+        "reads HP-GL, tools and machine;",
+        "rapid move, plunge, cut and lift",
+        "for every pass"
+      ],
+      "code": [
+        "src/hpgl.rs",
+        "src/tools.rs",
+        "src/job.rs"
+      ]
+    },
+    {
+      "id": "proto",
+      "column": 1,
+      "level": "tested",
+      "title": "Routing plan",
+      "lines": [
+        "the routing plan on top of the",
+        "protocol crate of DRILLPRO"
+      ],
+      "code": [
+        "protocol/src/route.rs"
+      ]
+    },
+    {
+      "id": "sim",
+      "column": 2,
+      "level": "tested",
+      "title": "Simulator",
+      "lines": [
+        "the default; no machine needed"
+      ]
+    },
+    {
+      "id": "serial",
+      "column": 2,
+      "level": "untested",
+      "title": "Serial port or USB",
+      "lines": [
+        "protocol tried on a CCD MTC;",
+        "no routing job yet"
+      ]
+    },
+    {
+      "id": "node",
+      "column": 2,
+      "level": "config",
+      "title": "EH3D-NODE-BUNGARD",
+      "lines": [
+        "steps and spindle drive from",
+        "its own port; machine file"
+      ]
+    },
+    {
+      "id": "server",
+      "column": 2,
+      "level": "config",
+      "title": "EH3D-SERVER",
+      "lines": [
+        "runs the job via the node;",
+        "not tried for routing"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "op",
+      "to": "screens",
+      "label": "keys",
+      "level": "tested"
+    },
+    {
+      "from": "files",
+      "to": "plan",
+      "label": "read",
+      "level": "tested"
+    },
+    {
+      "from": "drill",
+      "to": "proto",
+      "label": "protocol",
+      "level": "tested"
+    },
+    {
+      "from": "screens",
+      "to": "plan",
+      "level": "tested"
+    },
+    {
+      "from": "plan",
+      "to": "proto",
+      "level": "tested"
+    },
+    {
+      "from": "proto",
+      "to": "sim",
+      "level": "tested"
+    },
+    {
+      "from": "proto",
+      "to": "serial",
+      "label": "rs232 / usb",
+      "level": "untested"
+    },
+    {
+      "from": "proto",
+      "to": "node",
+      "level": "config"
+    },
+    {
+      "from": "plan",
+      "to": "server",
+      "level": "config"
+    }
+  ],
+  "legend": {
+    "tested": "covered by tests on a computer",
+    "config": "chosen in the machine file; not tried for real",
+    "untested": "has not run a routing job on real hardware",
+    "external": "a person, a file or another repository"
+  },
+  "footer": "No routing job has run on a machine yet."
+}

@@ -18,21 +18,23 @@
 
 ---
 
-**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 21 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。 默认显示 MS-DOS 程序的经典界面，已逐个单元格与原版核对；`--modern` 启动菜单式界面。 可用键盘和鼠标操作，窗口可最大化（画面从 640x400 缩放到 1080p 及更大），配置文件和刀具表可在对话框中编辑并保存，“关于”按钮列出 Bungard CCD 和 CCD/2 机型（支持 MTC，暂不支持 ATC）。 控制台版本（`routepro-console`）在终端中显示同样的界面，支持键盘和鼠标，不需要窗口系统（SSH、文本控制台、旧电脑）。
+**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 42 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。 默认显示 MS-DOS 程序的经典界面，已逐个单元格与原版核对；`--modern` 启动菜单式界面。 可用键盘和鼠标操作，窗口可最大化（画面从 640x400 缩放到 1080p 及更大），配置文件和刀具表可在对话框中编辑并保存，“关于”按钮列出 Bungard CCD 和 CCD/2 机型（支持 MTC，暂不支持 ATC）。 控制台版本（`routepro-console`）在终端中显示同样的界面，支持键盘和鼠标，不需要窗口系统（SSH、文本控制台、旧电脑）。
 
 ---
 
 > **安全（safety）与信息安全现状：** 本程序不是安全系统。使用真实连接（机器文件中的 `connection`）时，**“开始”会让机器动起来**：先取下刀具，一只手放在机器电源开关上，并随时准备按 `Esc`，它会立即停止作业并关闭步进驱动器。限位开关由机器自己的控制单元监视（它会在开关处自行停住轴）；本软件没有自己的紧急停止，错误的步进字节或速度可能使刀具撞向工件或工作台，或使电机失步。协议层在被解锁之前拒绝移动任何东西。本项目是独立的：它不是 Bungard Elektronik 制造、认可或支持的，产品名称只是用来说明它面向哪些文件格式和机器。
 
-## 📋 概览
+## 📋 速览
 
 | | |
 |---|---|
 | 版本 | `0.0.2` |
 | 成熟度 | 脚手架 |
-| 测试 | 21 |
+| 测试 | 42 |
 | 技术栈 | Rust |
 | 真实硬件 | 是，在一台 Bungard CCD MTC 上：回参考点和每个轴的运动；完整作业尚未运行。没有机器文件时在模拟器上运行 |
+
+**跳转到：** [概述](#-概述) · [架构](#-架构) · [快速开始](#-快速开始) · [测试](#-测试) · [结构](#-仓库结构) · [相关项目](#-相关项目)
 
 ## 🚦 项目状态
 
@@ -43,7 +45,7 @@
 | 领域 | 状态 | 在这里的含义 |
 |---|---|---|
 | 软件 | 🟡 | 带 80x25 文本界面的 Rust 程序读取 HP-GL 绘图文件、刀具表和机床文件，规划多遍铣削路径，并在模拟器上运行；机床文件指定时则在真实机床上运行。它需要 EH3D-DRILLPRO 的文件夹放在旁边。 |
-| 测试 | 🟢 | 21 项测试通过（`cargo test --workspace`）：HP-GL 读取器、路径规划和八种语言的界面；协议由 EH3D-DRILLPRO 的 123 项测试覆盖。 |
+| 测试 | 🟢 | 42 项测试通过（`cargo test --workspace`）：HP-GL 读取器、路径规划和八种语言的界面；协议由 EH3D-DRILLPRO 的 172 项测试覆盖。 |
 | HP-GL 读取器 | 🟡 | 只理解 `IN`、`SP`、`PU`、`PD`、`PA` 和 `PR`；其他命令只计数并忽略，不会导致失败。只用为测试编写的小型样例文件验证过。 |
 | 路径规划 | 🟡 | 每条路径在每一遍都变成快速移动、下刀、切削和抬刀，深度平均分配，刀具最后总是回到表面；只在测试和模拟器上验证过。 |
 | 真实硬件 | 🟠 | 与 EH3D-DRILLPRO 共用的串口协议在一台 Bungard CCD MTC 上试过（参考点回零和每个轴的移动）；没有任何铣削作业在机床上运行过，主轴和吸尘器输出尚未试过。 |
@@ -52,7 +54,7 @@
 | 现成安装包 | 🟡 | 首个发布版本带有 Windows、Linux 和 macOS（Apple 芯片与 Intel）的安装包，各附 SHA-256，由发布工作流构建。 |
 | 文档 | 🟢 | 八种语言的 README 和标明仍属假设之处的协议说明；机床文件指南在 EH3D-DRILLPRO 中。 |
 
-## 🎯 简介
+## 🎯 概述
 
 * **文件读取器**：HP-GL `.PLT` 绘图文件（`IN`、`SP`、`PU`、`PD`、`PA`、`PR`；其他命令只计数并忽略，绝不致命）、刀具表 `ROUTEPRO.RTD`（深度、走刀次数、XY 与 Z 的进给速度、主轴转速）和机床配置 `ROUTEPRO.RCF`。
 * **路径规划器**：每条路径先快速移动到起点，然后每次走刀都是下刀、沿路径切削、抬刀；深度在各次走刀之间平均分配，刀具最终总是回到表面。
@@ -70,22 +72,15 @@
 
 EH3D-ROUTEPRO 是 EH3D-DRILLPRO 的铣削姊妹项目，并通过路径依赖它：文件夹 `EH3D-DRILLPRO` 必须与本文件夹并列。它复用串行协议、屏幕和语言支持。它目前不依赖 EH3D 的其他仓库。
 
-## 📂 仓库结构
+## 🏛️ 架构
 
-```text
-EH3D-ROUTEPRO/
-├── src/          library: HP-GL reader, tool table, path planning, application, texts
-├── src/bin/      the routepro executable (feature gui)
-├── protocol/     eh3d-routepro-protocol: the routing plan on top of the DRILLPRO protocol
-├── tests/        HP-GL parsing, path planning, screens in all languages
-├── testdata/     small sample files written for the tests
-├── docs/         PROTOCOL.md 和 CONNECTION.md：协议、机器文件和每个调整值；machine.cfg.example：包含全部值的文件
-├── tools/        ci_validate.py: manifest, versions, changelog and README checks
-├── images/       banner
-└── eh3d.project.json   the manifest of the project
-```
+<p align="center">
+  <img src="images/architecture.svg" alt="EH3D-ROUTEPRO 的架构：谁在使用、包含什么、依赖什么" width="100%">
+</p>
 
-## 🛠️ 构建与运行
+本仓库各部分如何协作：谁在使用它、它包含什么、它依赖什么。图片由 `docs/architecture.json` 绘制，并与代码核对。
+
+## 🚀 快速开始
 
 需要稳定版的 Rust 工具链。
 
@@ -99,7 +94,72 @@ python -I tools/ci_validate.py
 
 用 `run.bat`（Windows）或 `./run.sh`（Linux 和 macOS）运行；两者都会在需要时先构建程序。两者都需要 Rust 和相邻的文件夹 `EH3D-DRILLPRO`：`run.bat [文件.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`。`--data` 是存放 `ROUTEPRO.RTD` 和 `ROUTEPRO.RCF` 的文件夹（默认：`testdata/`），`--dump` 将屏幕以纯文本输出。按键：`Alt` 加高亮字母打开菜单，方向键移动，`Enter` 确认，`Esc` 返回；也可以点击菜单栏。中文和日文需要系统字体中有 CJK 字体。 `--connection FILE` 指向不同于默认的机器文件（Windows 上默认为 `%APPDATA%\EH3D\machine.cfg`，其他系统为 `~/.config/eh3d/machine.cfg`）；没有机器文件时程序在模拟器上运行。 `--modern` 启动菜单式界面，而不是经典界面。
 
+## 🧪 测试
+
+测试套件共有 42 个测试（`cargo test --workspace`）。它们检查 HP-GL 读取器、路径规划（多次走刀、下刀、切削和抬刀）、协议 crate 中的铣削计划、逐个字符单元核对的经典界面，以及八种语言的界面。复用的协议（字节、运动、安全门）在 EH3D-DRILLPRO 中测试。CI 还会运行 `cargo fmt --check` 和把警告当作错误的 `cargo clippy`，并由 `python -I tools/ci_validate.py` 检查清单、版本、变更日志和八个 README。
+
+## 🏗️ 构建与发布
+
+版本号位于 `Cargo.toml` 和 `eh3d.project.json` 中，每个版本在 [CHANGELOG.md](CHANGELOG.md) 中都有条目。发布版本在 GitHub 上公开。
+
 **预编译软件包：** 每个发布版本都附带适用于 Windows（zip）、Linux（tar.gz）和 macOS（Apple 芯片与 Intel，tar.gz）的软件包，内含程序、许可证和本 README，旁边附有各自的 SHA-256。它们由本仓库的 `Release binaries` 工作流构建。请从 Releases 页面下载；在 Linux 上，窗口需要 X11 或 Wayland。
+
+## 📂 仓库结构
+
+<p align="center">
+  <img src="images/repository-structure.svg" alt="EH3D-ROUTEPRO 的仓库结构" width="100%">
+</p>
+
+<details>
+<summary>目录树的文本版</summary>
+
+```text
+EH3D-ROUTEPRO/
+├── src/
+│   ├── hpgl.rs                                  HP-GL 读取器（IN、SP、PU、PD、PA、PR）
+│   ├── tools.rs                                 刀具表 ROUTEPRO.RTD
+│   ├── job.rs                                   把 HP-GL 路径转换为铣削作业
+│   ├── app.rs texts.rs                          应用程序及其八种语言的文本
+│   └── bin/                                     可执行文件 routepro 和 routepro-console
+├── protocol/src/
+│   ├── route.rs                                 每条路径的多次走刀、下刀、切削和抬刀
+│   └── lib.rs                                   重新导出 EH3D-DRILLPRO 的协议
+├── tests/                                       HP-GL 解析、路径规划、经典界面和所有语言的界面
+├── docs/                                        协议说明、经典界面
+├── testdata/                                    为测试编写的小型示例文件
+├── tools/                                       CI 检查、README 检查和图片工具
+├── images/                                      横幅图以及架构和仓库结构图片
+├── .github/                                     CI 与发布工作流、Issue 和 PR 模板
+├── build.sh build.bat                           构建和测试脚本
+├── run.sh run.bat                               启动程序
+├── eh3d.project.json                            清单：版本、角色、成熟度和构建命令
+├── Cargo.toml Cargo.lock                        Rust 包及其锁定的依赖
+├── CHANGELOG.md                                 每个版本的变更
+├── SECURITY.md SUPPORT.md                       如何报告漏洞及在哪里提问
+└── CONTRIBUTING.md CODE_OF_CONDUCT.md LICENSE   参与贡献、行为准则和许可证
+```
+
+</details>
+
+## 🗺️ 路线图与已知限制
+
+**目前已知的限制**
+
+* 尚未在真实机器上运行过铣削作业：它与 EH3D-DRILLPRO 共用的串行协议已在一台 Bungard CCD MTC 上试过（三个轴的回参考点和每个轴的运动），每毫米步数只与原版配置核对过，主轴和吸尘器输出尚未试过。
+* 只能识别 HP-GL 命令 `IN`、`SP`、`PU`、`PD`、`PA` 和 `PR`；其他命令只计数并忽略，绝不会导致失败。
+* 读取器和规划器只用为测试编写的小型示例文件试过。
+* 程序需要 EH3D-DRILLPRO 的文件夹放在它旁边，因为它按路径依赖该项目。
+* 只支持 MTC 型号；ATC 型号尚不支持，XL 型号不在范围内。中文和日文需要系统字体中有 CJK 字体。
+
+**下一步**
+
+* 在机器上运行铣削作业，并确认每毫米步数、主轴和吸尘器输出。
+* 用真实电路板的绘图文件试验 HP-GL 读取器。
+* 改用计划中的 [EH3D-CORE-LIBS](https://github.com/JuanenRac/EH3D-CORE-LIBS) 共享读取器来读取 HP-GL。
+
+## 🌍 语言
+
+README 和文本提供英语、西班牙语、法语、意大利语、德语、汉语、日语和欧洲葡萄牙语版本。
 
 ## 🔗 相关项目
 
@@ -109,14 +169,19 @@ python -I tools/ci_validate.py
 * [EH3D-NODE-BUNGARD](https://github.com/JuanenRac/EH3D-NODE-BUNGARD)：装在机器箱内的 ESP32-S3 节点（以太网或 Wi-Fi），通过自己的串口发出步进，时序是 USB 适配器保持不了的，并读取机器的指示灯、控制主轴驱动器；它有自己的网页面板
 * [EH3D-SERVER](https://github.com/JuanenRac/EH3D-SERVER)： EH3D 家族的中心：接收本程序（`connection = server`）和其他客户端的作业，并通过节点在机器上执行
 
-## 📚 文档与社区
+## 📚 文档
 
 * [协议说明](docs/PROTOCOL.md): 已知的控制单元驱动方式（与 EH3D-DRILLPRO 共用），以及哪些仍是假设。
 * [连接与调整](https://github.com/JuanenRac/EH3D-DRILLPRO/blob/main/docs/CONNECTION.md)：机器文件、三种连接方式和每个值
+* [经典界面](docs/CLASSIC.md)：如何复现并核对 MS-DOS 程序的界面
 * [更新日志](CHANGELOG.md)
-* [参与贡献](CONTRIBUTING.md)
-* [安全政策](SECURITY.md)
-* [支持](SUPPORT.md)
+
+## 🤝 参与贡献与社区
+
+* 提交 Pull Request 之前请运行 `cargo fmt --all --check`、`cargo clippy --workspace --all-targets -- -D warnings`、`cargo test --workspace` 和 `python -I tools/ci_validate.py`：必须全部通过。参见 [CONTRIBUTING.md](CONTRIBUTING.md) 和[行为准则](CODE_OF_CONDUCT.md)。
+* README 有八种语言：修改文字时要同步修改全部八个文件，两张图片由 `tools/make_architecture.py` 和 `tools/make_structure.py` 根据 `docs/architecture.json` 和 `docs/structure.json` 绘制。
+* 不要把仅在模拟器上试过的东西描述为已在机器上运行。
+* 请私下报告漏洞：[SECURITY.md](SECURITY.md)。问题、想法和报告：electrohobby3d@gmail.com（[SUPPORT.md](SUPPORT.md)）。
 
 ## 👤 作者
 

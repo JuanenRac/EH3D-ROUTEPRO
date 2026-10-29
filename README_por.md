@@ -18,7 +18,7 @@
 
 ---
 
-**Verificação de honestidade - o que funciona hoje:** um programa em Rust com interface de texto de 80x25 que lê ficheiros de traçado HP-GL `.PLT`, a tabela de ferramentas e a configuração da máquina, planeia trajetórias de fresagem de várias passagens (avanço rápido, penetração, corte, elevação) e executa-as **contra um simulador** (por omissão) ou, quando o ficheiro da máquina o indica, **numa máquina real** pela porta série do computador, um adaptador USB-série ou o EH3D-NODE-BUNGARD. 21 testes correm num computador. O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC real (a referência dos três eixos e os movimentos de cada eixo); **um trabalho de fresagem completo ainda não correu na máquina**, e os passos por milímetro só foram confrontados com a configuração do original. Por predefinição, aparecem os ecrãs clássicos do programa MS-DOS, verificados célula a célula com o original; `--modern` inicia a interface de menus. Funcionam com teclado e rato, a janela pode ser maximizada (o ecrã ajusta-se de 640x400 a 1080p e mais), os ficheiros de configuração e de ferramentas editam-se e gravam-se nos diálogos, e o botão Sobre indica as máquinas Bungard CCD e CCD/2 (MTC suportadas, ATC ainda não). Uma versão de consola (`routepro-console`) desenha os mesmos ecrãs num terminal, com teclado e rato e sem sistema de janelas (SSH, consola de texto, um PC antigo).
+**Verificação de honestidade - o que funciona hoje:** um programa em Rust com interface de texto de 80x25 que lê ficheiros de traçado HP-GL `.PLT`, a tabela de ferramentas e a configuração da máquina, planeia trajetórias de fresagem de várias passagens (avanço rápido, penetração, corte, elevação) e executa-as **contra um simulador** (por omissão) ou, quando o ficheiro da máquina o indica, **numa máquina real** pela porta série do computador, um adaptador USB-série ou o EH3D-NODE-BUNGARD. 42 testes correm num computador. O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC real (a referência dos três eixos e os movimentos de cada eixo); **um trabalho de fresagem completo ainda não correu na máquina**, e os passos por milímetro só foram confrontados com a configuração do original. Por predefinição, aparecem os ecrãs clássicos do programa MS-DOS, verificados célula a célula com o original; `--modern` inicia a interface de menus. Funcionam com teclado e rato, a janela pode ser maximizada (o ecrã ajusta-se de 640x400 a 1080p e mais), os ficheiros de configuração e de ferramentas editam-se e gravam-se nos diálogos, e o botão Sobre indica as máquinas Bungard CCD e CCD/2 (MTC suportadas, ATC ainda não). Uma versão de consola (`routepro-console`) desenha os mesmos ecrãs num terminal, com teclado e rato e sem sistema de janelas (SSH, consola de texto, um PC antigo).
 
 ---
 
@@ -30,9 +30,11 @@
 |---|---|
 | Versão | `0.0.2` |
 | Maturidade | Estrutura inicial |
-| Testes | 21 |
+| Testes | 42 |
 | Tecnologias | Rust |
 | Em hardware real | Sim, numa Bungard CCD MTC: a referência e os movimentos de cada eixo; um trabalho completo ainda não correu. Sem ficheiro da máquina corre no simulador |
+
+**Ir para:** [Visão geral](#-visão-geral) · [Arquitetura](#-arquitetura) · [Início rápido](#-início-rápido) · [Testes](#-testes) · [Estrutura](#-estrutura-do-repositório) · [Relacionados](#-projetos-relacionados)
 
 ## 🚦 Estado do projeto
 
@@ -43,7 +45,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Software | 🟡 | Um programa Rust com ecrã de texto de 80x25 lê ficheiros de traçado HP-GL, a tabela de ferramentas e o ficheiro da máquina, planeia trajetos de fresagem de várias passagens e executa-os num simulador, ou numa máquina real se o ficheiro da máquina o indicar; precisa da pasta do EH3D-DRILLPRO ao lado. |
-| Testes | 🟢 | Passam 21 testes (`cargo test --workspace`): o leitor de HP-GL, o planeamento de trajetos e os ecrãs nos oito idiomas; o protocolo é coberto pelos 123 testes do EH3D-DRILLPRO. |
+| Testes | 🟢 | Passam 42 testes (`cargo test --workspace`): o leitor de HP-GL, o planeamento de trajetos e os ecrãs nos oito idiomas; o protocolo é coberto pelos 172 testes do EH3D-DRILLPRO. |
 | Leitor de HP-GL | 🟡 | Só se entendem `IN`, `SP`, `PU`, `PD`, `PA` e `PR`; qualquer outro comando é contado e ignorado, nunca é fatal. Experimentado só com pequenos ficheiros de exemplo escritos para os testes. |
 | Planeamento de trajetos | 🟡 | Cada trajeto torna-se, em cada passagem, um movimento rápido, uma penetração, o corte e uma elevação, com a profundidade repartida por igual e a ferramenta a terminar sempre à superfície; verificado só em testes e no simulador. |
 | Hardware real | 🟠 | O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC (o movimento de referência e os movimentos de cada eixo); nenhum trabalho de fresagem correu numa máquina, e as saídas do fuso e do aspirador não foram experimentadas. |
@@ -52,7 +54,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Pacotes prontos a usar | 🟡 | A primeira versão publicada traz pacotes para Windows, Linux e macOS (Apple silicon e Intel), cada um com o seu SHA-256, construídos pelo fluxo de publicação. |
 | Documentação | 🟢 | README em oito idiomas e as notas do protocolo com o que ainda é hipótese; o guia do ficheiro da máquina está no EH3D-DRILLPRO. |
 
-## 🎯 Descrição geral
+## 🎯 Visão geral
 
 * Os **leitores de ficheiros**: ficheiros de traçado HP-GL `.PLT` (`IN`, `SP`, `PU`, `PD`, `PA`, `PR`; qualquer outro comando é contado e ignorado, nunca é fatal), a tabela de ferramentas `ROUTEPRO.RTD` (profundidade, passagens, avanços em XY e Z, velocidade do fuso) e a configuração da máquina `ROUTEPRO.RCF`.
 * O **planeador de trajetos**: cada trajeto torna-se um movimento rápido até ao início e, em cada passagem, uma penetração, o corte ao longo do trajeto e uma elevação; a profundidade reparte-se por igual pelas passagens e a ferramenta termina sempre à superfície.
@@ -70,22 +72,15 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 
 O EH3D-ROUTEPRO é o irmão de fresagem do EH3D-DRILLPRO e depende dele por caminho: a pasta `EH3D-DRILLPRO` tem de estar ao lado desta. Reutiliza o protocolo série, o ecrã e o suporte de idiomas. Ainda não depende de nenhum outro repositório EH3D.
 
-## 📂 Estrutura do repositório
+## 🏛️ Arquitetura
 
-```text
-EH3D-ROUTEPRO/
-├── src/          library: HP-GL reader, tool table, path planning, application, texts
-├── src/bin/      the routepro executable (feature gui)
-├── protocol/     eh3d-routepro-protocol: the routing plan on top of the DRILLPRO protocol
-├── tests/        HP-GL parsing, path planning, screens in all languages
-├── testdata/     small sample files written for the tests
-├── docs/         PROTOCOL.md e CONNECTION.md: o protocolo, o ficheiro da máquina e cada valor de afinação; machine.cfg.example: o ficheiro com todos os seus valores
-├── tools/        ci_validate.py: manifest, versions, changelog and README checks
-├── images/       banner
-└── eh3d.project.json   the manifest of the project
-```
+<p align="center">
+  <img src="images/architecture.svg" alt="Arquitetura de EH3D-ROUTEPRO: quem o usa, o que contém e de que depende" width="100%">
+</p>
 
-## 🛠️ COMPILAR E EXECUTAR
+Como as partes deste repositório se encaixam: quem o usa, o que contém e de que depende. A imagem é desenhada a partir de `docs/architecture.json` e verificada com o código.
+
+## 🚀 Início rápido
 
 É preciso uma cadeia de ferramentas Rust estável.
 
@@ -99,7 +94,72 @@ python -I tools/ci_validate.py
 
 Execute-o com `run.bat` (Windows) ou `./run.sh` (Linux e macOS); ambos compilam primeiro o programa, se for preciso. Os dois precisam de Rust e da pasta irmã `EH3D-DRILLPRO`: `run.bat [FICHEIRO.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`. `--data` é a pasta com `ROUTEPRO.RTD` e `ROUTEPRO.RCF` (por omissão: `testdata/`) e `--dump` imprime o ecrã como texto simples. Teclas: `Alt` mais a letra realçada abre um menu, as setas movem, `Enter` aceita, `Esc` volta atrás; a barra de menus também se pode clicar. O chinês e o japonês precisam de um tipo de letra CJK entre os do sistema. `--connection FILE` indica outro ficheiro de máquina que não o predefinido (`%APPDATA%\EH3D\machine.cfg` no Windows, `~/.config/eh3d/machine.cfg` nos restantes); sem ficheiro de máquina o programa corre no simulador. `--modern` inicia a interface de menus em vez dos ecrãs clássicos.
 
+## 🧪 Testes
+
+A suite tem 42 testes (`cargo test --workspace`). Verificam o leitor HP-GL, o planeamento de trajetos (passagens, mergulho, corte e elevação), o plano de fresagem do crate do protocolo, os ecrãs clássicos célula a célula e os ecrãs nos oito idiomas. O protocolo que reutiliza (bytes, movimento, barreira de segurança) é testado no EH3D-DRILLPRO. A CI também executa `cargo fmt --check` e `cargo clippy` com os avisos como erros, e `python -I tools/ci_validate.py` verifica o manifesto, as versões, o registo de alterações e os oito README.
+
+## 🏗️ Compilação e publicação
+
+A versão está em `Cargo.toml` e em `eh3d.project.json`, e cada versão tem a sua entrada em [CHANGELOG.md](CHANGELOG.md). As versões são publicadas no GitHub.
+
 **Pacotes já compilados:** cada versão publicada inclui um pacote para Windows (zip), Linux (tar.gz) e macOS (Apple silicon e Intel, tar.gz) com o programa, a licença e este README, cada um com o seu SHA-256 ao lado. São construídos pelo workflow `Release binaries` deste repositório. Descarregue um a partir da página de Releases; no Linux, a janela precisa de X11 ou Wayland.
+
+## 📂 Estrutura do repositório
+
+<p align="center">
+  <img src="images/repository-structure.svg" alt="Estrutura do repositório EH3D-ROUTEPRO" width="100%">
+</p>
+
+<details>
+<summary>Versão em texto da árvore</summary>
+
+```text
+EH3D-ROUTEPRO/
+├── src/
+│   ├── hpgl.rs                                  o leitor HP-GL (IN, SP, PU, PD, PA, PR)
+│   ├── tools.rs                                 a tabela de ferramentas ROUTEPRO.RTD
+│   ├── job.rs                                   os trajetos HP-GL convertidos no trabalho de fresagem
+│   ├── app.rs texts.rs                          a aplicação e os seus textos em oito idiomas
+│   └── bin/                                     os executáveis routepro e routepro-console
+├── protocol/src/
+│   ├── route.rs                                 passagens, mergulho, corte e elevação de cada trajeto
+│   └── lib.rs                                   reexporta o protocolo do EH3D-DRILLPRO
+├── tests/                                       leitura de HP-GL, planeamento de trajetos, ecrãs clássicos e ecrãs em todos os idiomas
+├── docs/                                        as notas do protocolo, os ecrãs clássicos
+├── testdata/                                    pequenos ficheiros de exemplo escritos para os testes
+├── tools/                                       verificação de CI, do README e ferramentas de imagens
+├── images/                                      banner e as imagens de Arquitetura e Estrutura do repositório
+├── .github/                                     fluxos de CI e de publicação, modelos de issues e pull requests
+├── build.sh build.bat                           scripts de compilação e testes
+├── run.sh run.bat                               arrancam o programa
+├── eh3d.project.json                            manifesto: versão, papel, maturidade e comando de compilação
+├── Cargo.toml Cargo.lock                        o pacote Rust e as suas dependências fixadas
+├── CHANGELOG.md                                 o que mudou em cada versão
+├── SECURITY.md SUPPORT.md                       como comunicar uma vulnerabilidade e onde perguntar
+└── CONTRIBUTING.md CODE_OF_CONDUCT.md LICENSE   como contribuir, o código de conduta e a licença
+```
+
+</details>
+
+## 🗺️ Roteiro e limites conhecidos
+
+**Limites conhecidos hoje**
+
+* Ainda não correu nenhum trabalho de fresagem numa máquina real: o protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC (a referência dos três eixos e os movimentos de cada eixo), os passos por milímetro só estão verificados contra a configuração do original e as saídas do fuso e do aspirador não foram experimentadas.
+* Só são entendidos os comandos HP-GL `IN`, `SP`, `PU`, `PD`, `PA` e `PR`; qualquer outro comando é contado e ignorado, nunca é fatal.
+* O leitor e o planeador só foram experimentados com pequenos ficheiros de exemplo escritos para os testes.
+* O programa precisa da pasta do EH3D-DRILLPRO ao seu lado, porque depende dela por caminho.
+* Só são suportados os modelos MTC; os modelos ATC ainda não e os modelos XL não estão cobertos. O chinês e o japonês precisam de um tipo de letra CJK entre os do sistema.
+
+**A seguir**
+
+* Executar um trabalho de fresagem na máquina e confirmar os passos por milímetro, o fuso e as saídas do aspirador.
+* Experimentar o leitor HP-GL com ficheiros de traçado de placas reais.
+* Ler HP-GL com o leitor partilhado do [EH3D-CORE-LIBS](https://github.com/JuanenRac/EH3D-CORE-LIBS), onde está previsto.
+
+## 🌍 Idiomas
+
+O README e os textos existem em inglês, espanhol, francês, italiano, alemão, chinês, japonês e português europeu.
 
 ## 🔗 Projetos relacionados
 
@@ -109,14 +169,19 @@ Execute-o com `run.bat` (Windows) ou `./run.sh` (Linux e macOS); ambos compilam 
 * [EH3D-NODE-BUNGARD](https://github.com/JuanenRac/EH3D-NODE-BUNGARD): um nó ESP32-S3 (Ethernet ou Wi-Fi) que fica na caixa da máquina, envia os passos pela sua própria porta série com a temporização que um adaptador USB não consegue manter, lê os LED da máquina e comanda o variador do eixo-árvore; tem o seu próprio painel web
 * [EH3D-SERVER](https://github.com/JuanenRac/EH3D-SERVER): o centro da família EH3D: recebe os trabalhos deste programa (`connection = server`) e dos outros clientes, e executa-os na máquina através do seu nó
 
-## 📚 Documentação e comunidade
+## 📚 Documentação
 
 * [Notas do protocolo](docs/PROTOCOL.md): o que se sabe sobre como a unidade de controlo é comandada (partilhado com o EH3D-DRILLPRO) e o que continua a ser uma hipótese.
 * [Ligação e afinação](https://github.com/JuanenRac/EH3D-DRILLPRO/blob/main/docs/CONNECTION.md): o ficheiro da máquina, as três ligações e cada valor
+* [Os ecrãs clássicos](docs/CLASSIC.md): como os ecrãs do programa de MS-DOS são reproduzidos e verificados
 * [Registo de alterações](CHANGELOG.md)
-* [Como contribuir](CONTRIBUTING.md)
-* [Política de segurança](SECURITY.md)
-* [Suporte](SUPPORT.md)
+
+## 🤝 Contribuir e comunidade
+
+* Antes de uma pull request execute `cargo fmt --all --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` e `python -I tools/ci_validate.py`: tudo tem de passar. Consulte [CONTRIBUTING.md](CONTRIBUTING.md) e o [código de conduta](CODE_OF_CONDUCT.md).
+* O README existe em oito idiomas: uma alteração ao texto faz-se nos oito ficheiros, e as duas imagens são desenhadas a partir de `docs/architecture.json` e `docs/structure.json` com `tools/make_architecture.py` e `tools/make_structure.py`.
+* Não descreva como a funcionar numa máquina o que só foi experimentado no simulador.
+* Comunique uma vulnerabilidade em privado: [SECURITY.md](SECURITY.md). Perguntas, ideias e relatórios: electrohobby3d@gmail.com ([SUPPORT.md](SUPPORT.md)).
 
 ## 👤 AUTOR
 

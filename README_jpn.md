@@ -18,21 +18,23 @@
 
 ---
 
-**正直さの確認 - 今日実際に動くもの：** 80x25 のテキストモードインターフェースを持つ Rust プログラムです。HP-GL `.PLT` プロットファイル、工具テーブル、機械設定を読み込み、多段パスのフライス経路（早送り、切り込み、切削、引き上げ）を計画し、それを **シミュレーター上**（既定）で、または機械ファイルで指定すればパソコンのシリアルポート、USB シリアルアダプター、EH3D-NODE-BUNGARD 経由で **実機上** で実行します。パソコン上で 21 件のテストが動きます。EH3D-DRILLPRO と共有するシリアルプロトコルは、実機の Bungard CCD MTC で試しました（3 軸の原点出しと各軸の動き）。**フライス加工ジョブ全体はまだ機械で実行していません**。1 ミリあたりのステップ数は、オリジナルの設定と照合しただけです。 既定では MS-DOS 版のクラシック画面（原版とセル単位で照合済み）が表示されます。`--modern` でメニュー式の画面を起動します。 キーボードとマウスで操作でき、ウィンドウは最大化できます（画面は 640x400 から 1080p 以上まで拡大縮小）。設定ファイルと工具表はダイアログで編集・保存でき、「情報」ボタンで Bungard CCD と CCD/2 の機種（MTC 対応、ATC は未対応）を確認できます。 コンソール版（`routepro-console`）は同じ画面をターミナルに表示し、キーボードとマウスで操作でき、ウィンドウシステムは不要です（SSH、テキストコンソール、古い PC）。
+**正直さの確認 - 今日実際に動くもの：** 80x25 のテキストモードインターフェースを持つ Rust プログラムです。HP-GL `.PLT` プロットファイル、工具テーブル、機械設定を読み込み、多段パスのフライス経路（早送り、切り込み、切削、引き上げ）を計画し、それを **シミュレーター上**（既定）で、または機械ファイルで指定すればパソコンのシリアルポート、USB シリアルアダプター、EH3D-NODE-BUNGARD 経由で **実機上** で実行します。パソコン上で 42 件のテストが動きます。EH3D-DRILLPRO と共有するシリアルプロトコルは、実機の Bungard CCD MTC で試しました（3 軸の原点出しと各軸の動き）。**フライス加工ジョブ全体はまだ機械で実行していません**。1 ミリあたりのステップ数は、オリジナルの設定と照合しただけです。 既定では MS-DOS 版のクラシック画面（原版とセル単位で照合済み）が表示されます。`--modern` でメニュー式の画面を起動します。 キーボードとマウスで操作でき、ウィンドウは最大化できます（画面は 640x400 から 1080p 以上まで拡大縮小）。設定ファイルと工具表はダイアログで編集・保存でき、「情報」ボタンで Bungard CCD と CCD/2 の機種（MTC 対応、ATC は未対応）を確認できます。 コンソール版（`routepro-console`）は同じ画面をターミナルに表示し、キーボードとマウスで操作でき、ウィンドウシステムは不要です（SSH、テキストコンソール、古い PC）。
 
 ---
 
 > **安全性とセキュリティの現状：** このプログラムは安全システムではありません。実機接続（機械ファイルの `connection`）では **開始で機械が動きます**。工具を外し、機械の電源スイッチに手を置き、ジョブを即座に止めてステッピングドライバをオフにする `Esc` をいつでも押せるようにしてください。リミットスイッチは機械自身の制御ユニットが監視します（スイッチで軸を自分で止めます）。このソフトウェアには独自の非常停止がなく、誤ったステップバイトや速度は、工具を加工物やテーブルにぶつけたり、モーターに脱調を起こしたりすることがあります。プロトコル層は、アーム（有効化）されるまで何も動かしません。このプロジェクトは独立しており、Bungard Elektronik が製造・推奨・サポートするものではありません。製品名は、対応するファイル形式と機械を示すためだけに使っています。
 
-## 📋 概要
+## 📋 ひと目で
 
 | | |
 |---|---|
 | バージョン | `0.0.2` |
 | 成熟度 | 足場 |
-| テスト | 21 |
+| テスト | 42 |
 | 技術スタック | Rust |
 | 実機での動作 | はい、Bungard CCD MTC 1 台で：原点出しと各軸の動き。ジョブ全体はまだ実行していません。機械ファイルがなければシミュレーターで動きます |
+
+**移動先：** [概要](#-概要) · [アーキテクチャ](#-アーキテクチャ) · [クイックスタート](#-クイックスタート) · [テスト](#-テスト) · [構成](#-リポジトリの構成) · [関連](#-関連プロジェクト)
 
 ## 🚦 プロジェクトの状況
 
@@ -43,7 +45,7 @@
 | 領域 | 状態 | ここでの意味 |
 |---|---|---|
 | ソフトウェア | 🟡 | 80x25 のテキスト画面を持つ Rust プログラムが、HP-GL プロットファイル、工具テーブル、マシンファイルを読み、複数パスの切削経路を計画して、シミュレータ上で、またはマシンファイルの指定があれば実機で実行します。隣に EH3D-DRILLPRO のフォルダが必要です。 |
-| テスト | 🟢 | 21 件のテストが通ります（`cargo test --workspace`）：HP-GL リーダー、経路計画、8 言語すべての画面。プロトコルは EH3D-DRILLPRO の 123 件のテストが対象です。 |
+| テスト | 🟢 | 42 件のテストが通ります（`cargo test --workspace`）：HP-GL リーダー、経路計画、8 言語すべての画面。プロトコルは EH3D-DRILLPRO の 172 件のテストが対象です。 |
 | HP-GL リーダー | 🟡 | 解釈できるのは `IN`、`SP`、`PU`、`PD`、`PA`、`PR` だけで、他のコマンドは数えて無視され、致命的になりません。テスト用に作った小さなサンプルでしか試していません。 |
 | 経路計画 | 🟡 | 各経路はパスごとに早送り、切り込み、切削、持ち上げになり、深さは均等に分割され、工具は必ず表面で終わります。確認はテストとシミュレータのみです。 |
 | 実機 | 🟠 | EH3D-DRILLPRO と共有するシリアルプロトコルは Bungard CCD MTC 1 台で試しました（基準点復帰と各軸の移動）。ルーティングのジョブを実機で実行したことはなく、スピンドルと集塵機の出力は未試験です。 |
@@ -52,7 +54,7 @@
 | 配布パッケージ | 🟡 | 最初のリリースには Windows、Linux、macOS（Apple シリコンと Intel）用のパッケージがあり、それぞれ SHA-256 付きで、リリースワークフローが作成します。 |
 | ドキュメント | 🟢 | 8 言語の README と、仮説のまま残っている点を含むプロトコルのメモ。マシンファイルのガイドは EH3D-DRILLPRO にあります。 |
 
-## 🎯 概要説明
+## 🎯 概要
 
 * **ファイルリーダー**：HP-GL の `.PLT` プロットファイル（`IN`、`SP`、`PU`、`PD`、`PA`、`PR`。その他のコマンドは数えて無視し、致命的エラーにはしません）、工具テーブル `ROUTEPRO.RTD`（深さ、パス数、XY と Z の送り速度、主軸回転数）、マシン設定 `ROUTEPRO.RCF`。
 * **経路プランナー**：各経路は、始点への早送りのあと、パスごとに切り込み、経路に沿った切削、持ち上げになります。深さはパス間で均等に分けられ、工具は必ず表面に戻って終わります。
@@ -70,22 +72,15 @@
 
 EH3D-ROUTEPRO は EH3D-DRILLPRO のフライス加工向けの姉妹プロジェクトで、パスで依存しています。フォルダー `EH3D-DRILLPRO` をこのフォルダーの隣に置く必要があります。シリアルプロトコル、画面、言語対応を再利用します。今のところ他の EH3D リポジトリには依存していません。
 
-## 📂 リポジトリ構成
+## 🏛️ アーキテクチャ
 
-```text
-EH3D-ROUTEPRO/
-├── src/          library: HP-GL reader, tool table, path planning, application, texts
-├── src/bin/      the routepro executable (feature gui)
-├── protocol/     eh3d-routepro-protocol: the routing plan on top of the DRILLPRO protocol
-├── tests/        HP-GL parsing, path planning, screens in all languages
-├── testdata/     small sample files written for the tests
-├── docs/         PROTOCOL.md と CONNECTION.md：プロトコル、機械ファイル、各調整値。machine.cfg.example：全値を記したファイル
-├── tools/        ci_validate.py: manifest, versions, changelog and README checks
-├── images/       banner
-└── eh3d.project.json   the manifest of the project
-```
+<p align="center">
+  <img src="images/architecture.svg" alt="EH3D-ROUTEPRO のアーキテクチャ：誰が使い、何を持ち、何に依存するか" width="100%">
+</p>
 
-## 🛠️ ビルドと実行
+このリポジトリの各部分の関係：誰が使い、何を持ち、何に依存するか。図は `docs/architecture.json` から描かれ、コードと照合されます。
+
+## 🚀 クイックスタート
 
 安定版の Rust ツールチェーンが必要です。
 
@@ -99,7 +94,72 @@ python -I tools/ci_validate.py
 
 `run.bat`（Windows）または `./run.sh`（Linux と macOS）で実行します。どちらも必要ならプログラムを先にビルドします。どちらも Rust と隣のフォルダー `EH3D-DRILLPRO` が必要です：`run.bat [FILE.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`。`--data` は `ROUTEPRO.RTD` と `ROUTEPRO.RCF` があるフォルダー（既定：`testdata/`）、`--dump` は画面をプレーンテキストで出力します。キー：`Alt` とハイライトされた文字でメニューを開き、矢印で移動、`Enter` で決定、`Esc` で戻ります。メニューバーはクリックもできます。中国語と日本語にはシステムフォントに CJK フォントが必要です。 `--connection FILE` で既定とは別の機械ファイルを指定できます（既定は Windows では `%APPDATA%\EH3D\machine.cfg`、その他では `~/.config/eh3d/machine.cfg`）。機械ファイルがなければプログラムはシミュレーターで動きます。 `--modern` でクラシック画面の代わりにメニュー式の画面を起動します。
 
+## 🧪 テスト
+
+テストスイートは 42 件のテストから成ります（`cargo test --workspace`）。HP-GL リーダー、経路計画（パス、突入、切削、退避）、プロトコルクレートのルーティング計画、従来の画面のセル単位の照合、8 言語すべての画面を検証します。再利用しているプロトコル（バイト、動作、安全ゲート）は EH3D-DRILLPRO でテストされています。CI では `cargo fmt --check` と、警告をエラーとする `cargo clippy` も実行し、`python -I tools/ci_validate.py` がマニフェスト、バージョン、変更履歴、8 つの README を検査します。
+
+## 🏗️ ビルドとリリース
+
+バージョンは `Cargo.toml` と `eh3d.project.json` にあり、各バージョンには [CHANGELOG.md](CHANGELOG.md) に項目があります。リリースは GitHub で公開されます。
+
 **ビルド済みパッケージ:** 公開される各バージョンには、Windows（zip）、Linux（tar.gz）、macOS（Apple シリコンと Intel、tar.gz）用のパッケージが含まれ、プログラム、ライセンス、この README が入っており、それぞれ隣に SHA-256 が付きます。このリポジトリの `Release binaries` ワークフローでビルドされます。Releases ページからダウンロードしてください。Linux ではウィンドウに X11 または Wayland が必要です。
+
+## 📂 リポジトリの構成
+
+<p align="center">
+  <img src="images/repository-structure.svg" alt="EH3D-ROUTEPRO のリポジトリ構成" width="100%">
+</p>
+
+<details>
+<summary>ツリーのテキスト版</summary>
+
+```text
+EH3D-ROUTEPRO/
+├── src/
+│   ├── hpgl.rs                                  HP-GL リーダー（IN, SP, PU, PD, PA, PR）
+│   ├── tools.rs                                 ツールテーブル ROUTEPRO.RTD
+│   ├── job.rs                                   HP-GL の経路をルーティング作業に変換
+│   ├── app.rs texts.rs                          アプリケーションと 8 言語のテキスト
+│   └── bin/                                     実行ファイル routepro と routepro-console
+├── protocol/src/
+│   ├── route.rs                                 各経路のパス、突入、切削、退避
+│   └── lib.rs                                   EH3D-DRILLPRO のプロトコルを再エクスポート
+├── tests/                                       HP-GL の解析、経路計画、従来の画面、全言語の画面
+├── docs/                                        プロトコルノート、従来の画面
+├── testdata/                                    テスト用に書いた小さなサンプルファイル
+├── tools/                                       CI チェック、README チェック、図の生成ツール
+├── images/                                      バナーとアーキテクチャ・リポジトリ構成の図
+├── .github/                                     CI とリリースのワークフロー、Issue と PR のテンプレート
+├── build.sh build.bat                           ビルドとテストのスクリプト
+├── run.sh run.bat                               プログラムを起動
+├── eh3d.project.json                            マニフェスト：バージョン、役割、成熟度、ビルドコマンド
+├── Cargo.toml Cargo.lock                        Rust パッケージと固定された依存関係
+├── CHANGELOG.md                                 各バージョンの変更点
+├── SECURITY.md SUPPORT.md                       脆弱性の報告方法と問い合わせ先
+└── CONTRIBUTING.md CODE_OF_CONDUCT.md LICENSE   貢献方法、行動規範、ライセンス
+```
+
+</details>
+
+## 🗺️ ロードマップと既知の制限
+
+**現時点で分かっている制限**
+
+* 実機でのルーティング作業はまだ実行されていません。EH3D-DRILLPRO と共有するシリアルプロトコルは 1 台の Bungard CCD MTC で試しました（3 軸の原点復帰と各軸の動作）が、ミリあたりのステップ数は元の設定と照合しただけで、スピンドルと集塵機の出力は未試験です。
+* 解釈できる HP-GL コマンドは `IN`、`SP`、`PU`、`PD`、`PA`、`PR` だけです。それ以外のコマンドは数えて無視し、致命的エラーにはしません。
+* リーダーとプランナーは、テスト用に書いた小さなサンプルファイルでしか試していません。
+* パスで EH3D-DRILLPRO に依存しているため、そのフォルダーをこのプログラムの隣に置く必要があります。
+* 対応しているのは MTC モデルだけです。ATC モデルは未対応、XL モデルは対象外です。中国語と日本語にはシステムフォントに CJK フォントが必要です。
+
+**次のステップ**
+
+* 機械でルーティング作業を実行し、ミリあたりのステップ数、スピンドル、集塵機の出力を確認する。
+* 実際の基板のプロットファイルで HP-GL リーダーを試す。
+* HP-GL を、予定されている [EH3D-CORE-LIBS](https://github.com/JuanenRac/EH3D-CORE-LIBS) の共有リーダーで読み込む。
+
+## 🌍 言語
+
+README とテキストは、英語、スペイン語、フランス語、イタリア語、ドイツ語、中国語、日本語、ヨーロッパポルトガル語で提供されています。
 
 ## 🔗 関連プロジェクト
 
@@ -109,14 +169,19 @@ python -I tools/ci_validate.py
 * [EH3D-NODE-BUNGARD](https://github.com/JuanenRac/EH3D-NODE-BUNGARD)：機械の筐体内に置く ESP32-S3 ノード（イーサネットまたは Wi-Fi）。USB アダプターでは保てないタイミングで自身のシリアルポートからステップを送り出し、機械のランプを読み、スピンドルのドライブを制御します。独自の Web パネルがあります
 * [EH3D-SERVER](https://github.com/JuanenRac/EH3D-SERVER)： EH3D ファミリーの中心。このプログラム（`connection = server`）や他のクライアントの作業を受け取り、ノード経由で機械上で実行します
 
-## 📚 ドキュメントとコミュニティ
+## 📚 ドキュメント
 
 * [プロトコルのメモ](docs/PROTOCOL.md): 制御ユニットの駆動方法についてわかっていること（EH3D-DRILLPRO と共通）、およびまだ仮説にとどまっていること。
 * [接続と調整](https://github.com/JuanenRac/EH3D-DRILLPRO/blob/main/docs/CONNECTION.md)：機械ファイル、3 つの接続方法、各値
+* [従来の画面](docs/CLASSIC.md)：MS-DOS プログラムの画面をどのように再現し検証するか
 * [変更履歴](CHANGELOG.md)
-* [貢献方法](CONTRIBUTING.md)
-* [セキュリティポリシー](SECURITY.md)
-* [サポート](SUPPORT.md)
+
+## 🤝 コントリビュートとコミュニティ
+
+* プルリクエストの前に `cargo fmt --all --check`、`cargo clippy --workspace --all-targets -- -D warnings`、`cargo test --workspace`、`python -I tools/ci_validate.py` を実行し、すべて通してください。[CONTRIBUTING.md](CONTRIBUTING.md) と[行動規範](CODE_OF_CONDUCT.md)を参照してください。
+* README は 8 言語あります。文章を変更するときは 8 つのファイルすべてを変更し、2 つの図は `docs/architecture.json` と `docs/structure.json` から `tools/make_architecture.py` と `tools/make_structure.py` で描画します。
+* シミュレーターでしか試していないことを、機械で動作するものとして書かないでください。
+* 脆弱性は非公開で報告してください：[SECURITY.md](SECURITY.md)。質問、アイデア、報告：electrohobby3d@gmail.com（[SUPPORT.md](SUPPORT.md)）。
 
 ## 👤 作者
 
