@@ -851,7 +851,6 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
         self.teach.as_ref().map(|t| t.state())
     }
 
-
     fn set_connection(&mut self, connection: ConnectionConfig) {
         App::set_connection(self, connection);
     }
