@@ -51,6 +51,8 @@ struct Run {
     /// Seconds of machine time spent on the path that is being routed, and how long that path takes in all (once it is known).
     clock: f64,
     path_secs: Option<f64>,
+    /// The sound of the tool change has been played for the dialog that is on.
+    pause_sounded: bool,
 }
 
 pub struct App {
@@ -299,6 +301,7 @@ impl App {
             skipped,
             clock: 0.0,
             path_secs: None,
+            pause_sounded: false,
         });
         self.mode = Mode::Running;
     }
@@ -316,6 +319,23 @@ impl App {
                 feed_z_mm_min: 500,
                 spindle_rpm: 60000,
             })
+    }
+
+    /// The sound of the end of the job, when it ended by itself (not stopped, not failed) and the machine file asks for one.
+    fn play_finish_sound(&self) {
+        let Some(run) = &self.run else {
+            return;
+        };
+        let done = match &run.real {
+            Some(real) => matches!(real.state(), RunState::Done),
+            None => run.done >= run.plan.len(),
+        };
+        if done {
+            eh3d_drillpro::protocol::sound::play(
+                &self.connection.sound_finish,
+                eh3d_drillpro::protocol::sound::Cue::Finished,
+            );
+        }
     }
 
     /// The simulated job goes on by `dt` seconds of machine time: a path is done when the time it takes on the machine has passed.
@@ -365,10 +385,20 @@ impl App {
         if self.mode != Mode::Running {
             return false;
         }
+        let tool_sound = self.connection.sound_tool_change.clone();
         let Some(run) = self.run.as_mut() else {
             return false;
         };
         if let Some(real) = &run.real {
+            // the machine asks for a tool: the sound is played once for each dialog
+            let asks = matches!(real.state(), RunState::WaitPause(Pause::ToolChange { .. }));
+            if asks && !run.pause_sounded {
+                eh3d_drillpro::protocol::sound::play(
+                    &tool_sound,
+                    eh3d_drillpro::protocol::sound::Cue::ToolChange,
+                );
+            }
+            run.pause_sounded = asks;
             let (next, total) = real.progress();
             run.done = (next * run.plan.len())
                 .checked_div(total.max(1))
@@ -1229,16 +1259,24 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
     }
 
     fn tick(&mut self, n: usize) -> bool {
+        let was = self.mode == Mode::Running;
         let more = self.tick_n(n);
         if !more {
+            if was {
+                self.play_finish_sound();
+            }
             self.mode = Mode::Main;
         }
         more
     }
 
     fn tick_for(&mut self, seconds: f64) -> bool {
+        let was = self.mode == Mode::Running;
         let more = self.tick_seconds(seconds);
         if !more {
+            if was {
+                self.play_finish_sound();
+            }
             self.mode = Mode::Main;
         }
         more

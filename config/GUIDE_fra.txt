@@ -31,3 +31,7 @@ POUR ROUTEPRO
   Lisez « percer » comme « fraiser ». L'unité des fichiers HP-GL est le pas du traceur, 0,025 mm (2). Les lignes de ROUTEPRO.RTD sont : outil, profondeur,
   passes, avance le long du tracé, avance de plongée, vitesse de la broche. L'angle de corde de ROUTEPRO.RCF dit avec quelle finesse les cercles sont découpés en segments droits.
   ROUTEPRO ne gère pas encore le changeur d'outils (ATC).
+
+SONS (FACULTATIF)
+  Dans machine.cfg : sound_finish et sound_tool_change. Chacun vaut off (par défaut), default (une tonalité que le programme fabrique) ou le chemin complet d'un fichier
+  WAV à vous. Le premier retentit quand un travail se termine tout seul ; le second quand la machine demande un outil. Sans lecteur ou carte son, le travail continue.

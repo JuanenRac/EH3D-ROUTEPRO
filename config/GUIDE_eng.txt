@@ -31,3 +31,7 @@ FOR ROUTEPRO
   Read "drill" as "cut". The unit of the HP-GL files is the plotter step, 0.025 mm (2). The lines of ROUTEPRO.RTD are: tool, depth, passes,
   feed along the path, feed of the plunge, spindle speed. The chord angle of ROUTEPRO.RCF says how finely circles are cut into straight pieces.
   The tool changer (ATC) is not supported by ROUTEPRO yet.
+
+SOUNDS (OPTIONAL)
+  In machine.cfg: sound_finish and sound_tool_change. Each one is off (the default), default (a tone the program makes) or the full path of a WAV file
+  of your own. The first plays when a job ends by itself; the second when the machine asks for a tool. If there is no player or no sound card the job goes on.

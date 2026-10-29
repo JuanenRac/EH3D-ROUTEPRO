@@ -31,3 +31,7 @@ PER ROUTEPRO
   Leggi "forare" come "fresare". L'unità dei file HP-GL è il passo del plotter, 0,025 mm (2). Le righe di ROUTEPRO.RTD sono: utensile, profondità,
   passate, avanzamento lungo il percorso, avanzamento di penetrazione, velocità del mandrino. L'angolo di corda di ROUTEPRO.RCF dice con che finezza i cerchi sono tagliati in tratti rettilinei.
   ROUTEPRO non supporta ancora il cambio utensile (ATC).
+
+SUONI (FACOLTATIVO)
+  In machine.cfg: sound_finish e sound_tool_change. Ognuno è off (predefinito), default (un tono che crea il programma) o il percorso completo di un file WAV
+  vostro. Il primo suona quando un lavoro finisce da solo; il secondo quando la macchina chiede un utensile. Senza lettore o scheda audio il lavoro continua.
