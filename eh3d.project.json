@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "ecosystem": "EH3D",
   "name": "EH3D-ROUTEPRO",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "role": "tool",
   "stack": "rust",
   "technologies": [
@@ -17,7 +17,7 @@
   "family": "CNC Workflow Tools",
   "parent": null,
   "build": "cargo build --release --features gui; cargo test --workspace",
-  "notes": "Scaffolding v0.0.1: a re-implementation of the routing (milling) workflow of the classic DOS software for Bungard CCD machines. It reads HP-GL .PLT plot files, the tool table and the machine configuration, plans multi-pass milling paths (rapid move, plunge, cut, lift) and runs them against a simulator, in a text-mode look-alike interface in eight languages. It reuses the serial protocol, the screen and the language support of EH3D-DRILLPRO (a sibling folder is needed). The protocol has never been tried on a machine: the program drives no real machine, there is no calibration mode yet and the steps per millimetre are not calibrated. The serial protocol was worked out by watching how the original program talks to its control unit and has been tried on one Bungard CCD MTC: the reference run of the three axes and the moves of every axis. A whole job has not run on a machine yet, and the spindle, the vacuum output and the steps per millimetre are not confirmed.",
+  "notes": "Scaffolding v0.0.2: a re-implementation of the routing (milling) workflow of the classic DOS software for Bungard CCD machines. It reads HP-GL .PLT plot files, the tool table and the machine configuration, plans multi-pass milling paths (rapid move, plunge, cut, lift) and runs them against a simulator, in a text-mode look-alike interface in eight languages. It reuses the serial protocol, the screen and the language support of EH3D-DRILLPRO (a sibling folder is needed). The protocol has never been tried on a machine: the program drives no real machine, there is no calibration mode yet and the steps per millimetre are not calibrated. The serial protocol was worked out by watching how the original program talks to its control unit and has been tried on one Bungard CCD MTC: the reference run of the three axes and the moves of every axis. A whole job has not run on a machine yet, and the spindle, the vacuum output and the steps per millimetre are not confirmed.",
   "native_version": {
     "file": "Cargo.toml",
     "pattern": "^version\\s*=\\s*\"(\\d+\\.\\d+\\.\\d+)\""

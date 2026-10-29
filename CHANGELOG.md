@@ -4,6 +4,11 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.2] - The classic screens, the mouse, the real files and a console version
+
+- **Console version:** `routepro-console` draws the same screens in a terminal, with the keyboard and the mouse, and needs no window system: it runs over SSH, on a text console and on an old PC, in the MS-DOS spirit of the original. The terminal must be 80 columns by 25 rows or larger; a larger one shows the screen in the middle.
+- **Packages:** the release carries, for Windows, Linux and macOS (Apple silicon and Intel), the program with its window and the console version, each with its SHA-256.
+- **One command line:** the window and the console read the same options (`--lang`, `--data`, `--connection`, `--modern`, `--dump`).
 - **Classic screens (the default):** the screens of the MS-DOS routing program (main form, Parameter with the chord angle, the routing Tool Data table with depth, iterations and both feeds, Select File, Panelization, Quit and the homing window), shared with DRILLPRO through its `classic` front end, in eight languages. `--modern` starts the menu-driven interface as before.
 - **Machine file:** `ROUTEPRO.RCF` is read with its own layout (the chord angle where the drilling program keeps its sorting), so the speeds, ramps and corrections of the file are used.
 - **Editing and the mouse:** every field takes typing, `Backspace`, `Delete`, `Home`, `End` and the arrow keys (the first key typed replaces the whole value), `Tab` and `Shift+Tab` move between fields, `Enter` accepts and `Esc` cancels. Every field, button, radio button, list entry and dialog button answers to the mouse; a double click opens a file.

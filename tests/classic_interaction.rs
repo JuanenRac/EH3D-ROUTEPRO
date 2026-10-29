@@ -145,7 +145,8 @@ fn the_language_changes_from_the_config_dialog() {
     let dir = scratch("lang");
     let mut a = app_in(&dir);
     press(&mut a, "c");
-    a.click(65, 17);
-    a.handle(Input::Right);
+    a.click(67, 17);
     assert!(text(&a).contains("Español"), "{}", text(&a));
+    a.click(63, 17);
+    assert!(text(&a).contains("English"), "{}", text(&a));
 }

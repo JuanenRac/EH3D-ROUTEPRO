@@ -43,8 +43,8 @@ jobs:
         run: cargo fmt --all --check
         working-directory: EH3D-ROUTEPRO
       - name: Lints
-        run: cargo clippy --workspace --all-targets -- -D warnings
+        run: cargo clippy --workspace --all-targets --features console -- -D warnings
         working-directory: EH3D-ROUTEPRO
       - name: Tests
-        run: cargo test --workspace --all-targets
+        run: cargo test --workspace --all-targets --features console
         working-directory: EH3D-ROUTEPRO

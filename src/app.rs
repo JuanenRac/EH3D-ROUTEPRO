@@ -814,6 +814,14 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
         eh3d_drillpro::classic::engine::Kind::Route
     }
 
+    fn set_connection(&mut self, connection: ConnectionConfig) {
+        App::set_connection(self, connection);
+    }
+
+    fn set_error(&mut self, message: String) {
+        App::set_error(self, message);
+    }
+
     fn about(&self) -> eh3d_drillpro::classic::engine::About {
         eh3d_drillpro::classic::engine::About {
             name: "EH3D-ROUTEPRO",
