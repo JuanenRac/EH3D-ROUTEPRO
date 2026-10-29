@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The Offset window moves the real machine** and **the arrow of the file name opens a list of patterns** (`*.PLT`, `*.ZIP`, `*.*`), as in DRILLPRO.
+
 - **Buttons that did nothing now work:** the Load button of the Tool Data and Parameter windows opens the Select File window for the tool files (`*.RTD`) or the configuration files (`*.RCF`) and loads the one chosen; Start and Panelz. without a file say so in a window.
 
 - **Jobs packed in ZIP archives:** the Select File window goes inside a `.zip` file and shows the routing files in it; `routepro JOB.ZIP` loads the first routing file of the archive. The archive code is the shared `eh3d-archive` crate of EH3D-COMMON.

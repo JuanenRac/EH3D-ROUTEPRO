@@ -52,6 +52,7 @@ struct Run {
 
 pub struct App {
     pub lang: Lang,
+    teach: Option<eh3d_drillpro::runner::TeachSession>,
     mode: Mode,
     dir: PathBuf,
     entries: Vec<Entry>,
@@ -109,6 +110,7 @@ impl App {
             geometry,
             connection: ConnectionConfig::default(),
             run: None,
+            teach: None,
             quit: false,
         };
         app.dir = config::work_dir(data_dir, app.config.as_ref());
@@ -825,6 +827,30 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
     fn kind(&self) -> eh3d_drillpro::classic::engine::Kind {
         eh3d_drillpro::classic::engine::Kind::Route
     }
+
+    fn jog(&mut self, dx: i32, dy: i32, dz: i32) {
+        const MIL_MM: f64 = 0.0254;
+        if let Some(t) = &self.teach {
+            t.jog(dx as f64 * MIL_MM, dy as f64 * MIL_MM, dz as f64 * MIL_MM);
+        }
+    }
+
+    fn teach_begin(&mut self) {
+        self.teach = self.connection.is_real().then(|| {
+            eh3d_drillpro::runner::TeachSession::start(self.connection.clone(), self.job_machine())
+        });
+    }
+
+    fn teach_end(&mut self) {
+        if let Some(t) = &self.teach {
+            t.end();
+        }
+    }
+
+    fn teach_state(&self) -> Option<eh3d_drillpro::runner::TeachState> {
+        self.teach.as_ref().map(|t| t.state())
+    }
+
 
     fn set_connection(&mut self, connection: ConnectionConfig) {
         App::set_connection(self, connection);
