@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A lighter debug build:** the `dev` profile keeps the file and line of a panic (`debug = "line-tables-only"`) but not the full debug symbols, so the `target` folder of a test run is about a tenth of its size.
 - **The Offset window moves the real machine** and **the arrow of the file name opens a list of patterns** (`*.PLT`, `*.ZIP`, `*.*`), as in DRILLPRO.
 
 - **Buttons that did nothing now work:** the Load button of the Tool Data and Parameter windows opens the Select File window for the tool files (`*.RTD`) or the configuration files (`*.RCF`) and loads the one chosen; Start and Panelz. without a file say so in a window.
