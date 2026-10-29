@@ -45,7 +45,7 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Software | 🟡 | Ein Rust-Programm mit 80x25-Textbildschirm liest HP-GL-Plotdateien, die Werkzeugtabelle und die Maschinendatei, plant mehrstufige Fräsbahnen und führt sie gegen einen Simulator aus, oder auf einer echten Maschine, wenn die Maschinendatei es sagt; der Ordner von EH3D-DRILLPRO muss daneben liegen. |
-| Tests | 🟢 | 42 Tests bestehen (`cargo test --workspace`): der HP-GL-Leser, die Bahnplanung und die Bildschirme in allen acht Sprachen; das Protokoll decken die 172 Tests von EH3D-DRILLPRO ab. |
+| Tests | 🟢 | 42 Tests bestehen (`cargo test --workspace`): der HP-GL-Leser, die Bahnplanung und die Bildschirme in allen acht Sprachen; das Protokoll decken die 182 Tests von EH3D-DRILLPRO ab. |
 | HP-GL-Leser | 🟡 | Nur `IN`, `SP`, `PU`, `PD`, `PA` und `PR` werden verstanden; jeder andere Befehl wird gezählt und ignoriert, nie fatal. Nur mit kleinen, für die Tests geschriebenen Beispieldateien erprobt. |
 | Bahnplanung | 🟡 | Jede Bahn wird für jeden Durchgang zu Eilgang, Eintauchen, Schnitt und Abheben, mit gleichmäßig verteilter Tiefe, und das Werkzeug endet immer an der Oberfläche; nur in Tests und am Simulator geprüft. |
 | Echte Hardware | 🟠 | Das serielle Protokoll, das es mit EH3D-DRILLPRO teilt, wurde an einer Bungard CCD MTC erprobt (Referenzlauf und Bewegungen jeder Achse); kein Fräsauftrag lief auf einer Maschine, und die Ausgänge für Spindel und Sauger sind unerprobt. |

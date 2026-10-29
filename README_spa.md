@@ -45,7 +45,7 @@ Cada línea es una parte de este repositorio y la luz dice hasta dónde llega ho
 | Área | Estado | Qué significa aquí |
 |---|---|---|
 | Software | 🟡 | Un programa en Rust con pantalla de texto de 80x25 lee ficheros de trazado HP-GL, la tabla de herramientas y el fichero de la máquina, planifica trayectorias de fresado de varias pasadas y las ejecuta contra un simulador, o en una máquina real si el fichero de la máquina lo indica; necesita la carpeta de EH3D-DRILLPRO a su lado. |
-| Pruebas | 🟢 | Pasan 42 pruebas (`cargo test --workspace`): el lector de HP-GL, la planificación de trayectorias y las pantallas en los ocho idiomas; el protocolo lo cubren las 172 pruebas de EH3D-DRILLPRO. |
+| Pruebas | 🟢 | Pasan 42 pruebas (`cargo test --workspace`): el lector de HP-GL, la planificación de trayectorias y las pantallas en los ocho idiomas; el protocolo lo cubren las 182 pruebas de EH3D-DRILLPRO. |
 | Lector de HP-GL | 🟡 | Solo se entienden `IN`, `SP`, `PU`, `PD`, `PA` y `PR`; cualquier otra orden se cuenta y se ignora, nunca es fatal. Probado solo con pequeños ficheros de muestra escritos para las pruebas. |
 | Planificación de trayectorias | 🟡 | Cada trayectoria se convierte en un desplazamiento rápido, una penetración, el corte y una elevación en cada pasada, con la profundidad repartida por igual y la herramienta terminando siempre en la superficie; comprobado solo en pruebas y en el simulador. |
 | Hardware real | 🟠 | El protocolo serie que comparte con EH3D-DRILLPRO se ha probado en una Bungard CCD MTC (la marcha de referencia y los movimientos de cada eje); ningún trabajo de fresado se ha ejecutado en una máquina, y las salidas del husillo y del aspirador no se han probado. |
