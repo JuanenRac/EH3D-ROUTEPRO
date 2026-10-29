@@ -56,7 +56,7 @@ fn hex(v: u8) -> char {
 /// Cells (columns, rows) whose characters are not compared (texts that differ on purpose).
 type Mask = (RangeInclusive<usize>, RangeInclusive<usize>);
 
-fn compare(app: &ClassicApp<App>, name: &str, text_mask: &[Mask]) {
+fn compare(app: &ClassicApp<App>, name: &str, text_mask: &[Mask], full_mask: &[Mask]) {
     let Some(r) = reference(name) else { return };
     let mut s = Screen::default();
     app.render(&mut s);
@@ -66,7 +66,7 @@ fn compare(app: &ClassicApp<App>, name: &str, text_mask: &[Mask]) {
     for y in 0..(ROWS - 1) {
         for x in 0..80 {
             // (74, 23) is where the capture shows the hardware text cursor, not a cell of the screen
-            if (x, y) == (74, 23) {
+            if (x, y) == (74, 23) || inside(full_mask, x, y) {
                 continue;
             }
             let c = s.get(x, y);
@@ -94,6 +94,11 @@ fn compare(app: &ClassicApp<App>, name: &str, text_mask: &[Mask]) {
     );
 }
 
+/// What we added to the original screen: the About button in the free place under Load.
+fn ours() -> Vec<Mask> {
+    vec![(62..=75, 19..=20)]
+}
+
 /// Heading texts that are our own wording, and the machine number.
 fn heading() -> Vec<Mask> {
     vec![(5..=51, 3..=5), (62..=74, 3..=4)]
@@ -101,7 +106,7 @@ fn heading() -> Vec<Mask> {
 
 #[test]
 fn main_screen_matches_the_original() {
-    compare(&app(), "route_main.txt", &heading());
+    compare(&app(), "route_main.txt", &heading(), &ours());
 }
 
 #[test]
@@ -111,21 +116,21 @@ fn main_screen_with_a_file_matches_the_original() {
     // the file name differs from the one captured
     let mut mask = heading();
     mask.push((62..=73, 14..=14));
-    compare(&a, "route_main_loaded.txt", &mask);
+    compare(&a, "route_main_loaded.txt", &mask, &ours());
 }
 
 #[test]
 fn parameter_dialog_matches_the_original() {
     let mut a = app();
     press(&mut a, "c");
-    compare(&a, "route_parameter.txt", &[]);
+    compare(&a, "route_parameter.txt", &[], &[(54..=74, 17..=17)]);
 }
 
 #[test]
 fn tool_data_dialog_matches_the_original() {
     let mut a = app();
     press(&mut a, "t");
-    compare(&a, "route_tooldata.txt", &[]);
+    compare(&a, "route_tooldata.txt", &[], &[]);
 }
 
 #[test]
@@ -137,6 +142,7 @@ fn select_file_dialog_matches_the_original() {
         &a,
         "route_selectfile.txt",
         &[(18..=62, 8..=15), (16..=62, 18..=19)],
+        &[],
     );
 }
 
@@ -145,5 +151,5 @@ fn panelization_dialog_matches_the_original() {
     let mut a = app();
     a.load_file(&testdata().join("FRAME.PLT"));
     press(&mut a, "p");
-    compare(&a, "route_panelz.txt", &[]);
+    compare(&a, "route_panelz.txt", &[], &[]);
 }

@@ -61,6 +61,10 @@ pub struct App {
     geometry: Geometry,
     connection: ConnectionConfig,
     run: Option<Run>,
+    /// The folder of `ROUTEPRO.RTD` and `ROUTEPRO.RCF`, and the text of both files as they were read (to write them back).
+    data_dir: PathBuf,
+    config_text: Option<String>,
+    tools_text: Option<String>,
     pub quit: bool,
 }
 
@@ -76,7 +80,8 @@ impl App {
                 .map(|b| b.iter().map(|&c| c as char).collect::<String>())
         };
         let tool_text = read("ROUTEPRO.RTD");
-        let config = read("ROUTEPRO.RCF").and_then(|t| config::parse(&t));
+        let config_text = read("ROUTEPRO.RCF");
+        let config = config_text.as_deref().and_then(config::parse);
         let settings = config.as_ref().and_then(|c| c.route_settings());
         let geometry = eh3d_drillpro::job::geometry_from(settings.as_ref());
         let mut app = App {
@@ -88,7 +93,10 @@ impl App {
             plot: None,
             error: None,
             tools_found: tool_text.is_some(),
-            tools: tool_text.map(|t| tools::parse(&t)).unwrap_or_default(),
+            tools: tool_text.as_deref().map(tools::parse).unwrap_or_default(),
+            data_dir: data_dir.to_path_buf(),
+            config_text,
+            tools_text: tool_text,
             config: config.clone(),
             settings,
             geometry,
@@ -96,6 +104,7 @@ impl App {
             run: None,
             quit: false,
         };
+        app.dir = config::work_dir(data_dir, app.config.as_ref());
         app.refresh_entries();
         app
     }
@@ -803,6 +812,110 @@ impl TextApp for App {
 impl eh3d_drillpro::classic::engine::ClassicEngine for App {
     fn kind(&self) -> eh3d_drillpro::classic::engine::Kind {
         eh3d_drillpro::classic::engine::Kind::Route
+    }
+
+    fn about(&self) -> eh3d_drillpro::classic::engine::About {
+        eh3d_drillpro::classic::engine::About {
+            name: "EH3D-ROUTEPRO",
+            version: env!("CARGO_PKG_VERSION"),
+            repository: env!("CARGO_PKG_REPOSITORY"),
+        }
+    }
+
+    fn config_mut(&mut self) -> Option<&mut Config> {
+        self.config.as_mut()
+    }
+
+    fn settings_changed(&mut self) {
+        self.geometry = eh3d_drillpro::job::geometry_from(self.settings.as_ref());
+    }
+
+    fn data_dir(&self) -> PathBuf {
+        self.data_dir.clone()
+    }
+
+    fn save_config(&mut self) -> Result<PathBuf, String> {
+        let (Some(text), Some(settings), Some(cfg)) = (
+            self.config_text.as_deref(),
+            self.settings.as_ref(),
+            self.config.as_ref(),
+        ) else {
+            return Err("no configuration file".into());
+        };
+        let out = config::rewrite(text, settings, &cfg.directory, &cfg.default_extension, true);
+        let path = self.data_dir.join("ROUTEPRO.RCF");
+        config::write_with_backup(&path, &out)?;
+        self.config = config::parse(&out);
+        self.config_text = Some(out);
+        Ok(path)
+    }
+
+    fn reload_config(&mut self) -> Result<(), String> {
+        let path = self.data_dir.join("ROUTEPRO.RCF");
+        let text = config::bytes_to_text(&std::fs::read(&path).map_err(|e| e.to_string())?);
+        let cfg =
+            config::parse(&text).ok_or("the configuration file is not in the expected layout")?;
+        self.settings = cfg.route_settings();
+        self.config = Some(cfg);
+        self.config_text = Some(text);
+        self.settings_changed();
+        Ok(())
+    }
+
+    fn apply_tool_rows(&mut self, rows: &[eh3d_drillpro::classic::engine::ToolRow]) {
+        for row in rows {
+            let (Some(n), [depth, iter, fxy, fz, rpm]) = (row.name, row.cells.as_slice()) else {
+                continue;
+            };
+            let parsed = (
+                depth.trim().parse::<f64>(),
+                iter.trim().parse::<u32>(),
+                fxy.trim().parse::<u32>(),
+                fz.trim().parse::<u32>(),
+                rpm.trim().parse::<u32>(),
+            );
+            let (
+                Ok(depth_mm),
+                Ok(iterations),
+                Ok(feed_xy_mm_min),
+                Ok(feed_z_mm_min),
+                Ok(spindle_rpm),
+            ) = parsed
+            else {
+                continue;
+            };
+            let tool = Tool {
+                number: n,
+                depth_mm,
+                iterations,
+                feed_xy_mm_min,
+                feed_z_mm_min,
+                spindle_rpm,
+            };
+            match self.tools.iter_mut().find(|t| t.number == n) {
+                Some(t) => *t = tool,
+                None => self.tools.push(tool),
+            }
+        }
+    }
+
+    fn save_tools(&mut self) -> Result<PathBuf, String> {
+        let original = self.tools_text.clone().unwrap_or_default();
+        let out = tools::rewrite(&original, &self.tools);
+        let path = self.data_dir.join("ROUTEPRO.RTD");
+        config::write_with_backup(&path, &out)?;
+        self.tools_text = Some(out);
+        self.tools_found = true;
+        Ok(path)
+    }
+
+    fn reload_tools(&mut self) -> Result<(), String> {
+        let path = self.data_dir.join("ROUTEPRO.RTD");
+        let text = config::bytes_to_text(&std::fs::read(&path).map_err(|e| e.to_string())?);
+        self.tools = tools::parse(&text);
+        self.tools_text = Some(text);
+        self.tools_found = true;
+        Ok(())
     }
 
     fn lang(&self) -> Lang {
