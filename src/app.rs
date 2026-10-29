@@ -77,7 +77,7 @@ impl App {
         };
         let tool_text = read("ROUTEPRO.RTD");
         let config = read("ROUTEPRO.RCF").and_then(|t| config::parse(&t));
-        let settings = config.as_ref().and_then(|c| c.settings());
+        let settings = config.as_ref().and_then(|c| c.route_settings());
         let geometry = eh3d_drillpro::job::geometry_from(settings.as_ref());
         let mut app = App {
             lang,
@@ -796,5 +796,148 @@ impl TextApp for App {
     }
     fn wants_quit(&self) -> bool {
         self.quit
+    }
+}
+
+/// The classic screens of the original program over this engine.
+impl eh3d_drillpro::classic::engine::ClassicEngine for App {
+    fn kind(&self) -> eh3d_drillpro::classic::engine::Kind {
+        eh3d_drillpro::classic::engine::Kind::Route
+    }
+
+    fn lang(&self) -> Lang {
+        self.lang
+    }
+
+    fn set_lang(&mut self, lang: Lang) {
+        self.lang = lang;
+    }
+
+    fn settings(&self) -> Option<&config::MachineSettings> {
+        self.settings.as_ref()
+    }
+
+    fn settings_mut(&mut self) -> Option<&mut config::MachineSettings> {
+        self.settings.as_mut()
+    }
+
+    fn config(&self) -> Option<&Config> {
+        self.config.as_ref()
+    }
+
+    fn set_board(&mut self, _mm: f64) {}
+
+    fn load(&mut self, path: &Path) {
+        self.load_file(path);
+    }
+
+    fn file_loaded(&self) -> bool {
+        self.plot.is_some()
+    }
+
+    fn file_name(&self) -> Option<String> {
+        self.plot
+            .as_ref()
+            .and_then(|(p, _)| p.file_name())
+            .map(|n| n.to_string_lossy().to_ascii_uppercase())
+    }
+
+    fn vectors(&self) -> usize {
+        self.paths_loaded()
+    }
+
+    fn bounds(&self) -> Option<(f64, f64, f64, f64)> {
+        self.plot.as_ref().and_then(|(_, p)| p.bounds_mm())
+    }
+
+    fn error(&self) -> Option<&str> {
+        self.error.as_deref()
+    }
+
+    fn dir(&self) -> PathBuf {
+        self.dir.clone()
+    }
+
+    fn set_dir(&mut self, dir: PathBuf) {
+        self.dir = dir;
+    }
+
+    fn pattern(&self) -> &'static str {
+        "*.PLT"
+    }
+
+    fn entries(&mut self) -> Vec<(String, bool)> {
+        self.refresh_entries();
+        self.entries
+            .iter()
+            .map(|e| (e.name.clone(), e.dir))
+            .collect()
+    }
+
+    fn tool_rows(&self) -> Vec<eh3d_drillpro::classic::engine::ToolRow> {
+        use eh3d_drillpro::classic::engine::ToolRow;
+        let pens: Vec<u8> = self
+            .plot
+            .as_ref()
+            .map(|(_, p)| p.pens())
+            .unwrap_or_default();
+        (0..15)
+            .map(|i| {
+                let name = pens.get(i).copied();
+                let tool = name.and_then(|n| self.tools.iter().find(|t| t.number == n));
+                let (depth, iter, fxy, fz, rpm) = tool.map_or((0.0, 1, 50, 50, 30000), |t| {
+                    (
+                        t.depth_mm,
+                        t.iterations,
+                        t.feed_xy_mm_min,
+                        t.feed_z_mm_min,
+                        t.spindle_rpm,
+                    )
+                });
+                ToolRow {
+                    name,
+                    cells: vec![
+                        format!("{depth:05.2}"),
+                        format!("{iter:02}"),
+                        format!("{fxy:04}"),
+                        format!("{fz:04}"),
+                        format!("{rpm:05}"),
+                    ],
+                    first_vector: name
+                        .and_then(|n| {
+                            self.plot
+                                .as_ref()
+                                .and_then(|(_, p)| p.paths.iter().position(|q| q.pen == n))
+                        })
+                        .map_or(0, |p| p + 1),
+                    in_table: tool.is_some(),
+                }
+            })
+            .collect()
+    }
+
+    fn start(&mut self) {
+        App::start(self);
+    }
+
+    fn started(&self) -> bool {
+        self.run.as_ref().is_some_and(|r| r.done > 0)
+    }
+
+    fn done(&self) -> usize {
+        self.run.as_ref().map_or(0, |r| r.done)
+    }
+
+    fn tick(&mut self, n: usize) -> bool {
+        let more = self.tick_n(n);
+        if !more {
+            self.mode = Mode::Main;
+        }
+        more
+    }
+
+    fn stop(&mut self) {
+        self.run = None;
+        self.mode = Mode::Main;
     }
 }

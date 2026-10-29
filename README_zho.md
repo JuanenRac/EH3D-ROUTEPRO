@@ -18,7 +18,7 @@
 
 ---
 
-**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 21 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。
+**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 21 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。 默认显示 MS-DOS 程序的经典界面，已逐个单元格与原版核对；`--modern` 启动菜单式界面。
 
 ---
 
@@ -97,7 +97,7 @@ cargo fmt --all --check
 python -I tools/ci_validate.py
 ```
 
-用 `run.bat`（Windows）或 `./run.sh`（Linux 和 macOS）运行；两者都会在需要时先构建程序。两者都需要 Rust 和相邻的文件夹 `EH3D-DRILLPRO`：`run.bat [文件.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`。`--data` 是存放 `ROUTEPRO.RTD` 和 `ROUTEPRO.RCF` 的文件夹（默认：`testdata/`），`--dump` 将屏幕以纯文本输出。按键：`Alt` 加高亮字母打开菜单，方向键移动，`Enter` 确认，`Esc` 返回；也可以点击菜单栏。中文和日文需要系统字体中有 CJK 字体。 `--connection FILE` 指向不同于默认的机器文件（Windows 上默认为 `%APPDATA%\EH3D\machine.cfg`，其他系统为 `~/.config/eh3d/machine.cfg`）；没有机器文件时程序在模拟器上运行。
+用 `run.bat`（Windows）或 `./run.sh`（Linux 和 macOS）运行；两者都会在需要时先构建程序。两者都需要 Rust 和相邻的文件夹 `EH3D-DRILLPRO`：`run.bat [文件.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`。`--data` 是存放 `ROUTEPRO.RTD` 和 `ROUTEPRO.RCF` 的文件夹（默认：`testdata/`），`--dump` 将屏幕以纯文本输出。按键：`Alt` 加高亮字母打开菜单，方向键移动，`Enter` 确认，`Esc` 返回；也可以点击菜单栏。中文和日文需要系统字体中有 CJK 字体。 `--connection FILE` 指向不同于默认的机器文件（Windows 上默认为 `%APPDATA%\EH3D\machine.cfg`，其他系统为 `~/.config/eh3d/machine.cfg`）；没有机器文件时程序在模拟器上运行。 `--modern` 启动菜单式界面，而不是经典界面。
 
 **预编译软件包：** 每个发布版本都附带适用于 Windows（zip）、Linux（tar.gz）和 macOS（Apple 芯片与 Intel，tar.gz）的软件包，内含程序、许可证和本 README，旁边附有各自的 SHA-256。它们由本仓库的 `Release binaries` 工作流构建。请从 Releases 页面下载；在 Linux 上，窗口需要 X11 或 Wayland。
 

@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Classic screens (the default):** the screens of the MS-DOS routing program (main form, Parameter with the chord angle, the routing Tool Data table with depth, iterations and both feeds, Select File, Panelization, Quit and the homing window), shared with DRILLPRO through its `classic` front end, in eight languages. `--modern` starts the menu-driven interface as before.
+- **Machine file:** `ROUTEPRO.RCF` is read with its own layout (the chord angle where the drilling program keeps its sorting), so the speeds, ramps and corrections of the file are used.
 - **The layout of the README is checked in the CI:** the validator runs `tools/universal_readme_check.py` and lists, as a warning, what differs from the universal layout of the README.
 
 ## [0.0.1] - First version: file readers, job planning, text-mode interface and a simulated machine
