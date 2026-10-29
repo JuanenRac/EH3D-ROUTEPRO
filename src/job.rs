@@ -120,3 +120,64 @@ pub fn plan_route_job(paths: &[Polyline], tools: &[Tool], m: &JobMachine) -> Vec
     }
     b.finish()
 }
+
+/// The paths of a job: the vectors the form asks for, copied over the panel and clipped to the working area. Pens are done one
+/// after the other (a tool change is the operator's), every copy of the paths of a pen in turn. Returns the paths and how many
+/// were left out because they end outside the working area.
+pub fn select_paths(
+    paths: &[Polyline],
+    opts: &eh3d_drillpro::job::JobOptions,
+    offset_mm: (f64, f64),
+) -> (Vec<Polyline>, usize) {
+    use crate::hpgl::UNIT_MM;
+    let first = opts.from.max(1);
+    let last = if opts.to == 0 { usize::MAX } else { opts.to };
+    let kept: Vec<&Polyline> = paths
+        .iter()
+        .enumerate()
+        .filter(|(i, _)| (first..=last).contains(&(i + 1)))
+        .map(|(_, p)| p)
+        .collect();
+    let mut pens: Vec<u8> = Vec::new();
+    for p in &kept {
+        if !pens.contains(&p.pen) {
+            pens.push(p.pen);
+        }
+    }
+    let copies: Vec<(f64, f64)> = match opts.panel {
+        Some(p) if p.columns * p.rows > 1 => (0..p.rows)
+            .flat_map(|iy| {
+                (0..p.columns).map(move |ix| (ix as f64 * p.pitch_mm.0, iy as f64 * p.pitch_mm.1))
+            })
+            .collect(),
+        _ => vec![(0.0, 0.0)],
+    };
+    let mut out = Vec::new();
+    let mut skipped = 0;
+    for pen in pens {
+        for &(dx, dy) in &copies {
+            let (ux, uy) = ((dx / UNIT_MM).round() as i32, (dy / UNIT_MM).round() as i32);
+            for p in kept.iter().filter(|p| p.pen == pen) {
+                let moved = Polyline {
+                    pen: p.pen,
+                    points: p.points.iter().map(|&(x, y)| (x + ux, y + uy)).collect(),
+                };
+                let inside = opts.clip_mm.is_none_or(|(cx, cy)| {
+                    moved.points.iter().all(|&(x, y)| {
+                        let (mx, my) = (
+                            f64::from(x) * UNIT_MM + offset_mm.0,
+                            f64::from(y) * UNIT_MM + offset_mm.1,
+                        );
+                        mx >= 0.0 && my >= 0.0 && mx <= cx && my <= cy
+                    })
+                });
+                if inside {
+                    out.push(moved);
+                } else {
+                    skipped += 1;
+                }
+            }
+        }
+    }
+    (out, skipped)
+}

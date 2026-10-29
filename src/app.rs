@@ -44,6 +44,10 @@ struct Run {
     /// The job on a real machine (a connection other than `demo`); the simulator above is then unused.
     real: Option<RealRun>,
     total_items: usize,
+    /// The paths of the job in the order they are routed (with the copies of a panel).
+    plan: Vec<crate::hpgl::Polyline>,
+    /// Paths left out because they end outside the working area.
+    skipped: usize,
 }
 
 pub struct App {
@@ -65,6 +69,8 @@ pub struct App {
     data_dir: PathBuf,
     config_text: Option<String>,
     tools_text: Option<String>,
+    /// What the main form and the Panelization dialog add to the job.
+    job_options: eh3d_drillpro::job::JobOptions,
     pub quit: bool,
 }
 
@@ -97,6 +103,7 @@ impl App {
             data_dir: data_dir.to_path_buf(),
             config_text,
             tools_text: tool_text,
+            job_options: eh3d_drillpro::job::JobOptions::default(),
             config: config.clone(),
             settings,
             geometry,
@@ -231,12 +238,15 @@ impl App {
             return;
         }
         let mut sim = Simulator::default();
+        let all_paths = self
+            .plot
+            .as_ref()
+            .map(|(_, p)| p.paths.clone())
+            .unwrap_or_default();
+        let offset = self.settings.as_ref().map_or((0.0, 0.0), |m| m.offset_mm);
+        let (plan, skipped) = crate::job::select_paths(&all_paths, &self.job_options, offset);
         let (connected, real, total_items) = if self.connection.is_real() {
-            let paths = self
-                .plot
-                .as_ref()
-                .map(|(_, p)| p.paths.clone())
-                .unwrap_or_default();
+            let paths = plan.clone();
             let items = plan_route_job(&paths, &self.tools, &self.job_machine());
             let n = items.len();
             let real = if self.connection.kind == ConnectionKind::Server {
@@ -280,6 +290,8 @@ impl App {
             connected,
             real,
             total_items,
+            plan,
+            skipped,
         });
         self.mode = Mode::Running;
     }
@@ -289,18 +301,18 @@ impl App {
         if self.mode != Mode::Running {
             return false;
         }
-        let (Some(run), Some((_, plot))) = (self.run.as_mut(), self.plot.as_ref()) else {
+        let Some(run) = self.run.as_mut() else {
             return false;
         };
         if let Some(real) = &run.real {
             let (next, total) = real.progress();
-            run.done = (next * plot.paths.len())
+            run.done = (next * run.plan.len())
                 .checked_div(total.max(1))
                 .unwrap_or(0);
             return !real.finished();
         }
         for _ in 0..n {
-            let Some(path) = plot.paths.get(run.done) else {
+            let Some(path) = run.plan.get(run.done) else {
                 return false;
             };
             let tool = self
@@ -321,7 +333,7 @@ impl App {
             run.at = end;
             run.done += 1;
         }
-        run.done < plot.paths.len()
+        run.done < run.plan.len()
     }
 
     pub fn click(&mut self, col: usize, row: usize) {
@@ -989,10 +1001,13 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn entries(&mut self) -> Vec<(String, bool)> {
         self.refresh_entries();
-        self.entries
-            .iter()
-            .map(|e| (e.name.clone(), e.dir))
-            .collect()
+        eh3d_drillpro::classic::engine::dos_order(
+            self.entries
+                .iter()
+                .filter(|e| !e.name.starts_with('.') || e.name == "..")
+                .map(|e| (e.name.clone(), e.dir))
+                .collect(),
+        )
     }
 
     fn tool_rows(&self) -> Vec<eh3d_drillpro::classic::engine::ToolRow> {
@@ -1035,6 +1050,42 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
                 }
             })
             .collect()
+    }
+
+    fn set_job_options(&mut self, options: eh3d_drillpro::job::JobOptions) {
+        self.job_options = options;
+    }
+
+    fn job_view(&self) -> Option<eh3d_drillpro::classic::engine::JobView> {
+        let run = self.run.as_ref()?;
+        let offset = self.settings.as_ref().map_or((0.0, 0.0), |m| m.offset_mm);
+        let at = run.done.min(run.plan.len().saturating_sub(1));
+        let path = run.plan.get(at)?;
+        let tool = self.tools.iter().find(|t| t.number == path.pen);
+        let first = path.points.first().copied().unwrap_or((0, 0));
+        let used: f64 = run
+            .plan
+            .iter()
+            .take(run.done)
+            .map(|p| {
+                self.tools
+                    .iter()
+                    .find(|t| t.number == p.pen)
+                    .map_or(0.0, |t| t.depth_mm)
+            })
+            .sum();
+        Some(eh3d_drillpro::classic::engine::JobView {
+            percent: (run.done * 100 / run.plan.len().max(1)).min(100) as u8,
+            tool: Some(path.pen),
+            stroke_mm: tool.map_or(0.0, |t| t.depth_mm),
+            x_mm: f64::from(first.0) * hpgl::UNIT_MM + offset.0,
+            y_mm: f64::from(first.1) * hpgl::UNIT_MM + offset.1,
+            z_feed: tool.map_or(50, |t| t.feed_z_mm_min),
+            rpm: tool.map_or(30000, |t| t.spindle_rpm),
+            done: run.done,
+            used_mm: used,
+            skipped: run.skipped,
+        })
     }
 
     fn start(&mut self) {
