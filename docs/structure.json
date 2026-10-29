@@ -239,6 +239,32 @@
           }
         },
         {
+          "name": "config/",
+          "desc": {
+            "en": "the basic configuration, explained line by line",
+            "es": "la configuración básica, explicada línea a línea",
+            "de": "die Basiskonfiguration, Zeile für Zeile erklärt",
+            "fr": "la configuration de base, expliquée ligne par ligne",
+            "it": "la configurazione base, spiegata riga per riga",
+            "ja": "基本設定（1行ずつ解説）",
+            "zh": "逐行解释的基本配置",
+            "pt": "a configuração básica, explicada linha a linha"
+          }
+        },
+        {
+          "name": "examples/",
+          "desc": {
+            "en": "example files, from a square to 100000 points",
+            "es": "ejemplos, de un cuadrado a 100000 puntos",
+            "de": "Beispiele, von einem Quadrat bis 100000 Punkten",
+            "fr": "exemples, d'un carré à 100000 points",
+            "it": "esempi, da un quadrato a 100000 punti",
+            "ja": "例：四角から10万点",
+            "zh": "示例：从方形到10万个点",
+            "pt": "exemplos, de um quadrado a 100000 pontos"
+          }
+        },
+        {
           "name": "tools/",
           "desc": {
             "en": "CI check, README check and the picture tools",

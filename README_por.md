@@ -127,6 +127,8 @@ EH3D-ROUTEPRO/
 ├── tests/                                       leitura de HP-GL, planeamento de trajetos, ecrãs clássicos e ecrãs em todos os idiomas
 ├── docs/                                        as notas do protocolo, os ecrãs clássicos
 ├── testdata/                                    pequenos ficheiros de exemplo escritos para os testes
+├── config/                                      a configuração básica, explicada linha a linha
+├── examples/                                    exemplos, de um quadrado a 100000 pontos
 ├── tools/                                       verificação de CI, do README e ferramentas de imagens
 ├── images/                                      banner e as imagens de Arquitetura e Estrutura do repositório
 ├── .github/                                     fluxos de CI e de publicação, modelos de issues e pull requests
