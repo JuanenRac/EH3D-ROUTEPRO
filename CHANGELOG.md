@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The simulated job follows the clock of the machine** (every path takes the time it would take with the feeds of its tool), as in DRILLPRO.
+
 - **A lighter debug build:** the `dev` profile keeps the file and line of a panic (`debug = "line-tables-only"`) but not the full debug symbols, so the `target` folder of a test run is about a tenth of its size.
 - **The Offset window moves the real machine** and **the arrow of the file name opens a list of patterns** (`*.PLT`, `*.ZIP`, `*.*`), as in DRILLPRO.
 

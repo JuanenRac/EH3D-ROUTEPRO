@@ -48,6 +48,9 @@ struct Run {
     plan: Vec<crate::hpgl::Polyline>,
     /// Paths left out because they end outside the working area.
     skipped: usize,
+    /// Seconds of machine time spent on the path that is being routed, and how long that path takes in all (once it is known).
+    clock: f64,
+    path_secs: Option<f64>,
 }
 
 pub struct App {
@@ -294,8 +297,67 @@ impl App {
             total_items,
             plan,
             skipped,
+            clock: 0.0,
+            path_secs: None,
         });
         self.mode = Mode::Running;
+    }
+
+    fn tool_of(&self, pen: u8) -> Tool {
+        self.tools
+            .iter()
+            .find(|t| t.number == pen)
+            .cloned()
+            .unwrap_or(Tool {
+                number: pen,
+                depth_mm: 0.1,
+                iterations: 1,
+                feed_xy_mm_min: 1000,
+                feed_z_mm_min: 500,
+                spindle_rpm: 60000,
+            })
+    }
+
+    /// The simulated job goes on by `dt` seconds of machine time: a path is done when the time it takes on the machine has passed.
+    pub fn tick_seconds(&mut self, mut dt: f64) -> bool {
+        for _ in 0..20_000 {
+            if self.mode != Mode::Running {
+                return false;
+            }
+            let Some(run) = self.run.as_ref() else {
+                return false;
+            };
+            if run.real.is_some() {
+                return self.tick_n(1);
+            }
+            let Some(path) = run.plan.get(run.done) else {
+                return false;
+            };
+            let dur = match run.path_secs {
+                Some(d) => d,
+                None => {
+                    let tool = self.tool_of(path.pen);
+                    let (steps, _) = plan_path(path, &tool, run.at, &self.geometry);
+                    eh3d_drillpro::protocol::motion::duration_s(&steps)
+                }
+            };
+            let Some(run) = self.run.as_mut() else {
+                return false;
+            };
+            run.path_secs = Some(dur);
+            if run.clock + dt < dur {
+                run.clock += dt;
+                return true;
+            }
+            dt -= dur - run.clock;
+            run.clock = 0.0;
+            run.path_secs = None;
+            let more = self.tick_n(1);
+            if !more || dt <= 0.0 {
+                return more;
+            }
+        }
+        true
     }
 
     /// Routes up to `n` paths of the simulated job. Returns true while work remains.
@@ -1168,6 +1230,14 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn tick(&mut self, n: usize) -> bool {
         let more = self.tick_n(n);
+        if !more {
+            self.mode = Mode::Main;
+        }
+        more
+    }
+
+    fn tick_for(&mut self, seconds: f64) -> bool {
+        let more = self.tick_seconds(seconds);
         if !more {
             self.mode = Mode::Main;
         }
