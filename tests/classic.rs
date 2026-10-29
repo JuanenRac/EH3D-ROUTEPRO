@@ -86,3 +86,22 @@ fn every_language_draws_the_classic_screens() {
         assert!(text(&a).lines().count() > 10, "{lang:?} quit dialog");
     }
 }
+
+#[test]
+fn load_of_the_tool_window_chooses_the_file() {
+    let mut a = app(Lang::En);
+    press(&mut a, "t");
+    let t = text(&a);
+    assert!(t.contains("Tool Data"), "{t}");
+    // the Load button is the first of the row of buttons at the foot of the window
+    let row = t.lines().position(|l| l.contains("Load")).unwrap();
+    let line = t.lines().nth(row).unwrap();
+    let col = line[..line.find("Load").unwrap()].chars().count();
+    a.click(col + 2, row);
+    let t = text(&a);
+    assert!(t.contains("Select File") && t.contains("*.RTD"), "{t}");
+    press(&mut a, "ROUTEPRO.RTD");
+    a.handle(Input::Enter);
+    let t = text(&a);
+    assert!(t.contains("Tool Data") && t.contains("Loaded"), "{t}");
+}

@@ -872,7 +872,11 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn reload_config(&mut self) -> Result<(), String> {
         let path = self.data_dir.join("ROUTEPRO.RCF");
-        let text = config::bytes_to_text(&std::fs::read(&path).map_err(|e| e.to_string())?);
+        self.load_config_from(&path)
+    }
+
+    fn load_config_from(&mut self, path: &std::path::Path) -> Result<(), String> {
+        let text = config::bytes_to_text(&std::fs::read(path).map_err(|e| e.to_string())?);
         let cfg =
             config::parse(&text).ok_or("the configuration file is not in the expected layout")?;
         self.settings = cfg.route_settings();
@@ -931,7 +935,11 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn reload_tools(&mut self) -> Result<(), String> {
         let path = self.data_dir.join("ROUTEPRO.RTD");
-        let text = config::bytes_to_text(&std::fs::read(&path).map_err(|e| e.to_string())?);
+        self.load_tools_from(&path)
+    }
+
+    fn load_tools_from(&mut self, path: &std::path::Path) -> Result<(), String> {
+        let text = config::bytes_to_text(&std::fs::read(path).map_err(|e| e.to_string())?);
         self.tools = tools::parse(&text);
         self.tools_text = Some(text);
         self.tools_found = true;
