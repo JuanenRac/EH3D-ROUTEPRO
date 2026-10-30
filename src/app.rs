@@ -17,7 +17,7 @@ use eh3d_drillpro::screen::*;
 use eh3d_drillpro::textapp::TextApp;
 
 use crate::hpgl::{self, Plot, UNIT_MM};
-use crate::job::{plan_path, plan_route_job};
+use crate::job::{plan_path, plan_route_job_levelled};
 use crate::texts::{tr, Text};
 use crate::tools::{self, Tool};
 
@@ -287,7 +287,12 @@ impl App {
         let (plan, skipped) = crate::job::select_paths(&all_paths, &self.job_options, offset);
         let (connected, real, total_items) = if self.connection.is_real() {
             let paths = plan.clone();
-            let items = plan_route_job(&paths, &self.tools, &self.job_machine());
+            let items = plan_route_job_levelled(
+                &paths,
+                &self.tools,
+                &self.job_machine(),
+                self.job_options.table.as_ref(),
+            );
             let n = items.len();
             let real = if self.connection.kind == ConnectionKind::Server {
                 // the job goes to the EH3D server, which plans it again with the machine's constants and runs it on the machine's node

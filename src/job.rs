@@ -4,7 +4,7 @@
 use eh3d_drillpro::job::Geometry;
 use eh3d_drillpro::protocol::job::{Item, JobBuilder, JobMachine, Pause};
 use eh3d_drillpro::protocol::Step;
-use eh3d_routepro_protocol::route::{plan_polyline, RouteParams};
+use eh3d_routepro_protocol::route::{plan_polyline, plan_polyline_levelled, RouteParams};
 
 use crate::hpgl::{Polyline, UNIT_MM};
 use crate::tools::Tool;
@@ -46,6 +46,32 @@ pub fn plan_path_with(
     (plan.steps, end)
 }
 
+/// Like [`plan_path_with`] on a table that is not flat (see `plan_polyline_levelled`); the cut is divided into pieces of 10 mm.
+pub fn plan_path_levelled(
+    path: &Polyline,
+    tool: &Tool,
+    from: (i32, i32),
+    g: &Geometry,
+    approach_mm: f64,
+    lift: &dyn Fn(f64, f64) -> f64,
+) -> (Vec<Step>, (i32, i32)) {
+    let mm = |p: (i32, i32)| (p.0 as f64 * UNIT_MM, p.1 as f64 * UNIT_MM);
+    let points: Vec<(f64, f64)> = path.points.iter().map(|&p| mm(p)).collect();
+    let params = RouteParams {
+        depth_mm: tool.depth_mm,
+        passes: tool.iterations,
+        feed_xy_mm_min: tool.feed_xy_mm_min as f64,
+        feed_z_mm_min: tool.feed_z_mm_min as f64,
+        approach_mm,
+    };
+    let plan = plan_polyline_levelled(mm(from), &points, &params, g, lift, 10.0);
+    let end = (
+        (plan.end_mm.0 / UNIT_MM).round() as i32,
+        (plan.end_mm.1 / UNIT_MM).round() as i32,
+    );
+    (plan.steps, end)
+}
+
 /// The tool to use for a pen number: the one in the table, or the cautious default.
 pub fn tool_for(tools: &[Tool], pen: u8) -> Tool {
     tools
@@ -66,6 +92,17 @@ pub fn tool_for(tools: &[Tool], pen: u8) -> Tool {
 /// operator's dialog, the spindle, the paths (rapid at the travel height, plunge through the free stroke and into the board,
 /// cut, lift) and the spindle off, then back to the origin. The coordinates of the plot are shifted by the configuration's offset.
 pub fn plan_route_job(paths: &[Polyline], tools: &[Tool], m: &JobMachine) -> Vec<Item> {
+    plan_route_job_levelled(paths, tools, m, None)
+}
+
+/// The same job on a table that was measured: the cut follows the height of the table, so the tool keeps the same depth into the board from one end of the
+/// table to the other. The reference is the height of the table where the work starts (the offset of the machine).
+pub fn plan_route_job_levelled(
+    paths: &[Polyline],
+    tools: &[Tool],
+    m: &JobMachine,
+    table: Option<&eh3d_levelling::HeightMap>,
+) -> Vec<Item> {
     let g = m.geometry;
     let mut b = JobBuilder::new(m);
     // Z of the plan is the travel height: the free stroke above the surface of the board.
@@ -106,7 +143,15 @@ pub fn plan_route_job(paths: &[Polyline], tools: &[Tool], m: &JobMachine) -> Vec
                 .map(|&(x, y)| (x + shift.0, y + shift.1))
                 .collect(),
         };
-        let (steps, end) = plan_path_with(&moved, &tool, at, &g, m.distance_tool_board_mm);
+        let (steps, end) =
+            match table.and_then(|t| Some((t, t.height_at(m.offset_mm.0, m.offset_mm.1)?))) {
+                Some((t, reference)) => {
+                    plan_path_levelled(&moved, &tool, at, &g, m.distance_tool_board_mm, &|x, y| {
+                        t.height_at(x, y).map_or(0.0, |h| h - reference)
+                    })
+                }
+                None => plan_path_with(&moved, &tool, at, &g, m.distance_tool_board_mm),
+            };
         at = end;
         let end_steps = (
             g.x_steps(end.0 as f64 * UNIT_MM),

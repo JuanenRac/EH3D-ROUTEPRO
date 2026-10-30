@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A table that is not flat:** with the height map of the table the cut follows its height in pieces of 10 mm, so the tool keeps the same depth into the board from one end of the table to the other; without a map nothing changes.
 ## [0.0.6] - Tabs for the outside of a panel, jobs that go on and the connection drop-down
 
 - **A job can go on:** the paths already done are left out when the job is started again from where it was.
