@@ -34,6 +34,11 @@ fn the_main_screen_names_the_program() {
     let t = text(&app(Lang::En));
     assert!(t.contains("RoutePro"), "{t}");
     assert!(t.contains("--------.---"));
+    // the heading says which program this is, not the drilling one
+    assert!(
+        t.contains("EH3D-ROUTEPRO") && !t.contains("EH3D-DRILLPRO"),
+        "{t}"
+    );
 }
 
 #[test]

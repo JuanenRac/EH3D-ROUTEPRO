@@ -81,6 +81,20 @@ EH3D-ROUTEPRO ist das Fräs-Geschwister von EH3D-DRILLPRO und hängt per Pfad da
 
 Wie die Teile dieses Repositorys zusammenpassen: wer es nutzt, was es enthält und wovon es abhängt. Das Bild wird aus `docs/architecture.json` gezeichnet und gegen den Code geprüft.
 
+## 🖼️ Screenshots
+
+<p align="center">
+  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+</p>
+
+<p align="center"><em>Die Hauptmaske des klassischen Fräsprogramms: Maßstab, Versatz und Beschnitt, die Vektoren des Plots und die Tasten.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+</p>
+
+<p align="center"><em>Die Werkzeugdaten: die Tiefe, die Durchgänge, die Vorschübe entlang der Bahn und beim Eintauchen und die Spindeldrehzahl jedes Werkzeugs.</em></p>
+
 ## 🚀 Schnellstart
 
 Du brauchst eine stabile Rust-Toolchain.
@@ -129,7 +143,7 @@ EH3D-ROUTEPRO/
 ├── config/                                      die Basiskonfiguration, Zeile für Zeile erklärt
 ├── examples/                                    Beispiele, von einem Quadrat bis 100000 Punkten
 ├── tools/                                       CI-Prüfung, README-Prüfung und die Bild-Werkzeuge
-├── images/                                      Banner und die Bilder von Architektur und Repository-Struktur
+├── images/                                      Banner, die beiden Bilder und die Screenshots
 ├── .github/                                     CI- und Release-Workflows, Vorlagen für Issues und Pull Requests
 ├── build.sh build.bat                           Build- und Testskripte
 ├── run.sh run.bat                               starten das Programm

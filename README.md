@@ -81,6 +81,20 @@ EH3D-ROUTEPRO is the milling sibling of EH3D-DRILLPRO and depends on it by path:
 
 How the parts of this repository fit together: who uses it, what it holds and what it depends on. The picture is drawn from `docs/architecture.json` and checked against the code.
 
+## 🖼️ Screenshots
+
+<p align="center">
+  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+</p>
+
+<p align="center"><em>The main screen of the classic routing program: the scale, the offset and the clip, the vectors of the plot and the buttons.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+</p>
+
+<p align="center"><em>The tool data: the depth, the passes, the feeds along the path and of the plunge, and the spindle speed of every tool.</em></p>
+
 ## 🚀 Quick start
 
 You need a stable Rust toolchain.
@@ -129,7 +143,7 @@ EH3D-ROUTEPRO/
 ├── config/                                      the basic configuration, explained line by line
 ├── examples/                                    example files, from a square to 100000 points
 ├── tools/                                       CI check, README check and the picture tools
-├── images/                                      banner and the Architecture and Repository Structure pictures
+├── images/                                      banner, the two pictures and the screenshots
 ├── .github/                                     CI and release workflows, issue and pull-request templates
 ├── build.sh build.bat                           build and test scripts
 ├── run.sh run.bat                               start the program

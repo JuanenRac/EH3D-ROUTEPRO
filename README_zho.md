@@ -81,6 +81,20 @@ EH3D-ROUTEPRO 是 EH3D-DRILLPRO 的铣削姊妹项目，并通过路径依赖它
 
 本仓库各部分如何协作：谁在使用它、它包含什么、它依赖什么。图片由 `docs/architecture.json` 绘制，并与代码核对。
 
+## 🖼️ 屏幕截图
+
+<p align="center">
+  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+</p>
+
+<p align="center"><em>经典铣削程序的主界面：比例、偏移和裁剪、绘图的矢量以及按钮。</em></p>
+
+<p align="center">
+  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+</p>
+
+<p align="center"><em>刀具数据：每把刀具的深度、走刀次数、沿路径和下刀的进给以及主轴转速。</em></p>
+
 ## 🚀 快速开始
 
 需要稳定版的 Rust 工具链。
@@ -129,7 +143,7 @@ EH3D-ROUTEPRO/
 ├── config/                                      逐行解释的基本配置
 ├── examples/                                    示例：从方形到10万个点
 ├── tools/                                       CI 检查、README 检查和图片工具
-├── images/                                      横幅图以及架构和仓库结构图片
+├── images/                                      横幅图、两张图片和屏幕截图
 ├── .github/                                     CI 与发布工作流、Issue 和 PR 模板
 ├── build.sh build.bat                           构建和测试脚本
 ├── run.sh run.bat                               启动程序

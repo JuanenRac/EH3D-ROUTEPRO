@@ -81,6 +81,20 @@ EH3D-ROUTEPRO は EH3D-DRILLPRO のフライス加工向けの姉妹プロジェ
 
 このリポジトリの各部分の関係：誰が使い、何を持ち、何に依存するか。図は `docs/architecture.json` から描かれ、コードと照合されます。
 
+## 🖼️ スクリーンショット
+
+<p align="center">
+  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+</p>
+
+<p align="center"><em>クラシック版ルーティングプログラムのメイン画面：倍率、オフセット、クリップ、プロットのベクトル、ボタン。</em></p>
+
+<p align="center">
+  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+</p>
+
+<p align="center"><em>ツールデータ：各ツールの深さ、パス数、経路に沿った送りと切り込みの送り、主軸回転数。</em></p>
+
 ## 🚀 クイックスタート
 
 安定版の Rust ツールチェーンが必要です。
@@ -129,7 +143,7 @@ EH3D-ROUTEPRO/
 ├── config/                                      基本設定（1行ずつ解説）
 ├── examples/                                    例：四角から10万点
 ├── tools/                                       CI チェック、README チェック、図の生成ツール
-├── images/                                      バナーとアーキテクチャ・リポジトリ構成の図
+├── images/                                      バナー、2 つの図、スクリーンショット
 ├── .github/                                     CI とリリースのワークフロー、Issue と PR のテンプレート
 ├── build.sh build.bat                           ビルドとテストのスクリプト
 ├── run.sh run.bat                               プログラムを起動

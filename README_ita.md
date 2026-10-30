@@ -81,6 +81,20 @@ EH3D-ROUTEPRO è il fratello per la fresatura di EH3D-DRILLPRO e ne dipende per 
 
 Come si incastrano le parti di questo repository: chi lo usa, che cosa contiene e da che cosa dipende. L'immagine è disegnata da `docs/architecture.json` e verificata rispetto al codice.
 
+## 🖼️ Schermate
+
+<p align="center">
+  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+</p>
+
+<p align="center"><em>La schermata principale del programma classico di fresatura: scala, offset e ritaglio, i vettori del tracciato e i pulsanti.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+</p>
+
+<p align="center"><em>I dati degli utensili: la profondità, le passate, gli avanzamenti lungo il percorso e di penetrazione, e la velocità del mandrino di ogni utensile.</em></p>
+
 ## 🚀 Avvio rapido
 
 Serve una toolchain Rust stabile.
@@ -129,7 +143,7 @@ EH3D-ROUTEPRO/
 ├── config/                                      la configurazione base, spiegata riga per riga
 ├── examples/                                    esempi, da un quadrato a 100000 punti
 ├── tools/                                       controllo di CI, del README e strumenti per le immagini
-├── images/                                      banner e le immagini di Architettura e Struttura del repository
+├── images/                                      banner, le due immagini e le schermate
 ├── .github/                                     workflow di CI e di rilascio, modelli di issue e pull request
 ├── build.sh build.bat                           script di compilazione e test
 ├── run.sh run.bat                               avviano il programma
