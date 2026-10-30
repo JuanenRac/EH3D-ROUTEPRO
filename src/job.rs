@@ -182,6 +182,7 @@ pub fn select_paths(
             }
         }
     }
+    out.drain(..opts.skip.min(out.len()));
     (out, skipped)
 }
 

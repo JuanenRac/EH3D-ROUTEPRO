@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A job can go on:** the paths already done are left out when the job is started again from where it was.
 - **Outside routed with tabs:** the closed paths of a panel are cut at its tabs, so the router lifts there and the boards stay joined to the panel.
 - **The connection chosen in the Config window:** a drop-down with the five ways the job reaches the machine and what each needs, applied with OK and written into the machine file (it comes with the classic screens of EH3D-DRILLPRO).
 - **A blinking cursor:** the cursor of a field being edited blinks.

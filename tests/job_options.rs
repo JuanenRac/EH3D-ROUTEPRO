@@ -104,3 +104,19 @@ fn the_outside_of_a_panel_is_cut_at_its_tabs() {
     let (whole, _) = select_paths(&[outline], &plain, (0.0, 0.0));
     assert_eq!(whole.len(), 2);
 }
+
+#[test]
+fn a_job_that_goes_on_leaves_out_the_paths_already_done() {
+    let all = select_paths(&plot(), &JobOptions::default(), (0.0, 0.0)).0;
+    let o = JobOptions {
+        skip: 2,
+        ..Default::default()
+    };
+    let (rest, _) = select_paths(&plot(), &o, (0.0, 0.0));
+    assert_eq!(rest, all[2..].to_vec());
+    let o = JobOptions {
+        skip: 99,
+        ..Default::default()
+    };
+    assert!(select_paths(&plot(), &o, (0.0, 0.0)).0.is_empty());
+}
