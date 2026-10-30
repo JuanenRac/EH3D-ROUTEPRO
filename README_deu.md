@@ -74,6 +74,21 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 * **Die im Fenster Konfig. gewählte Verbindung:** eine Auswahlliste mit den fünf Wegen, auf denen der Auftrag die Maschine erreicht (der Simulator, die serielle Schnittstelle, ein USB-Adapter, der EH3D-Knoten und der EH3D-Server), und darunter, was jeder braucht: einen Port, eine Adresse und ein Token, eine Maschine des Servers; das Gewählte wird geprüft, mit OK übernommen und in die Maschinendatei geschrieben, ohne deren übrige Zeilen anzutasten.
 * **Ein blinkender Cursor:** der Cursor eines numerischen oder Textfelds, das bearbeitet wird, blinkt (eine halbe Sekunde an, eine halbe Sekunde aus), wie auf den Bildschirmen, denen es folgt.
 
+### 🆚 Das Original und diese Version
+
+Das Original ist das geschlossene MS-DOS-Programm von Bungard, das mit den CCD-Maschinen fräst. Diese Version ist neu geschrieben, nach Aufzeichnungen dessen, was das Original tut (seine Bildschirme, seine Dateien und was es an die Steuereinheit sendet); Code des Originals ist nicht enthalten. Was gleich ist und was anders:
+
+| Aspekt | Original (MS-DOS) | Diese Version |
+|---|---|---|
+| Rechner | Nur ein MS-DOS-PC (oder ein Emulator) | Windows, Linux und macOS, 32 und 64 Bit; eine Konsolenversion für SSH und alte PCs |
+| Bildschirme | Textmodus 80x25 | Standardmäßig dieselben klassischen Bildschirme, Zelle für Zelle mit dem Original verglichen, mit Maus und einem Fenster, das von 640x400 bis 1080p und mehr skaliert; `--modern` bietet eine menügeführte Oberfläche, EH3D-BUNGARD-GUI eine grafische |
+| Sprachen | Die des Programms | Acht: Englisch, Spanisch, Italienisch, Deutsch, Französisch, Portugiesisch, Chinesisch und Japanisch, im Menü oder mit `--lang` umschaltbar |
+| Panels | Kopien der Platine auf dem Tisch | Kopien der Platine; die Außenkontur des Panels kann mit Haltestegen gefräst werden (wie viele pro Seite, wie breit und wo), die die Platinen bis zum Herausbrechen halten; ein mittendrin unterbrochener Auftrag kann weitergehen |
+| Verbindung zur Maschine | Die serielle Schnittstelle des Rechners zur Steuereinheit | Standardmäßig der Simulator; an einer echten Maschine die serielle Schnittstelle, ein USB-Seriell-Adapter, der EH3D-NODE-BUNGARD im Netz oder der EH3D-SERVER, in einer Auswahlliste im Fenster Config gewählt |
+| Zusätze | Keine davon | Ein Simulator, der einen ganzen Auftrag ausführt, Töne für das Auftragsende und die Werkzeuganforderung, mehrere Maschinen gleichzeitig über den Server, ZIP-Auftragsarchive, DXF- und Gerber-Konturen, ein blinkender Cursor und eine Testsuite, die bei jeder Änderung läuft |
+| Quelltext und Lizenz | Geschlossen, proprietär | Open Source (GPL-3.0-or-later), in Rust geschrieben |
+| Reife | Jahre im Einsatz an echten Maschinen | Viel jünger: Referenzfahrt und Bewegungen jeder Achse wurden an einer echten Bungard CCD MTC erprobt; ein ganzer Auftrag lief noch nicht an einer Maschine, und der Werkzeugwechsler der ATC-Modelle lief noch nicht an einer echten |
+
 ## 🧩 Rolle in EH3D
 
 EH3D-ROUTEPRO ist das Fräs-Geschwister von EH3D-DRILLPRO und hängt per Pfad davon ab: Der Ordner `EH3D-DRILLPRO` muss neben diesem liegen. Es verwendet das serielle Protokoll, den Bildschirm und die Sprachunterstützung wieder. Es hängt noch von keinem anderen EH3D-Repository ab. Die Dateien der Maschine (die Bohrdatei, die HP-GL-Datei, die Werkzeugtabellen und die Maschinenkonfiguration) stammen aus dem Crate `eh3d-bungard-formats` von EH3D-COMMON, das ebenfalls daneben liegen muss.
