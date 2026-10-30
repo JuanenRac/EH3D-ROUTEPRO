@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The buttons answer to the pointer:** the button under the pointer lights up, and while it is pressed it sinks (it loses its shadow, goes darker and moves its letters a little); `--point COLUMN,ROW[,down]` puts the pointer there for the pictures.
 ## [0.0.5] - Plotter arcs and circles, DXF drawings and Gerber outlines, sounds, the machine files from a shared crate and screenshots
 
 - **The main screen says it is ROUTEPRO:** the heading under the logo no longer reads as the name of the drilling program.
