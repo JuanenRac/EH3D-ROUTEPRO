@@ -11,6 +11,8 @@ use eh3d_drillpro::protocol::connection::Kind as ConnectionKind;
 use eh3d_drillpro::protocol::job::{JobMachine, Pause};
 use eh3d_drillpro::protocol::{connect, run_steps, Simulator};
 use eh3d_drillpro::runner::{RealRun, RunState};
+
+use crate::{dxf, gerber};
 use eh3d_drillpro::screen::*;
 use eh3d_drillpro::textapp::TextApp;
 
@@ -153,8 +155,33 @@ impl App {
                     .map_or(hpgl::SEGMENTS_PER_CIRCLE, |s| {
                         hpgl::segments_for_chord(s.chord_angle)
                     });
-                self.plot = Some((path.to_path_buf(), hpgl::parse_with(&text, segments)));
-                self.error = None;
+                let name = path
+                    .file_name()
+                    .map(|n| n.to_string_lossy().to_string())
+                    .unwrap_or_default();
+                // the drawing of a board (DXF) and its outline (Gerber) are cut as a plotter file would be
+                let plot = match path
+                    .extension()
+                    .map(|e| e.to_string_lossy().to_ascii_lowercase())
+                    .as_deref()
+                {
+                    Some(dxf::EXTENSION) => dxf::outline(&text, segments),
+                    Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => {
+                        if gerber::looks_like_outline(&name, &text) {
+                            gerber::outline(&text, segments)
+                        } else {
+                            Err("not the outline of a board".to_string())
+                        }
+                    }
+                    _ => Ok(hpgl::parse_with(&text, segments)),
+                };
+                match plot {
+                    Ok(p) => {
+                        self.plot = Some((path.to_path_buf(), p));
+                        self.error = None;
+                    }
+                    Err(e) => self.error = Some(format!("{name}: {e}")),
+                }
             }
             Err(e) => self.error = Some(format!("{}: {e}", tr(self.lang, Text::ErrRead))),
         }
@@ -1124,6 +1151,10 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn set_dir(&mut self, dir: PathBuf) {
         self.dir = dir;
+    }
+
+    fn extra_patterns(&self) -> Vec<&'static str> {
+        vec!["*.DXF", "*.GKO"]
     }
 
     fn pattern(&self) -> &'static str {

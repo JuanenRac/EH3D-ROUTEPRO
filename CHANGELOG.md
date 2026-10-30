@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The drawing of a board and its Gerber outline:** a `.DXF` drawing (lines, polylines with arcs, arcs and circles) or the outline layer of a Gerber board (`.GKO`, `.GM1`, `.GML` or a `.GBR` that calls itself the profile) is loaded as a routing path from the file window, from the command line and from ZIP archives; a Gerber layer of copper is refused with the name of the file, and the window offers the patterns `*.DXF` and `*.GKO` next to `*.PLT`.
 - **Arcs, circles and scaling in the plotter files:** the HP-GL commands `AA`, `AR` and `CI` are cut into chords, and `SC` with `IP` lays the units of the file on the plotter, so the files of programs that draw circles with those commands are cut as they are drawn; the chord angle of the routing configuration decides how fine the chords are.
 - **The files of the machine come from a shared crate:** the HP-GL file and the tool table are read by `eh3d-bungard-formats` of EH3D-COMMON; nothing changes for the operator.
 - **Sounds when the job ends and when the machine asks for a tool:** `sound_finish` and `sound_tool_change` in the machine file are each off (the default), `default` (a tone the program makes, one for each cue) or the path of a WAV file of the operator's. The sound is played by the system (PowerShell, `afplay`, `paplay`/`aplay`/`play`) in a process of its own, so it never stops a job. It is explained in the machine file and in the guide of the configuration in the eight languages.

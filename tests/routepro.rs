@@ -204,3 +204,60 @@ fn language_menu_switches_to_japanese() {
     assert_eq!(app.lang, Lang::Ja);
     assert!(render(&app).lines().next().unwrap().contains("読込"));
 }
+
+#[test]
+fn a_dxf_drawing_and_a_gerber_outline_load_as_routing_paths() {
+    let dir = std::env::temp_dir().join(format!("routepro-drawings-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let dxf = "0
+SECTION
+2
+ENTITIES
+0
+LINE
+10
+0
+20
+0
+11
+40
+21
+0
+0
+LINE
+10
+40
+20
+0
+11
+40
+21
+20
+0
+ENDSEC
+0
+EOF
+";
+    std::fs::write(dir.join("board.dxf"), dxf).unwrap();
+    let gerber = "%FSLAX33Y33*%
+%MOMM*%
+X0Y0D02*
+X40000Y0D01*
+X40000Y20000D01*
+M02*";
+    std::fs::write(dir.join("board.gko"), gerber).unwrap();
+    std::fs::write(dir.join("copper.gbr"), gerber).unwrap();
+    let mut app = App::new(Lang::En, &data());
+    app.load_file(&dir.join("board.dxf"));
+    assert_eq!(app.paths_loaded(), 1);
+    app.load_file(&dir.join("board.gko"));
+    assert_eq!(app.paths_loaded(), 1);
+    // a Gerber file that does not say it is the outline is not cut
+    app.load_file(&dir.join("copper.gbr"));
+    assert_eq!(app.paths_loaded(), 1, "the board that was loaded is kept");
+    assert!(
+        render(&app).contains("copper.gbr"),
+        "the operator is told which file was refused"
+    );
+    let _ = std::fs::remove_dir_all(&dir);
+}
