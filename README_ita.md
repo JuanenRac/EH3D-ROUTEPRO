@@ -71,6 +71,8 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 * I **suoni**: `sound_finish` e `sound_tool_change` nel file della macchina sono ciascuno off (il predefinito), `default` (un tono del programma) o il percorso di un file WAV proprio; il primo suona quando un lavoro finisce da solo, il secondo quando la macchina chiede un utensile.
 * I **disegni di una scheda**: oltre all'HP-GL, un disegno `.DXF` (linee, polilinee con archi, archi e cerchi) o il livello di contorno di una scheda Gerber (`.GKO`, `.GM1`, `.GML`, o un `.GBR` che si dichiara profilo) si carica come percorso di fresatura; gli archi, i cerchi e la scalatura dell'HP-GL (`AA`, `AR`, `CI`, `SC`, `IP`) sono tagliati in corde secondo l'angolo di corda della configurazione.
 * **Più macchine e stazioni**: con `connection = server`, `routepro --machines` elenca tutte le macchine del server, raggruppate per stazione, con ciò che fa ciascuna, il suo lavoro e i lavori pronti (il server risponde per tutte insieme), e `routepro --machine ID` invia i lavori di questo programma a quella macchina invece che a quella del file di macchina; le macchine lavorano insieme, un lavoro su ciascuna.
+* **La connessione scelta nella finestra Config:** un menu a tendina con i cinque modi in cui il lavoro raggiunge la macchina (il simulatore, la porta seriale, un adattatore USB, il nodo EH3D e il server EH3D) e, sotto, ciò che serve a ciascuno: una porta, un indirizzo e un token, una macchina del server; ciò che si sceglie viene controllato, applicato con OK e scritto nel file di macchina senza toccarne le altre righe.
+* **Un cursore che lampeggia:** il cursore di un campo numerico o di testo in modifica lampeggia (mezzo secondo acceso, mezzo secondo spento), come nelle schermate che segue.
 
 ## 🧩 Ruolo in EH3D
 
@@ -97,6 +99,12 @@ Come si incastrano le parti di questo repository: chi lo usa, che cosa contiene 
 </p>
 
 <p align="center"><em>I dati degli utensili: la profondità, le passate, gli avanzamenti lungo il percorso e di penetrazione, e la velocità del mandrino di ogni utensile.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+</p>
+
+<p align="center"><em>La connessione con la macchina: il modo scelto nel menu a tendina e ciò che serve (qui il server EH3D).</em></p>
 
 ## 🚀 Avvio rapido
 

@@ -71,6 +71,8 @@ Cada línea es una parte de este repositorio y la luz dice hasta dónde llega ho
 * Los **sonidos**: `sound_finish` y `sound_tool_change` en el fichero de la máquina son cada uno off (lo normal), `default` (un tono que hace el programa) o la ruta de un archivo WAV propio; el primero suena cuando un trabajo termina solo, el segundo cuando la máquina pide una herramienta.
 * Los **dibujos de una placa**: además del HP-GL, un dibujo `.DXF` (líneas, polilíneas con arcos, arcos y círculos) o la capa de contorno de una placa Gerber (`.GKO`, `.GM1`, `.GML`, o un `.GBR` que se declara perfil) se carga como trayectoria de fresado; los arcos, círculos y escalado del HP-GL (`AA`, `AR`, `CI`, `SC`, `IP`) se cortan en cuerdas según el ángulo de cuerda de la configuración.
 * **Varias máquinas y estaciones**: con `connection = server`, `routepro --machines` lista todas las máquinas del servidor, agrupadas por estación, con lo que hace cada una, su trabajo y los trabajos listos (el servidor responde por todas a la vez), y `routepro --machine ID` envía los trabajos de este programa a esa máquina en lugar de la del fichero de máquina; las máquinas trabajan a la vez, un trabajo en cada una.
+* **La conexión elegida en la ventana Config:** un desplegable con las cinco formas en que el trabajo llega a la máquina (el simulador, el puerto serie, un adaptador USB, el nodo EH3D y el servidor EH3D) y, debajo, lo que necesita cada una: un puerto, una dirección y un token, una máquina del servidor; lo elegido se comprueba, se aplica con OK y se escribe en el fichero de máquina sin tocar el resto de sus líneas.
+* **Un cursor que parpadea:** el cursor de un campo numérico o de texto que se edita parpadea (medio segundo encendido, medio segundo apagado), como en las pantallas que sigue.
 
 ## 🧩 Papel en EH3D
 
@@ -97,6 +99,12 @@ Cómo encajan las partes de este repositorio: quién lo usa, qué contiene y de 
 </p>
 
 <p align="center"><em>Los datos de herramientas: la profundidad, las pasadas, los avances por la trayectoria y de penetración, y la velocidad del husillo de cada herramienta.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+</p>
+
+<p align="center"><em>La conexión con la máquina: la forma elegida en el desplegable y lo que necesita (aquí el servidor EH3D).</em></p>
 
 ## 🚀 Inicio rápido
 

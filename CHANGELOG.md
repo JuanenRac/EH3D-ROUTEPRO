@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The connection chosen in the Config window:** a drop-down with the five ways the job reaches the machine and what each needs, applied with OK and written into the machine file (it comes with the classic screens of EH3D-DRILLPRO).
+- **A blinking cursor:** the cursor of a field being edited blinks.
 - **Several machines and stations at once:** with `connection = server`, `routepro --machines` lists every machine of the server, grouped by station, with what each one is doing, its job and the jobs ready; `--machine ID` sends the jobs to that machine instead of the one in the machine file.
 - **The buttons answer to the pointer:** the button under the pointer lights up, and while it is pressed it sinks (it loses its shadow, goes darker and moves its letters a little); `--point COLUMN,ROW[,down]` puts the pointer there for the pictures.
 ## [0.0.5] - Plotter arcs and circles, DXF drawings and Gerber outlines, sounds, the machine files from a shared crate and screenshots

@@ -71,6 +71,8 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 * Die **Töne**: `sound_finish` und `sound_tool_change` in der Maschinendatei sind je off (der Standard), `default` (ein Ton des Programms) oder der Pfad einer eigenen WAV-Datei; der erste spielt, wenn ein Auftrag von selbst endet, der zweite, wenn die Maschine ein Werkzeug verlangt.
 * Die **Zeichnungen einer Platine**: neben HP-GL wird eine `.DXF`-Zeichnung (Linien, Polylinien mit Bögen, Bögen und Kreise) oder die Umrissebene einer Gerber-Platine (`.GKO`, `.GM1`, `.GML` oder eine `.GBR`, die sich als Profil ausweist) als Frässpur geladen; die HP-GL-Bögen, -Kreise und die Skalierung (`AA`, `AR`, `CI`, `SC`, `IP`) werden nach dem Sehnenwinkel der Konfiguration in Sehnen zerlegt.
 * **Mehrere Maschinen und Stationen**: mit `connection = server` listet `routepro --machines` alle Maschinen des Servers, nach Stationen gruppiert, mit dem, was jede tut, ihrem Auftrag und den bereiten Aufträgen (der Server antwortet für alle auf einmal), und `routepro --machine ID` schickt die Aufträge dieses Programms an diese Maschine statt an die der Maschinendatei; die Maschinen laufen gleichzeitig, ein Auftrag auf jeder.
+* **Die im Fenster Konfig. gewählte Verbindung:** eine Auswahlliste mit den fünf Wegen, auf denen der Auftrag die Maschine erreicht (der Simulator, die serielle Schnittstelle, ein USB-Adapter, der EH3D-Knoten und der EH3D-Server), und darunter, was jeder braucht: einen Port, eine Adresse und ein Token, eine Maschine des Servers; das Gewählte wird geprüft, mit OK übernommen und in die Maschinendatei geschrieben, ohne deren übrige Zeilen anzutasten.
+* **Ein blinkender Cursor:** der Cursor eines numerischen oder Textfelds, das bearbeitet wird, blinkt (eine halbe Sekunde an, eine halbe Sekunde aus), wie auf den Bildschirmen, denen es folgt.
 
 ## 🧩 Rolle in EH3D
 
@@ -97,6 +99,12 @@ Wie die Teile dieses Repositorys zusammenpassen: wer es nutzt, was es enthält u
 </p>
 
 <p align="center"><em>Die Werkzeugdaten: die Tiefe, die Durchgänge, die Vorschübe entlang der Bahn und beim Eintauchen und die Spindeldrehzahl jedes Werkzeugs.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+</p>
+
+<p align="center"><em>Die Verbindung mit der Maschine: der in der Auswahlliste gewählte Weg und was er braucht (hier der EH3D-Server).</em></p>
 
 ## 🚀 Schnellstart
 

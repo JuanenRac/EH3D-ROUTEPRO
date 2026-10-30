@@ -71,6 +71,8 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 * Os **sons**: `sound_finish` e `sound_tool_change` no ficheiro da máquina são cada um off (o normal), `default` (um tom do programa) ou o caminho de um ficheiro WAV próprio; o primeiro toca quando um trabalho termina sozinho, o segundo quando a máquina pede uma ferramenta.
 * Os **desenhos de uma placa**: além do HP-GL, um desenho `.DXF` (linhas, polilinhas com arcos, arcos e círculos) ou a camada de contorno de uma placa Gerber (`.GKO`, `.GM1`, `.GML`, ou um `.GBR` que se declara perfil) carrega-se como trajeto de fresagem; os arcos, círculos e a escala do HP-GL (`AA`, `AR`, `CI`, `SC`, `IP`) são cortados em cordas pelo ângulo de corda da configuração.
 * **Várias máquinas e estações**: com `connection = server`, `routepro --machines` lista todas as máquinas do servidor, agrupadas por estação, com o que cada uma faz, o seu trabalho e os trabalhos prontos (o servidor responde por todas de uma vez), e `routepro --machine ID` envia os trabalhos deste programa para essa máquina em vez da do ficheiro de máquina; as máquinas trabalham ao mesmo tempo, um trabalho em cada uma.
+* **A ligação escolhida na janela Config:** uma lista pendente com as cinco formas de o trabalho chegar à máquina (o simulador, a porta série, um adaptador USB, o nó EH3D e o servidor EH3D) e, por baixo, o que cada uma precisa: uma porta, um endereço e um token, uma máquina do servidor; o que se escolhe é verificado, aplicado com OK e escrito no ficheiro de máquina sem tocar nas outras linhas.
+* **Um cursor que pisca:** o cursor de um campo numérico ou de texto que se edita pisca (meio segundo ligado, meio segundo desligado), como nos ecrãs que segue.
 
 ## 🧩 Papel no EH3D
 
@@ -97,6 +99,12 @@ Como as partes deste repositório se encaixam: quem o usa, o que contém e de qu
 </p>
 
 <p align="center"><em>Os dados das ferramentas: a profundidade, as passagens, os avanços ao longo do trajeto e de penetração, e a velocidade do fuso de cada ferramenta.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+</p>
+
+<p align="center"><em>A ligação à máquina: a forma escolhida na lista pendente e o que precisa (aqui o servidor EH3D).</em></p>
 
 ## 🚀 Início rápido
 

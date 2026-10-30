@@ -980,6 +980,10 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
         App::set_connection(self, connection);
     }
 
+    fn connection(&self) -> ConnectionConfig {
+        self.connection.clone()
+    }
+
     fn set_error(&mut self, message: String) {
         App::set_error(self, message);
     }

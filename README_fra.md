@@ -71,6 +71,8 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 * Les **sons** : `sound_finish` et `sound_tool_change` dans le fichier de la machine valent chacun off (par défaut), `default` (une tonalité du programme) ou le chemin d'un fichier WAV personnel ; le premier joue quand un travail se termine seul, le second quand la machine demande un outil.
 * Les **dessins d'une carte** : outre le HP-GL, un dessin `.DXF` (lignes, polylignes avec arcs, arcs et cercles) ou la couche de contour d'une carte Gerber (`.GKO`, `.GM1`, `.GML`, ou un `.GBR` qui se déclare profil) se charge comme trajet de fraisage ; les arcs, cercles et mises à l'échelle du HP-GL (`AA`, `AR`, `CI`, `SC`, `IP`) sont découpés en cordes selon l'angle de corde de la configuration.
 * **Plusieurs machines et stations** : avec `connection = server`, `routepro --machines` liste toutes les machines du serveur, groupées par station, avec ce que fait chacune, son travail et les travaux prêts (le serveur répond pour toutes à la fois), et `routepro --machine ID` envoie les travaux de ce programme à cette machine au lieu de celle du fichier de machine ; les machines travaillent en même temps, un travail sur chacune.
+* **La connexion choisie dans la fenêtre Config :** une liste déroulante avec les cinq façons dont le travail atteint la machine (le simulateur, le port série, un adaptateur USB, le nœud EH3D et le serveur EH3D) et, dessous, ce dont chacune a besoin : un port, une adresse et un jeton, une machine du serveur ; ce qui est choisi est vérifié, appliqué avec OK et écrit dans le fichier de machine sans toucher à ses autres lignes.
+* **Un curseur qui clignote :** le curseur d'un champ numérique ou de texte en cours de modification clignote (une demi-seconde allumé, une demi-seconde éteint), comme sur les écrans qu'il suit.
 
 ## 🧩 Rôle dans EH3D
 
@@ -97,6 +99,12 @@ Comment les parties de ce dépôt s'articulent : qui l'utilise, ce qu'il contien
 </p>
 
 <p align="center"><em>Les données d'outils : la profondeur, les passes, les avances le long du tracé et de plongée, et la vitesse de la broche de chaque outil.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+</p>
+
+<p align="center"><em>La connexion avec la machine : la façon choisie dans la liste et ce qu'elle demande (ici le serveur EH3D).</em></p>
 
 ## 🚀 Démarrage rapide
 

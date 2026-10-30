@@ -71,6 +71,8 @@ Each line is one part of this repository and the light says how far it is today.
 * The **sounds**: `sound_finish` and `sound_tool_change` in the machine file are each off (the default), `default` (a tone the program makes) or the path of a WAV file of your own; the first plays when a job ends by itself, the second when the machine asks for a tool.
 * The **drawings of a board**: besides HP-GL, a `.DXF` drawing (lines, polylines with arcs, arcs and circles) or the outline layer of a Gerber board (`.GKO`, `.GM1`, `.GML`, or a `.GBR` that calls itself the profile) is loaded as a routing path; the HP-GL arcs, circles and scaling (`AA`, `AR`, `CI`, `SC`, `IP`) are cut into chords by the chord angle of the configuration.
 * **Several machines and stations**: with `connection = server`, `routepro --machines` lists every machine of the server, grouped by station, with what each one is doing, its job and the jobs ready (the server answers for all of them at once), and `routepro --machine ID` sends the jobs of this program to that machine instead of the one in the machine file; the machines run at the same time, one job on each.
+* **The connection chosen in the Config window:** a drop-down with the five ways the job reaches the machine (the simulator, the serial port, a USB adapter, the EH3D node and the EH3D server) and, under it, what each one needs: a port, an address and a token, a machine of the server; what is chosen is checked, applied with OK and written into the machine file without touching its other lines.
+* **A blinking cursor:** the cursor of a numeric or text field being edited blinks (half a second on, half a second off), as on the screens it follows.
 
 ## 🧩 Role in EH3D
 
@@ -97,6 +99,12 @@ How the parts of this repository fit together: who uses it, what it holds and wh
 </p>
 
 <p align="center"><em>The tool data: the depth, the passes, the feeds along the path and of the plunge, and the spindle speed of every tool.</em></p>
+
+<p align="center">
+  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+</p>
+
+<p align="center"><em>The connection with the machine: the way chosen in the drop-down and what it needs (here the EH3D server).</em></p>
 
 ## 🚀 Quick start
 
