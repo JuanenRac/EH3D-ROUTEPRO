@@ -18,7 +18,7 @@
 
 ---
 
-**Vérification d'honnêteté - ce qui tourne aujourd'hui :** un programme Rust avec une interface texte de 80x25 qui lit les fichiers de tracé HP-GL `.PLT`, la table d'outils et la configuration de la machine, planifie des trajectoires de fraisage à plusieurs passes (déplacement rapide, plongée, coupe, remontée) et les exécute **contre un simulateur** (par défaut) ou, quand le fichier de la machine l'indique, **sur une machine réelle** par le port série de l'ordinateur, un adaptateur USB-série ou l'EH3D-NODE-BUNGARD. 52 tests s'exécutent sur un ordinateur. Le protocole série qu'il partage avec EH3D-DRILLPRO a été essayé sur une Bungard CCD MTC réelle (la référence des trois axes et les déplacements de chaque axe) ; **un travail de fraisage complet n'a pas encore tourné sur la machine**, et les pas par millimètre ne sont vérifiés que par rapport à la configuration de l'original. Par défaut, ce sont les écrans classiques du programme MS-DOS, vérifiés cellule par cellule avec l'original ; `--modern` lance l'interface à menus. Ils se manipulent au clavier et à la souris, la fenêtre peut être agrandie (l'écran s'adapte de 640x400 à 1080p et plus), les fichiers de configuration et d'outils se modifient et s'enregistrent depuis les dialogues, et le bouton Info indique les machines Bungard CCD et CCD/2 (MTC prises en charge, ATC pas encore). Une version console (`routepro-console`) affiche les mêmes écrans dans un terminal, au clavier et à la souris et sans système de fenêtres (SSH, console texte, vieux PC). Les paquets de chaque version contiennent la configuration de base, expliquée ligne par ligne, et un dossier `examples` d'un carré à cent mille points. Le changeur d'outils des modèles ATC n'est pas encore géré.
+**Vérification d'honnêteté - ce qui tourne aujourd'hui :** un programme Rust avec une interface texte de 80x25 qui lit les fichiers de tracé HP-GL `.PLT`, la table d'outils et la configuration de la machine, planifie des trajectoires de fraisage à plusieurs passes (déplacement rapide, plongée, coupe, remontée) et les exécute **contre un simulateur** (par défaut) ou, quand le fichier de la machine l'indique, **sur une machine réelle** par le port série de l'ordinateur, un adaptateur USB-série ou l'EH3D-NODE-BUNGARD. 53 tests s'exécutent sur un ordinateur. Le protocole série qu'il partage avec EH3D-DRILLPRO a été essayé sur une Bungard CCD MTC réelle (la référence des trois axes et les déplacements de chaque axe) ; **un travail de fraisage complet n'a pas encore tourné sur la machine**, et les pas par millimètre ne sont vérifiés que par rapport à la configuration de l'original. Par défaut, ce sont les écrans classiques du programme MS-DOS, vérifiés cellule par cellule avec l'original ; `--modern` lance l'interface à menus. Ils se manipulent au clavier et à la souris, la fenêtre peut être agrandie (l'écran s'adapte de 640x400 à 1080p et plus), les fichiers de configuration et d'outils se modifient et s'enregistrent depuis les dialogues, et le bouton Info indique les machines Bungard CCD et CCD/2 (MTC prises en charge, ATC pas encore). Une version console (`routepro-console`) affiche les mêmes écrans dans un terminal, au clavier et à la souris et sans système de fenêtres (SSH, console texte, vieux PC). Les paquets de chaque version contiennent la configuration de base, expliquée ligne par ligne, et un dossier `examples` d'un carré à cent mille points. Le changeur d'outils des modèles ATC n'est pas encore géré.
 
 ---
 
@@ -30,7 +30,7 @@
 |---|---|
 | Version | `0.0.6` |
 | Maturité | Échafaudage |
-| Tests | 52 |
+| Tests | 53 |
 | Pile technique | Rust |
 | Sur du matériel réel | Oui, sur une Bungard CCD MTC : la référence et les déplacements de chaque axe ; un travail complet n'a pas encore tourné. Sans fichier de machine, il s'exécute sur le simulateur |
 
@@ -45,7 +45,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Logiciel | 🟡 | Un programme Rust à écran texte 80x25 lit des fichiers de tracé HP-GL, la table d'outils et le fichier de la machine, planifie des parcours de fraisage en plusieurs passes et les exécute sur un simulateur, ou sur une vraie machine si le fichier de la machine le dit ; le dossier d'EH3D-DRILLPRO doit se trouver à côté. |
-| Tests | 🟢 | 52 tests réussissent (`cargo test --workspace`) : le lecteur HP-GL, la planification des parcours et les écrans dans les huit langues ; le protocole est couvert par les 228 tests d'EH3D-DRILLPRO. |
+| Tests | 🟢 | 53 tests réussissent (`cargo test --workspace`) : le lecteur HP-GL, la planification des parcours et les écrans dans les huit langues ; le protocole est couvert par les 228 tests d'EH3D-DRILLPRO. |
 | Lecteur HP-GL | 🟡 | Seuls `IN`, `SP`, `PU`, `PD`, `PA` et `PR` sont compris ; toute autre commande est comptée et ignorée, jamais fatale. Essayé seulement avec de petits fichiers d'exemple écrits pour les tests. |
 | Planification des trajets | 🟡 | Chaque parcours devient, à chaque passe, un déplacement rapide, une plongée, la coupe et un dégagement, avec la profondeur répartie également et l'outil finissant toujours en surface ; vérifié seulement en tests et sur le simulateur. |
 | Matériel réel | 🟠 | Le protocole série qu'il partage avec EH3D-DRILLPRO a été essayé sur une Bungard CCD MTC (la prise de référence et les déplacements de chaque axe) ; aucun travail de fraisage n'a tourné sur une machine, et les sorties de broche et d'aspirateur n'ont pas été essayées. |
@@ -74,6 +74,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 * **La connexion choisie dans la fenêtre Config :** une liste déroulante avec les cinq façons dont le travail atteint la machine (le simulateur, le port série, un adaptateur USB, le nœud EH3D et le serveur EH3D) et, dessous, ce dont chacune a besoin : un port, une adresse et un jeton, une machine du serveur ; ce qui est choisi est vérifié, appliqué avec OK et écrit dans le fichier de machine sans toucher à ses autres lignes.
 * **Un curseur qui clignote :** le curseur d'un champ numérique ou de texte en cours de modification clignote (une demi-seconde allumé, une demi-seconde éteint), comme sur les écrans qu'il suit.
 * **Ponts pour l'extérieur du panneau et travaux qui reprennent :** les tracés fermés d'un panneau sont coupés à ses ponts (combien par côté, quelle largeur, où), la fraise se relève là et les cartes restent jointes jusqu'à leur séparation ; un travail peut laisser de côté les tracés déjà faits et reprendre après un arrêt.
+* **Une table qui n'est pas plane et des avis parlés :** avec la carte des hauteurs de la table la coupe suit sa hauteur par morceaux de 10 mm, si bien que l'outil garde la même profondeur dans la carte d'un bout à l'autre de la table (sans carte rien ne change) ; et le son de la fin du travail et de la demande d'outil peut être une voix (`sound_finish = voice:es:f`) du dossier `voices` à côté du programme, comme dans EH3D-DRILLPRO.
 
 ### 🆚 L'original et cette version
 
@@ -138,7 +139,7 @@ Lancez-le avec `run.bat` (Windows) ou `./run.sh` (Linux et macOS) ; les deux com
 
 ## 🧪 Tests
 
-La suite compte 52 tests (`cargo test --workspace`). Ils vérifient le lecteur HP-GL, la planification des trajets (passes, plongée, coupe et relevage), le plan de fraisage de la crate du protocole, les écrans classiques cellule par cellule et les écrans dans les huit langues. Le protocole réutilisé (octets, mouvement, barrière de sécurité) est testé dans EH3D-DRILLPRO. La CI exécute aussi `cargo fmt --check` et `cargo clippy` avec les avertissements comme erreurs, et `python -I tools/ci_validate.py` contrôle le manifeste, les versions, le journal des modifications et les huit README.
+La suite compte 53 tests (`cargo test --workspace`). Ils vérifient le lecteur HP-GL, la planification des trajets (passes, plongée, coupe et relevage), le plan de fraisage de la crate du protocole, les écrans classiques cellule par cellule et les écrans dans les huit langues. Le protocole réutilisé (octets, mouvement, barrière de sécurité) est testé dans EH3D-DRILLPRO. La CI exécute aussi `cargo fmt --check` et `cargo clippy` avec les avertissements comme erreurs, et `python -I tools/ci_validate.py` contrôle le manifeste, les versions, le journal des modifications et les huit README.
 
 ## 🏗️ Compilation et publication
 
