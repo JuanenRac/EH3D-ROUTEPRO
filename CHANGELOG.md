@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Outside routed with tabs:** the closed paths of a panel are cut at its tabs, so the router lifts there and the boards stay joined to the panel.
 - **The connection chosen in the Config window:** a drop-down with the five ways the job reaches the machine and what each needs, applied with OK and written into the machine file (it comes with the classic screens of EH3D-DRILLPRO).
 - **A blinking cursor:** the cursor of a field being edited blinks.
 - **Several machines and stations at once:** with `connection = server`, `routepro --machines` lists every machine of the server, grouped by station, with what each one is doing, its job and the jobs ready; `--machine ID` sends the jobs to that machine instead of the one in the machine file.

@@ -54,6 +54,7 @@ fn a_panel_repeats_each_pen_over_all_the_copies() {
             columns: 2,
             rows: 2,
             pitch_mm: (20.0, 10.0),
+            tabs: None,
         }),
         ..Default::default()
     };
@@ -66,4 +67,40 @@ fn a_panel_repeats_each_pen_over_all_the_copies() {
     assert_eq!(all[3].points[0], (800, 0));
     // the third copy is 10 mm (400 units) up
     assert_eq!(all[6].points[0], (0, 400));
+}
+
+#[test]
+fn the_outside_of_a_panel_is_cut_at_its_tabs() {
+    use eh3d_drillpro::job::{TabPlacement, Tabs};
+    let outline = Polyline {
+        pen: 1,
+        points: vec![(0, 0), (2000, 0), (2000, 1000), (0, 1000), (0, 0)],
+    };
+    let tabs = Tabs {
+        per_side: 1,
+        width_mm: 4.0,
+        placement: TabPlacement::Middle,
+    };
+    let o = JobOptions {
+        panel: Some(Panel {
+            columns: 2,
+            rows: 1,
+            pitch_mm: (60.0, 0.0),
+            tabs: Some(tabs),
+        }),
+        ..Default::default()
+    };
+    // a board is 50 mm by 25 mm: one tab on each of its four sides leaves four pieces, in each of the two copies
+    let (cut, _) = select_paths(&[outline.clone()], &o, (0.0, 0.0));
+    assert_eq!(cut.len(), 8);
+    // without tabs the outside stays whole
+    let plain = JobOptions {
+        panel: Some(Panel {
+            tabs: None,
+            ..o.panel.unwrap()
+        }),
+        ..Default::default()
+    };
+    let (whole, _) = select_paths(&[outline], &plain, (0.0, 0.0));
+    assert_eq!(whole.len(), 2);
 }

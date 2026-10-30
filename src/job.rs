@@ -172,7 +172,10 @@ pub fn select_paths(
                     })
                 });
                 if inside {
-                    out.push(moved);
+                    match opts.panel.and_then(|p| p.tabs) {
+                        Some(tabs) => out.extend(with_tabs(moved, &tabs)),
+                        None => out.push(moved),
+                    }
                 } else {
                     skipped += 1;
                 }
@@ -180,4 +183,29 @@ pub fn select_paths(
         }
     }
     (out, skipped)
+}
+
+/// A path with the tabs of the panel cut into it: a closed path (the outside of a board) becomes the pieces between the tabs, so the router lifts at each tab
+/// and the board stays joined to the panel there; any other path is left whole.
+fn with_tabs(path: Polyline, tabs: &eh3d_drillpro::job::Tabs) -> Vec<Polyline> {
+    use crate::hpgl::UNIT_MM;
+    let mm: Vec<(f64, f64)> = path
+        .points
+        .iter()
+        .map(|&(x, y)| (f64::from(x) * UNIT_MM, f64::from(y) * UNIT_MM))
+        .collect();
+    let pieces = eh3d_drillpro::job::cut_tabs(&mm, tabs);
+    if pieces.len() < 2 {
+        return vec![path];
+    }
+    pieces
+        .into_iter()
+        .map(|piece| Polyline {
+            pen: path.pen,
+            points: piece
+                .into_iter()
+                .map(|(x, y)| ((x / UNIT_MM).round() as i32, (y / UNIT_MM).round() as i32))
+                .collect(),
+        })
+        .collect()
 }
