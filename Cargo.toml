@@ -1,6 +1,6 @@
 [package]
 name = "eh3d-routepro"
-version = "0.0.5"
+version = "0.0.6"
 edition = "2021"
 description = "Open implementation of the Bungard CCD routing workflow (HP-GL input and machine protocol)"
 license = "GPL-3.0-or-later"

@@ -590,7 +590,7 @@ version = "0.0.1"
 
 [[package]]
 name = "eh3d-drillpro"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "crossterm",
  "eframe",
@@ -618,7 +618,7 @@ dependencies = [
 
 [[package]]
 name = "eh3d-routepro"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "eframe",
  "eh3d-bungard-formats",
