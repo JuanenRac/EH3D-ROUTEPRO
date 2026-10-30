@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.7] - A table that is not flat and spoken notices
+
 - **A table that is not flat:** with the height map of the table the cut follows its height in pieces of 10 mm, so the tool keeps the same depth into the board from one end of the table to the other; without a map nothing changes.
 ## [0.0.6] - Tabs for the outside of a panel, jobs that go on and the connection drop-down
 
