@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.5] - Plotter arcs and circles, DXF drawings and Gerber outlines, sounds, the machine files from a shared crate and screenshots
+
 - **The main screen says it is ROUTEPRO:** the heading under the logo no longer reads as the name of the drilling program.
 - **Screenshots in the README:** two pictures of the classic screens (the main screen and the tool data) in all the eight languages of the README.
 - **The drawing of a board and its Gerber outline:** a `.DXF` drawing (lines, polylines with arcs, arcs and circles) or the outline layer of a Gerber board (`.GKO`, `.GM1`, `.GML` or a `.GBR` that calls itself the profile) is loaded as a routing path from the file window, from the command line and from ZIP archives; a Gerber layer of copper is refused with the name of the file, and the window offers the patterns `*.DXF` and `*.GKO` next to `*.PLT`.

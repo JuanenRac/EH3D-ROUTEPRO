@@ -12,13 +12,13 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust-DEA584.svg" alt="Rust">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Version-0.0.4-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.0.5-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 49 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。 默认显示 MS-DOS 程序的经典界面，已逐个单元格与原版核对；`--modern` 启动菜单式界面。 可用键盘和鼠标操作，窗口可最大化（画面从 640x400 缩放到 1080p 及更大），配置文件和刀具表可在对话框中编辑并保存，“关于”按钮列出 Bungard CCD 和 CCD/2 机型（支持 MTC，暂不支持 ATC）。 控制台版本（`routepro-console`）在终端中显示同样的界面，支持键盘和鼠标，不需要窗口系统（SSH、文本控制台、旧电脑）。 每个版本的软件包都带有逐行解释的基本配置，以及从方形到十万个点的 `examples` 文件夹。ATC 机型的换刀器尚不支持。
+**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 50 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。 默认显示 MS-DOS 程序的经典界面，已逐个单元格与原版核对；`--modern` 启动菜单式界面。 可用键盘和鼠标操作，窗口可最大化（画面从 640x400 缩放到 1080p 及更大），配置文件和刀具表可在对话框中编辑并保存，“关于”按钮列出 Bungard CCD 和 CCD/2 机型（支持 MTC，暂不支持 ATC）。 控制台版本（`routepro-console`）在终端中显示同样的界面，支持键盘和鼠标，不需要窗口系统（SSH、文本控制台、旧电脑）。 每个版本的软件包都带有逐行解释的基本配置，以及从方形到十万个点的 `examples` 文件夹。ATC 机型的换刀器尚不支持。
 
 ---
 
@@ -28,9 +28,9 @@
 
 | | |
 |---|---|
-| 版本 | `0.0.4` |
+| 版本 | `0.0.5` |
 | 成熟度 | 脚手架 |
-| 测试 | 49 |
+| 测试 | 50 |
 | 技术栈 | Rust |
 | 真实硬件 | 是，在一台 Bungard CCD MTC 上：回参考点和每个轴的运动；完整作业尚未运行。没有机器文件时在模拟器上运行 |
 
@@ -45,7 +45,7 @@
 | 领域 | 状态 | 在这里的含义 |
 |---|---|---|
 | 软件 | 🟡 | 带 80x25 文本界面的 Rust 程序读取 HP-GL 绘图文件、刀具表和机床文件，规划多遍铣削路径，并在模拟器上运行；机床文件指定时则在真实机床上运行。它需要 EH3D-DRILLPRO 的文件夹放在旁边。 |
-| 测试 | 🟢 | 49 项测试通过（`cargo test --workspace`）：HP-GL 读取器、路径规划和八种语言的界面；协议由 EH3D-DRILLPRO 的 202 项测试覆盖。 |
+| 测试 | 🟢 | 50 项测试通过（`cargo test --workspace`）：HP-GL 读取器、路径规划和八种语言的界面；协议由 EH3D-DRILLPRO 的 212 项测试覆盖。 |
 | HP-GL 读取器 | 🟡 | 只理解 `IN`、`SP`、`PU`、`PD`、`PA` 和 `PR`；其他命令只计数并忽略，不会导致失败。只用为测试编写的小型样例文件验证过。 |
 | 路径规划 | 🟡 | 每条路径在每一遍都变成快速移动、下刀、切削和抬刀，深度平均分配，刀具最后总是回到表面；只在测试和模拟器上验证过。 |
 | 真实硬件 | 🟠 | 与 EH3D-DRILLPRO 共用的串口协议在一台 Bungard CCD MTC 上试过（参考点回零和每个轴的移动）；没有任何铣削作业在机床上运行过，主轴和吸尘器输出尚未试过。 |
@@ -68,6 +68,8 @@
 * **主轴**：默认使用控制单元自己的（锁存位，最高 60000 rpm）；在机器文件中设置 `spindle = node` 后，作业改为向 EH3D-NODE-BUNGARD 要求主轴（节点输出端的变频器，节点最大值以内的任意转速，任何停止时都会停转）。使用节点时，程序还会读取机器的指示灯，因此每个轴到达原点都能实时看到，无需在数据流中间读取原点线。
 * **服务器连接**（机器文件中的 `connection = server`，配合 `server_address`、`server_token` 和 `server_machine`）：程序不再自己驱动机器，而是把作业发给 [EH3D-SERVER](https://github.com/JuanenRac/EH3D-SERVER)，由它按机器的常数规划、通过机器的节点执行，并告诉程序进展如何；程序照常显示进度并回答对话框，`Esc` 会停止服务器上的作业，关闭程序则不会停止它。
 * **作业压缩包、Offset 窗口和模拟**：作业可以打包成 ZIP 压缩包（Select File 窗口可进入其中，`routepro JOB.ZIP` 会载入其中第一个铣削文件）；文件名旁的箭头列出 `*.PLT`、`*.ZIP` 和 `*.*` 模式；刀具窗口和配置窗口的 Load 按钮用于选择要载入的文件；在真实机器上，Offset 窗口会让机器回零、跟随窗口的每一次移动并再次回零；模拟作业所用的时间与机器实际所需相同。
+* **提示音**：机器文件中的 `sound_finish` 和 `sound_tool_change` 分别可以是 off（默认）、`default`（程序自带的音调）或你自己的 WAV 文件路径；前者在作业自行结束时响起，后者在机器要求换刀时响起。
+* **电路板图纸**：除 HP-GL 外，`.DXF` 图纸（直线、带圆弧的多段线、圆弧和圆）或 Gerber 板的外形层（`.GKO`、`.GM1`、`.GML`，或自称轮廓的 `.GBR`）会作为铣削路径载入；HP-GL 的圆弧、圆和缩放（`AA`、`AR`、`CI`、`SC`、`IP`）按配置中的弦角切成弦。
 
 ## 🧩 在 EH3D 中的角色
 
@@ -111,7 +113,7 @@ python -I tools/ci_validate.py
 
 ## 🧪 测试
 
-测试套件共有 49 个测试（`cargo test --workspace`）。它们检查 HP-GL 读取器、路径规划（多次走刀、下刀、切削和抬刀）、协议 crate 中的铣削计划、逐个字符单元核对的经典界面，以及八种语言的界面。复用的协议（字节、运动、安全门）在 EH3D-DRILLPRO 中测试。CI 还会运行 `cargo fmt --check` 和把警告当作错误的 `cargo clippy`，并由 `python -I tools/ci_validate.py` 检查清单、版本、变更日志和八个 README。
+测试套件共有 50 个测试（`cargo test --workspace`）。它们检查 HP-GL 读取器、路径规划（多次走刀、下刀、切削和抬刀）、协议 crate 中的铣削计划、逐个字符单元核对的经典界面，以及八种语言的界面。复用的协议（字节、运动、安全门）在 EH3D-DRILLPRO 中测试。CI 还会运行 `cargo fmt --check` 和把警告当作错误的 `cargo clippy`，并由 `python -I tools/ci_validate.py` 检查清单、版本、变更日志和八个 README。
 
 ## 🏗️ 构建与发布
 
