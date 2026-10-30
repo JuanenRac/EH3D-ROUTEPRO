@@ -147,7 +147,13 @@ impl App {
         match std::fs::read(path) {
             Ok(b) => {
                 let text: String = b.iter().map(|&c| c as char).collect();
-                self.plot = Some((path.to_path_buf(), hpgl::parse(&text)));
+                let segments = self
+                    .settings
+                    .as_ref()
+                    .map_or(hpgl::SEGMENTS_PER_CIRCLE, |s| {
+                        hpgl::segments_for_chord(s.chord_angle)
+                    });
+                self.plot = Some((path.to_path_buf(), hpgl::parse_with(&text, segments)));
                 self.error = None;
             }
             Err(e) => self.error = Some(format!("{}: {e}", tr(self.lang, Text::ErrRead))),
