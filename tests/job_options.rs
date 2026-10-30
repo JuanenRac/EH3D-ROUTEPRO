@@ -91,7 +91,7 @@ fn the_outside_of_a_panel_is_cut_at_its_tabs() {
         ..Default::default()
     };
     // a board is 50 mm by 25 mm: one tab on each of its four sides leaves four pieces, in each of the two copies
-    let (cut, _) = select_paths(&[outline.clone()], &o, (0.0, 0.0));
+    let (cut, _) = select_paths(std::slice::from_ref(&outline), &o, (0.0, 0.0));
     assert_eq!(cut.len(), 8);
     // without tabs the outside stays whole
     let plain = JobOptions {
