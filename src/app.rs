@@ -302,24 +302,8 @@ impl App {
                     .and_then(|(p, _)| p.file_name())
                     .map(|n| n.to_string_lossy().to_string())
                     .unwrap_or_default();
-                let request = serde_json::json!({
-                    "kind": "route",
-                    "name": name,
-                    "tools": self.tools.iter().map(|t| serde_json::json!({
-                        "number": t.number,
-                        "depth_mm": t.depth_mm,
-                        "iterations": t.iterations,
-                        "feed_xy_mm_min": t.feed_xy_mm_min,
-                        "feed_z_mm_min": t.feed_z_mm_min,
-                        "spindle_rpm": t.spindle_rpm,
-                    })).collect::<Vec<_>>(),
-                    "paths": paths.iter().map(|p| serde_json::json!({
-                        "pen": p.pen,
-                        "points_mm": p.points.iter()
-                            .map(|&(x, y)| [f64::from(x) * crate::hpgl::UNIT_MM, f64::from(y) * crate::hpgl::UNIT_MM])
-                            .collect::<Vec<_>>(),
-                    })).collect::<Vec<_>>(),
-                });
+                let request =
+                    server_route_request(&name, &self.tools, &paths, &self.job_options.skip_tools);
                 RealRun::start_on_server(self.connection.clone(), request, Vec::new(), n)
             } else {
                 RealRun::start(self.connection.clone(), items)
@@ -1339,5 +1323,60 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
     fn stop(&mut self) {
         self.run = None;
         self.mode = Mode::Main;
+    }
+}
+
+/// The job as the server's interface takes it. The paths are those the program chose (the pens that are switched off and the paths already done are
+/// left out of them); the switched-off pens go along too, so the server leaves them out by itself and shows them in the view of the job.
+pub fn server_route_request(
+    name: &str,
+    tools: &[Tool],
+    paths: &[hpgl::Polyline],
+    skip_tools: &[u8],
+) -> serde_json::Value {
+    serde_json::json!({
+        "kind": "route",
+        "name": name,
+        "tools": tools.iter().map(|t| serde_json::json!({
+            "number": t.number,
+            "depth_mm": t.depth_mm,
+            "iterations": t.iterations,
+            "feed_xy_mm_min": t.feed_xy_mm_min,
+            "feed_z_mm_min": t.feed_z_mm_min,
+            "spindle_rpm": t.spindle_rpm,
+        })).collect::<Vec<_>>(),
+        "paths": paths.iter().map(|p| serde_json::json!({
+            "pen": p.pen,
+            "points_mm": p.points.iter()
+                .map(|&(x, y)| [f64::from(x) * crate::hpgl::UNIT_MM, f64::from(y) * crate::hpgl::UNIT_MM])
+                .collect::<Vec<_>>(),
+        })).collect::<Vec<_>>(),
+        "skip_tools": skip_tools,
+    })
+}
+
+#[cfg(test)]
+mod server_request_tests {
+    use super::*;
+
+    #[test]
+    fn the_job_sent_to_the_server_carries_the_pens_that_are_switched_off() {
+        let tools = [Tool {
+            number: 1,
+            depth_mm: 1.7,
+            iterations: 2,
+            feed_xy_mm_min: 800,
+            feed_z_mm_min: 300,
+            spindle_rpm: 24000,
+        }];
+        let paths = [hpgl::Polyline {
+            pen: 1,
+            points: vec![(0, 0), (400, 0)],
+        }];
+        let r = server_route_request("o.plt", &tools, &paths, &[2]);
+        assert_eq!(r["kind"], "route");
+        assert_eq!(r["skip_tools"], serde_json::json!([2]));
+        assert_eq!(r["paths"].as_array().unwrap().len(), 1);
+        assert_eq!(r["tools"][0]["depth_mm"], 1.7);
     }
 }
