@@ -1,11 +1,11 @@
-# Eesti (et): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Laadi
-Text.MenuPaths	Teed
-Text.MenuTools	Tööriistad
-Text.MenuConfig	Seaded
-Text.MenuStart	Start
-Text.MenuLanguage	Keel
-Text.MenuQuit	Välju
+# Eesti (et): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~L~aadi
+Text.MenuPaths	~T~eed
+Text.MenuTools	Töö~r~iistad
+Text.MenuConfig	S~e~aded
+Text.MenuStart	~S~tart
+Text.MenuLanguage	~K~eel
+Text.MenuQuit	~V~älju
 Text.TitleSelectFile	Vali fail
 Text.TitlePaths	Teed
 Text.TitleTools	Tööriistade andmed

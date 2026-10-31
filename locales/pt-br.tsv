@@ -1,4 +1,4 @@
-# Português (Brasil) (pt-br): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+# Português (Brasil) (pt-br): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
 Text.TitleSelectFile	Selecionar arquivo
 Text.LblFile	Arquivo
 Text.LblSerial	Interface serial

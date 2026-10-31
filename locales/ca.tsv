@@ -1,11 +1,11 @@
-# Català (ca): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Carrega
-Text.MenuPaths	Camins
-Text.MenuTools	Eines
-Text.MenuConfig	Config.
-Text.MenuStart	Inicia
-Text.MenuLanguage	Idioma
-Text.MenuQuit	Surt
+# Català (ca): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	Ca~r~rega
+Text.MenuPaths	C~a~mins
+Text.MenuTools	~E~ines
+Text.MenuConfig	~C~onfig.
+Text.MenuStart	I~n~icia
+Text.MenuLanguage	~I~dioma
+Text.MenuQuit	~S~urt
 Text.TitleSelectFile	Selecciona fitxer
 Text.TitlePaths	Camins
 Text.TitleTools	Dades d'eines

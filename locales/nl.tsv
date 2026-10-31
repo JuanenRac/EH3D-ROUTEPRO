@@ -1,11 +1,11 @@
-# Nederlands (nl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Laden
-Text.MenuPaths	Paden
-Text.MenuTools	Gereedschap
-Text.MenuConfig	Config.
-Text.MenuStart	Start
-Text.MenuLanguage	Taal
-Text.MenuQuit	Afsluiten
+# Nederlands (nl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~L~aden
+Text.MenuPaths	~P~aden
+Text.MenuTools	~G~ereedschap
+Text.MenuConfig	~C~onfig.
+Text.MenuStart	~S~tart
+Text.MenuLanguage	~T~aal
+Text.MenuQuit	~A~fsluiten
 Text.TitleSelectFile	Bestand kiezen
 Text.TitlePaths	Paden
 Text.TitleTools	Gereedschapsdata

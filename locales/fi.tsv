@@ -1,11 +1,11 @@
-# Suomi (fi): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Lataa
-Text.MenuPaths	Reitit
-Text.MenuTools	Työkalut
-Text.MenuConfig	Asetukset
-Text.MenuStart	Käynnistä
-Text.MenuLanguage	Kieli
-Text.MenuQuit	Lopeta
+# Suomi (fi): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~L~ataa
+Text.MenuPaths	~R~eitit
+Text.MenuTools	~T~yökalut
+Text.MenuConfig	~A~setukset
+Text.MenuStart	Kä~y~nnistä
+Text.MenuLanguage	~K~ieli
+Text.MenuQuit	L~o~peta
 Text.TitleSelectFile	Valitse tiedosto
 Text.TitlePaths	Reitit
 Text.TitleTools	Työkalutiedot

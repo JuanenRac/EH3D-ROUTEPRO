@@ -1,11 +1,11 @@
-# Euskara (eu): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Kargatu
-Text.MenuPaths	Ibilbideak
-Text.MenuTools	Erremintak
-Text.MenuConfig	Konfig.
-Text.MenuStart	Hasi
-Text.MenuLanguage	Hizkuntza
-Text.MenuQuit	Irten
+# Euskara (eu): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	K~a~rgatu
+Text.MenuPaths	I~b~ilbideak
+Text.MenuTools	~E~rremintak
+Text.MenuConfig	~K~onfig.
+Text.MenuStart	~H~asi
+Text.MenuLanguage	Hi~z~kuntza
+Text.MenuQuit	~I~rten
 Text.TitleSelectFile	Hautatu fitxategia
 Text.TitlePaths	Ibilbideak
 Text.TitleTools	Erremintaren datuak

@@ -1,11 +1,11 @@
-# Íslenska (is): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Hlaða
-Text.MenuPaths	Brautir
-Text.MenuTools	Verkfæri
-Text.MenuConfig	Stillingar
-Text.MenuStart	Ræsa
-Text.MenuLanguage	Tungumál
-Text.MenuQuit	Hætta
+# Íslenska (is): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~H~laða
+Text.MenuPaths	~B~rautir
+Text.MenuTools	~V~erkfæri
+Text.MenuConfig	~S~tillingar
+Text.MenuStart	~R~æsa
+Text.MenuLanguage	T~u~ngumál
+Text.MenuQuit	Hæ~t~ta
 Text.TitleSelectFile	Veldu skrá
 Text.TitlePaths	Brautir
 Text.TitleTools	Verkfæragögn

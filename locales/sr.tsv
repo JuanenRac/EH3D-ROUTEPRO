@@ -1,11 +1,11 @@
-# Српски (sr): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Учитај
-Text.MenuPaths	Путање
-Text.MenuTools	Алати
-Text.MenuConfig	Подеш.
-Text.MenuStart	Старт
-Text.MenuLanguage	Језик
-Text.MenuQuit	Излаз
+# Српски (sr): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~У~читај
+Text.MenuPaths	Пу~т~ање
+Text.MenuTools	~А~лати
+Text.MenuConfig	~П~одеш.
+Text.MenuStart	~С~тарт
+Text.MenuLanguage	~Ј~език
+Text.MenuQuit	~И~злаз
 Text.TitleSelectFile	Избор датотеке
 Text.TitlePaths	Путање
 Text.TitleTools	Подаци о алатима

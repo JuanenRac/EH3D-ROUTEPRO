@@ -18,7 +18,7 @@
 
 ---
 
-**Honesty check - what actually runs today:** a Rust program with an 80x25 text-mode interface that reads HP-GL `.PLT` plot files, the tool table and the machine configuration, plans multi-pass milling paths (rapid move, plunge, cut, lift) and runs them either **against a simulator** (the default) or, when the machine file says so, **on a real machine** through the computer's serial port, a USB serial adapter or the EH3D-NODE-BUNGARD. 57 tests run on a computer. The serial protocol it shares with EH3D-DRILLPRO has been tried on one real Bungard CCD MTC (the reference run of the three axes and the moves of every axis); **a whole routing job has not run on the machine yet**, and the steps per millimetre are only checked against the original's configuration. The screens you get by default are the classic ones of the MS-DOS program, checked cell by cell against the original; `--modern` starts the menu-driven interface instead. They work with the keyboard and the mouse, the window can be maximized (the screen scales from 640x400 up to 1080p and beyond), the configuration and tool table files are edited and saved from the dialogs, and the About button lists the Bungard CCD and CCD/2 machines (MTC supported, ATC not yet). A console version (`routepro-console`) draws the same screens in a terminal, with the keyboard and the mouse and no window system (SSH, a text console, an old PC). The release packages carry the basic configuration, explained line by line, and an `examples` folder from a square to a hundred thousand points. The tool changer of the ATC models is not supported yet.
+**Honesty check - what actually runs today:** a Rust program with an 80x25 text-mode interface that reads HP-GL `.PLT` plot files, the tool table and the machine configuration, plans multi-pass milling paths (rapid move, plunge, cut, lift) and runs them either **against a simulator** (the default) or, when the machine file says so, **on a real machine** through the computer's serial port, a USB serial adapter or the EH3D-NODE-BUNGARD. 59 tests run on a computer. The serial protocol it shares with EH3D-DRILLPRO has been tried on one real Bungard CCD MTC (the reference run of the three axes and the moves of every axis); **a whole routing job has not run on the machine yet**, and the steps per millimetre are only checked against the original's configuration. The screens you get by default are the classic ones of the MS-DOS program, checked cell by cell against the original; `--modern` starts the menu-driven interface instead. They work with the keyboard and the mouse, the window can be maximized (the screen scales from 640x400 up to 1080p and beyond), the configuration and tool table files are edited and saved from the dialogs, and the About button lists the Bungard CCD and CCD/2 machines (MTC supported, ATC not yet). A console version (`routepro-console`) draws the same screens in a terminal, with the keyboard and the mouse and no window system (SSH, a text console, an old PC). The release packages carry the basic configuration, explained line by line, and an `examples` folder from a square to a hundred thousand points. The tool changer of the ATC models is not supported yet.
 
 ---
 
@@ -30,7 +30,7 @@
 |---|---|
 | Version | `0.0.8` |
 | Maturity | Scaffolding |
-| Tests | 57 |
+| Tests | 59 |
 | Stack | Rust |
 | On real hardware | Yes, on one Bungard CCD MTC: the reference run and the moves of every axis; a whole job has not run yet. Without a machine file it runs on the simulator |
 
@@ -45,7 +45,7 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Software | 🟡 | A Rust program with an 80x25 text-mode screen reads HP-GL plot files, the tool table and the machine file, plans multi-pass milling paths and runs them against a simulator, or on a real machine when the machine file says so; it needs the folder of EH3D-DRILLPRO next to it. |
-| Tests | 🟢 | 57 tests pass (`cargo test --workspace`): the HP-GL reader, the path planning and the screens in all 37 languages; the protocol is covered by the 237 tests of EH3D-DRILLPRO. |
+| Tests | 🟢 | 59 tests pass (`cargo test --workspace`): the HP-GL reader, the path planning and the screens in all 37 languages; the protocol is covered by the 237 tests of EH3D-DRILLPRO. |
 | HP-GL reader | 🟡 | Only `IN`, `SP`, `PU`, `PD`, `PA` and `PR` are understood; any other command is counted and ignored, never fatal. Tried only with small sample files written for the tests. |
 | Path planning | 🟡 | Each path becomes a rapid move, a plunge, the cut and a lift for every pass, with the depth split evenly and the tool always ending at the surface; checked in tests and on the simulator only. |
 | Real hardware | 🟠 | The serial protocol it shares with EH3D-DRILLPRO has been tried on one Bungard CCD MTC (the reference run and the moves of every axis); no routing job has run on a machine, and the spindle and vacuum outputs are untried. |
@@ -136,11 +136,11 @@ cargo fmt --all --check
 python -I tools/ci_validate.py
 ```
 
-Run it with `run.bat` (Windows) or `./run.sh` (Linux and macOS); both build the program first if needed. Both need Rust and the sibling folder `EH3D-DRILLPRO`: `run.bat [FILE.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`. `--data` is the folder with `ROUTEPRO.RTD` and `ROUTEPRO.RCF` (default: `testdata/`) and `--dump` prints the screen as plain text. Keys: `Alt` plus the highlighted letter opens a menu, arrows move, `Enter` accepts, `Esc` goes back; the menu bar can also be clicked. Chinese and Japanese need a CJK font among the system fonts. `--connection FILE` points to another machine file than the default one (`%APPDATA%\EH3D\machine.cfg` on Windows, `~/.config/eh3d/machine.cfg` elsewhere); without a machine file the program runs on the simulator. `--modern` starts the menu-driven interface instead of the classic screens.
+Run it with `run.bat` (Windows) or `./run.sh` (Linux and macOS); both build the program first if needed. Both need Rust and the sibling folder `EH3D-DRILLPRO`: `run.bat [FILE.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`. `--data` is the folder with `ROUTEPRO.RTD` and `ROUTEPRO.RCF` (default: `testdata/`) and `--dump` prints the screen as plain text. Keys: `Alt` plus the highlighted letter opens a menu, arrows move, `Enter` accepts, `Esc` goes back; the menu bar can also be clicked. In the 29 languages read from files the highlighted letters are written by `tools/make_hotkeys.py`, one letter for each control and no two alike on a screen; a Cyrillic or Greek letter is typed on the keyboard of that alphabet (Russian, Ukrainian and Greek also take the Latin key that sits in the same place; Bulgarian and Serbian need their own layout). Chinese and Japanese need a CJK font among the system fonts. `--connection FILE` points to another machine file than the default one (`%APPDATA%\EH3D\machine.cfg` on Windows, `~/.config/eh3d/machine.cfg` elsewhere); without a machine file the program runs on the simulator. `--modern` starts the menu-driven interface instead of the classic screens.
 
 ## 🧪 Testing
 
-The suite has 57 tests (`cargo test --workspace`). They check the HP-GL reader, the path planning (passes, plunge, cut and lift), the routing plan of the protocol crate, the classic screens cell by cell and the screens in all eight languages. The protocol it reuses (bytes, motion, the safety gate) is tested in EH3D-DRILLPRO. The CI also runs `cargo fmt --check` and `cargo clippy` with warnings as errors, and `python -I tools/ci_validate.py` checks the manifest, the versions, the changelog and the eight READMEs.
+The suite has 59 tests (`cargo test --workspace`). They check the HP-GL reader, the path planning (passes, plunge, cut and lift), the routing plan of the protocol crate, the classic screens cell by cell and the screens in all eight languages. The protocol it reuses (bytes, motion, the safety gate) is tested in EH3D-DRILLPRO. The CI also runs `cargo fmt --check` and `cargo clippy` with warnings as errors, and `python -I tools/ci_validate.py` checks the manifest, the versions, the changelog and the eight READMEs.
 
 ## 🏗️ Build & Release
 
@@ -172,7 +172,7 @@ EH3D-ROUTEPRO/
 ├── config/                                      the basic configuration, explained line by line
 ├── examples/                                    example files, from a square to 100000 points
 ├── locales/                                     the words of the 29 languages that are read from files, one file per language
-├── tools/                                       CI check, README check and the picture tools
+├── tools/                                       CI check, README check, hot-key writer and the picture tools
 ├── images/                                      banner, the two pictures and the screenshots
 ├── .github/                                     CI and release workflows, issue and pull-request templates
 ├── build.sh build.bat                           build and test scripts

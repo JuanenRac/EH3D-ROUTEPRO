@@ -1,11 +1,11 @@
-# Lietuvių (lt): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Įkelti
-Text.MenuPaths	Keliai
-Text.MenuTools	Įrankiai
-Text.MenuConfig	Konfig.
-Text.MenuStart	Pradėti
-Text.MenuLanguage	Kalba
-Text.MenuQuit	Išeiti
+# Lietuvių (lt): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	Įk~e~lti
+Text.MenuPaths	Ke~l~iai
+Text.MenuTools	Į~r~ankiai
+Text.MenuConfig	K~o~nfig.
+Text.MenuStart	~P~radėti
+Text.MenuLanguage	~K~alba
+Text.MenuQuit	~I~šeiti
 Text.TitleSelectFile	Pasirinkti failą
 Text.TitlePaths	Keliai
 Text.TitleTools	Įrankių duomenys

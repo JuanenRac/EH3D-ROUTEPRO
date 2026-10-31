@@ -1,11 +1,11 @@
-# Magyar (hu): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Betöltés
-Text.MenuPaths	Pályák
-Text.MenuTools	Szerszámok
-Text.MenuConfig	Beállítás
-Text.MenuStart	Indítás
-Text.MenuLanguage	Nyelv
-Text.MenuQuit	Kilépés
+# Magyar (hu): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~B~etöltés
+Text.MenuPaths	~P~ályák
+Text.MenuTools	~S~zerszámok
+Text.MenuConfig	B~e~állítás
+Text.MenuStart	~I~ndítás
+Text.MenuLanguage	~N~yelv
+Text.MenuQuit	~K~ilépés
 Text.TitleSelectFile	Fájl kiválasztása
 Text.TitlePaths	Pályák
 Text.TitleTools	Szerszámadatok

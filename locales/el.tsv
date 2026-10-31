@@ -1,11 +1,11 @@
-# Ελληνικά (el): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Φόρτωση
-Text.MenuPaths	Διαδρομές
-Text.MenuTools	Εργαλεία
-Text.MenuConfig	Ρυθμίσεις
-Text.MenuStart	Έναρξη
-Text.MenuLanguage	Γλώσσα
-Text.MenuQuit	Έξοδος
+# Ελληνικά (el): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~Φ~όρτωση
+Text.MenuPaths	~Δ~ιαδρομές
+Text.MenuTools	Ε~ρ~γαλεία
+Text.MenuConfig	Ρ~υ~θμίσεις
+Text.MenuStart	Έ~ν~αρξη
+Text.MenuLanguage	~Γ~λώσσα
+Text.MenuQuit	~Έ~ξοδος
 Text.TitleSelectFile	Επιλογή αρχείου
 Text.TitlePaths	Διαδρομές
 Text.TitleTools	Στοιχεία εργαλείων

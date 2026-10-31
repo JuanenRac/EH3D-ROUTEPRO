@@ -1,11 +1,11 @@
-# Galego (gl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Cargar
-Text.MenuPaths	Trazados
-Text.MenuTools	Ferramentas
-Text.MenuConfig	Config.
-Text.MenuStart	Iniciar
-Text.MenuLanguage	Idioma
-Text.MenuQuit	Saír
+# Galego (gl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	C~a~rgar
+Text.MenuPaths	~T~razados
+Text.MenuTools	~F~erramentas
+Text.MenuConfig	~C~onfig.
+Text.MenuStart	I~n~iciar
+Text.MenuLanguage	~I~dioma
+Text.MenuQuit	~S~aír
 Text.TitleSelectFile	Seleccionar ficheiro
 Text.TitlePaths	Trazados
 Text.TitleTools	Datos das ferramentas

@@ -1,11 +1,11 @@
-# Norsk (no): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Last
-Text.MenuPaths	Baner
-Text.MenuTools	Verktøy
-Text.MenuConfig	Konfig.
-Text.MenuStart	Start
-Text.MenuLanguage	Språk
-Text.MenuQuit	Avslutt
+# Norsk (no): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~L~ast
+Text.MenuPaths	~B~aner
+Text.MenuTools	~V~erktøy
+Text.MenuConfig	~K~onfig.
+Text.MenuStart	S~t~art
+Text.MenuLanguage	~S~pråk
+Text.MenuQuit	~A~vslutt
 Text.TitleSelectFile	Velg fil
 Text.TitlePaths	Baner
 Text.TitleTools	Verktøydata

@@ -110,3 +110,57 @@ fn load_of_the_tool_window_chooses_the_file() {
     let t = text(&a);
     assert!(t.contains("Tool Data") && t.contains("Loaded"), "{t}");
 }
+
+/// The menu of the routing program: in every language the items have a hot letter each, and no two share it.
+#[test]
+fn menu_hot_letters_are_unique_in_the_37_languages() {
+    use eh3d_routepro::texts::{tr, Text, ALL_TEXTS};
+    for lang in Lang::ALL {
+        let mut seen = std::collections::HashSet::new();
+        for k in [
+            Text::MenuLoad,
+            Text::MenuPaths,
+            Text::MenuTools,
+            Text::MenuConfig,
+            Text::MenuStart,
+            Text::MenuLanguage,
+            Text::MenuQuit,
+        ] {
+            let t = tr(lang, k);
+            let hot = lang.hot_key(t.split('~').nth(1).unwrap().chars().next().unwrap());
+            assert!(seen.insert(hot), "{lang:?}: hotkey {hot} of {t:?} repeated");
+        }
+        for &k in ALL_TEXTS {
+            let n = tr(lang, k).matches('~').count();
+            assert!(n == 0 || n == 2, "{lang:?} {k:?}");
+            assert_eq!(n > 0, tr(Lang::En, k).contains('~'), "{lang:?} {k:?}");
+        }
+    }
+}
+
+/// The parameter window of this program has the chord angle where the drilling one has the sorting: its keys are different in every language.
+#[test]
+fn parameter_hot_letters_are_unique_in_the_37_languages() {
+    use eh3d_drillpro::classic::hot_letter;
+    use eh3d_drillpro::classic::texts::{ctr, CText};
+    for lang in Lang::ALL {
+        let mut seen = std::collections::HashSet::new();
+        for k in [
+            CText::PFile,
+            CText::PCoordinates,
+            CText::PChord,
+            CText::PSpeed,
+            CText::PRamp,
+            CText::PStroke,
+            CText::PCorrect,
+            CText::PSpindle,
+            CText::PLanguage,
+            CText::BLoad,
+            CText::BOk,
+            CText::BAbort,
+        ] {
+            let hot = lang.hot_key(hot_letter(ctr(lang, k)).unwrap());
+            assert!(seen.insert(hot), "{lang:?} {k:?}: hotkey {hot} repeated");
+        }
+    }
+}

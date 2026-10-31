@@ -1,11 +1,11 @@
-# Български (bg): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Зареди
-Text.MenuPaths	Траектории
-Text.MenuTools	Инструменти
-Text.MenuConfig	Настр.
-Text.MenuStart	Старт
-Text.MenuLanguage	Език
-Text.MenuQuit	Изход
+# Български (bg): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~З~ареди
+Text.MenuPaths	~Т~раектории
+Text.MenuTools	Инст~р~ументи
+Text.MenuConfig	~Н~астр.
+Text.MenuStart	~С~тарт
+Text.MenuLanguage	~Е~зик
+Text.MenuQuit	~И~зход
 Text.TitleSelectFile	Избор на файл
 Text.TitlePaths	Траектории
 Text.TitleTools	Данни за инструм.

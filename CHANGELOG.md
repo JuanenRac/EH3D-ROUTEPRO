@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Hot keys in the menu of the 29 languages read from files:** the items of the menu bar have a highlighted letter in each of them (`~X~` in `locales/*.tsv`), written by `tools/make_hotkeys.py` (the same tool as EH3D-DRILLPRO, which also writes the letters of the classic screens); Cyrillic and Greek letters are typed with that alphabet's keyboard or with the Latin key that sits in the same place (Russian, Ukrainian, Greek; Bulgarian and Serbian need their own layout). 2 tests check the menu and the parameter window in all 37 languages.
+
 - **The pens that are off go to the server too:** a job sent to the EH3D server (`connection = server`) carries `skip_tools` along with the paths the program chose, so the server leaves the same pens out and never asks the operator for them (`app::server_route_request`). 1 test.
 
 ## [0.0.8] - 37 languages and pens that can be left out of a job

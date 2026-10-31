@@ -1,11 +1,11 @@
-# Slovenščina (sl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Naloži
-Text.MenuPaths	Poti
-Text.MenuTools	Orodja
-Text.MenuConfig	Nastav.
-Text.MenuStart	Zagon
-Text.MenuLanguage	Jezik
-Text.MenuQuit	Izhod
+# Slovenščina (sl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	N~a~loži
+Text.MenuPaths	~P~oti
+Text.MenuTools	~O~rodja
+Text.MenuConfig	~N~astav.
+Text.MenuStart	~Z~agon
+Text.MenuLanguage	~J~ezik
+Text.MenuQuit	~I~zhod
 Text.TitleSelectFile	Izbira datoteke
 Text.TitlePaths	Poti
 Text.TitleTools	Podatki o orodjih

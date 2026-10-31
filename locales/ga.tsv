@@ -1,11 +1,11 @@
-# Gaeilge (ga): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Luchtaigh
-Text.MenuPaths	Cosáin
-Text.MenuTools	Uirlisí
-Text.MenuConfig	Cumraíocht
-Text.MenuStart	Tosaigh
-Text.MenuLanguage	Teanga
-Text.MenuQuit	Scoir
+# Gaeilge (ga): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	~L~uchtaigh
+Text.MenuPaths	~C~osáin
+Text.MenuTools	~U~irlisí
+Text.MenuConfig	Cu~m~raíocht
+Text.MenuStart	T~o~saigh
+Text.MenuLanguage	~T~eanga
+Text.MenuQuit	~S~coir
 Text.TitleSelectFile	Roghnaigh comhad
 Text.TitlePaths	Cosáin
 Text.TitleTools	Sonraí uirlisí

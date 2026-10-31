@@ -18,7 +18,7 @@
 
 ---
 
-**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 57 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。 默认显示 MS-DOS 程序的经典界面，已逐个单元格与原版核对；`--modern` 启动菜单式界面。 可用键盘和鼠标操作，窗口可最大化（画面从 640x400 缩放到 1080p 及更大），配置文件和刀具表可在对话框中编辑并保存，“关于”按钮列出 Bungard CCD 和 CCD/2 机型（支持 MTC，暂不支持 ATC）。 控制台版本（`routepro-console`）在终端中显示同样的界面，支持键盘和鼠标，不需要窗口系统（SSH、文本控制台、旧电脑）。 每个版本的软件包都带有逐行解释的基本配置，以及从方形到十万个点的 `examples` 文件夹。ATC 机型的换刀器尚不支持。
+**诚实性核对 - 今天真正能运行的内容：** 一个带 80x25 文本模式界面的 Rust 程序，读取 HP-GL `.PLT` 绘图文件、刀具表和机器配置，规划多遍铣削路径（快速移动、下刀、切削、抬刀），然后**在模拟器上**（默认）运行；若机器文件指定，则通过电脑串口、USB 串口适配器或 EH3D-NODE-BUNGARD **在真实机器上**运行。电脑上运行 59 项测试。它与 EH3D-DRILLPRO 共用的串口协议已在一台真实的 Bungard CCD MTC 上试过（三轴回参考点和每个轴的运动）；**完整的铣削作业尚未在机器上运行**，每毫米步数也只是与原版配置核对过。 默认显示 MS-DOS 程序的经典界面，已逐个单元格与原版核对；`--modern` 启动菜单式界面。 可用键盘和鼠标操作，窗口可最大化（画面从 640x400 缩放到 1080p 及更大），配置文件和刀具表可在对话框中编辑并保存，“关于”按钮列出 Bungard CCD 和 CCD/2 机型（支持 MTC，暂不支持 ATC）。 控制台版本（`routepro-console`）在终端中显示同样的界面，支持键盘和鼠标，不需要窗口系统（SSH、文本控制台、旧电脑）。 每个版本的软件包都带有逐行解释的基本配置，以及从方形到十万个点的 `examples` 文件夹。ATC 机型的换刀器尚不支持。
 
 ---
 
@@ -30,7 +30,7 @@
 |---|---|
 | 版本 | `0.0.8` |
 | 成熟度 | 脚手架 |
-| 测试 | 57 |
+| 测试 | 59 |
 | 技术栈 | Rust |
 | 真实硬件 | 是，在一台 Bungard CCD MTC 上：回参考点和每个轴的运动；完整作业尚未运行。没有机器文件时在模拟器上运行 |
 
@@ -45,7 +45,7 @@
 | 领域 | 状态 | 在这里的含义 |
 |---|---|---|
 | 软件 | 🟡 | 带 80x25 文本界面的 Rust 程序读取 HP-GL 绘图文件、刀具表和机床文件，规划多遍铣削路径，并在模拟器上运行；机床文件指定时则在真实机床上运行。它需要 EH3D-DRILLPRO 的文件夹放在旁边。 |
-| 测试 | 🟢 | 57 项测试通过（`cargo test --workspace`）：HP-GL 读取器、路径规划和37 种语言的界面；协议由 EH3D-DRILLPRO 的 237 项测试覆盖。 |
+| 测试 | 🟢 | 59 项测试通过（`cargo test --workspace`）：HP-GL 读取器、路径规划和37 种语言的界面；协议由 EH3D-DRILLPRO 的 237 项测试覆盖。 |
 | HP-GL 读取器 | 🟡 | 只理解 `IN`、`SP`、`PU`、`PD`、`PA` 和 `PR`；其他命令只计数并忽略，不会导致失败。只用为测试编写的小型样例文件验证过。 |
 | 路径规划 | 🟡 | 每条路径在每一遍都变成快速移动、下刀、切削和抬刀，深度平均分配，刀具最后总是回到表面；只在测试和模拟器上验证过。 |
 | 真实硬件 | 🟠 | 与 EH3D-DRILLPRO 共用的串口协议在一台 Bungard CCD MTC 上试过（参考点回零和每个轴的移动）；没有任何铣削作业在机床上运行过，主轴和吸尘器输出尚未试过。 |
@@ -136,11 +136,11 @@ cargo fmt --all --check
 python -I tools/ci_validate.py
 ```
 
-用 `run.bat`（Windows）或 `./run.sh`（Linux 和 macOS）运行；两者都会在需要时先构建程序。两者都需要 Rust 和相邻的文件夹 `EH3D-DRILLPRO`：`run.bat [文件.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`。`--data` 是存放 `ROUTEPRO.RTD` 和 `ROUTEPRO.RCF` 的文件夹（默认：`testdata/`），`--dump` 将屏幕以纯文本输出。按键：`Alt` 加高亮字母打开菜单，方向键移动，`Enter` 确认，`Esc` 返回；也可以点击菜单栏。中文和日文需要系统字体中有 CJK 字体。 `--connection FILE` 指向不同于默认的机器文件（Windows 上默认为 `%APPDATA%\EH3D\machine.cfg`，其他系统为 `~/.config/eh3d/machine.cfg`）；没有机器文件时程序在模拟器上运行。 `--modern` 启动菜单式界面，而不是经典界面。
+用 `run.bat`（Windows）或 `./run.sh`（Linux 和 macOS）运行；两者都会在需要时先构建程序。两者都需要 Rust 和相邻的文件夹 `EH3D-DRILLPRO`：`run.bat [文件.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`。`--data` 是存放 `ROUTEPRO.RTD` 和 `ROUTEPRO.RCF` 的文件夹（默认：`testdata/`），`--dump` 将屏幕以纯文本输出。按键：`Alt` 加高亮字母打开菜单，方向键移动，`Enter` 确认，`Esc` 返回；也可以点击菜单栏。从文件读取的 29 种语言中，高亮字母由 `tools/make_hotkeys.py` 写入（每个控件一个字母，同一屏幕上不重复）；西里尔字母或希腊字母用该文字的键盘输入（俄语、乌克兰语和希腊语也接受位于同一位置的拉丁字母键；保加利亚语和塞尔维亚语需要各自的键盘布局）。中文和日文需要系统字体中有 CJK 字体。 `--connection FILE` 指向不同于默认的机器文件（Windows 上默认为 `%APPDATA%\EH3D\machine.cfg`，其他系统为 `~/.config/eh3d/machine.cfg`）；没有机器文件时程序在模拟器上运行。 `--modern` 启动菜单式界面，而不是经典界面。
 
 ## 🧪 测试
 
-测试套件共有 57 个测试（`cargo test --workspace`）。它们检查 HP-GL 读取器、路径规划（多次走刀、下刀、切削和抬刀）、协议 crate 中的铣削计划、逐个字符单元核对的经典界面，以及八种语言的界面。复用的协议（字节、运动、安全门）在 EH3D-DRILLPRO 中测试。CI 还会运行 `cargo fmt --check` 和把警告当作错误的 `cargo clippy`，并由 `python -I tools/ci_validate.py` 检查清单、版本、变更日志和八个 README。
+测试套件共有 59 个测试（`cargo test --workspace`）。它们检查 HP-GL 读取器、路径规划（多次走刀、下刀、切削和抬刀）、协议 crate 中的铣削计划、逐个字符单元核对的经典界面，以及八种语言的界面。复用的协议（字节、运动、安全门）在 EH3D-DRILLPRO 中测试。CI 还会运行 `cargo fmt --check` 和把警告当作错误的 `cargo clippy`，并由 `python -I tools/ci_validate.py` 检查清单、版本、变更日志和八个 README。
 
 ## 🏗️ 构建与发布
 
@@ -172,7 +172,7 @@ EH3D-ROUTEPRO/
 ├── config/                                      逐行解释的基本配置
 ├── examples/                                    示例：从方形到10万个点
 ├── locales/                                     从文件读取的 29 种语言的文字，每种语言一个文件
-├── tools/                                       CI 检查、README 检查和图片工具
+├── tools/                                       CI 检查、README 检查、快捷键写入和图片工具
 ├── images/                                      横幅图、两张图片和屏幕截图
 ├── .github/                                     CI 与发布工作流、Issue 和 PR 模板
 ├── build.sh build.bat                           构建和测试脚本

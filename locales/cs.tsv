@@ -1,11 +1,11 @@
-# Čeština (cs): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Načíst
-Text.MenuPaths	Dráhy
-Text.MenuTools	Nástroje
-Text.MenuConfig	Nastav.
-Text.MenuStart	Start
-Text.MenuLanguage	Jazyk
-Text.MenuQuit	Konec
+# Čeština (cs): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	N~a~číst
+Text.MenuPaths	~D~ráhy
+Text.MenuTools	Nás~t~roje
+Text.MenuConfig	~N~astav.
+Text.MenuStart	~S~tart
+Text.MenuLanguage	~J~azyk
+Text.MenuQuit	~K~onec
 Text.TitleSelectFile	Výběr souboru
 Text.TitlePaths	Dráhy
 Text.TitleTools	Data nástrojů

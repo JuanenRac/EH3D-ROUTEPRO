@@ -1,11 +1,11 @@
-# Română (ro): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Încărcare
-Text.MenuPaths	Trasee
-Text.MenuTools	Scule
-Text.MenuConfig	Config.
-Text.MenuStart	Start
-Text.MenuLanguage	Limbă
-Text.MenuQuit	Ieșire
+# Română (ro): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	Î~n~cărcare
+Text.MenuPaths	~T~rasee
+Text.MenuTools	S~c~ule
+Text.MenuConfig	C~o~nfig.
+Text.MenuStart	~S~tart
+Text.MenuLanguage	~L~imbă
+Text.MenuQuit	~I~eșire
 Text.TitleSelectFile	Alegeți fișierul
 Text.TitlePaths	Trasee
 Text.TitleTools	Date scule

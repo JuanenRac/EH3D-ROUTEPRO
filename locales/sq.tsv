@@ -1,11 +1,11 @@
-# Shqip (sq): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
-Text.MenuLoad	Ngarko
-Text.MenuPaths	Shtigjet
-Text.MenuTools	Mjetet
-Text.MenuConfig	Konfig.
-Text.MenuStart	Nis
-Text.MenuLanguage	Gjuha
-Text.MenuQuit	Dil
+# Shqip (sq): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). A ~X~ marks the hot key of a text (written by tools/make_hotkeys.py).
+Text.MenuLoad	Ng~a~rko
+Text.MenuPaths	~S~htigjet
+Text.MenuTools	~M~jetet
+Text.MenuConfig	~K~onfig.
+Text.MenuStart	~N~is
+Text.MenuLanguage	~G~juha
+Text.MenuQuit	~D~il
 Text.TitleSelectFile	Zgjidh skedarin
 Text.TitlePaths	Shtigjet
 Text.TitleTools	Të dhënat e mjeteve
