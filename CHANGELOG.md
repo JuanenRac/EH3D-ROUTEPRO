@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.9] - No console window on Windows, hot keys in 37 languages and the pens that are off sent to the server
+
 - **No black window on Windows:** the program no longer opens a console; started from a terminal it attaches to it, so the help and the errors are printed there as before.
 
 - **Hot keys in the menu of the 29 languages read from files:** the items of the menu bar have a highlighted letter in each of them (`~X~` in `locales/*.tsv`), written by `tools/make_hotkeys.py` (the same tool as EH3D-DRILLPRO, which also writes the letters of the classic screens); Cyrillic and Greek letters are typed with that alphabet's keyboard or with the Latin key that sits in the same place (Russian, Ukrainian, Greek; Bulgarian and Serbian need their own layout). 2 tests check the menu and the parameter window in all 37 languages.
