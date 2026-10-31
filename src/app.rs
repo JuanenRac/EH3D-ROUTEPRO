@@ -783,7 +783,15 @@ impl App {
             .unwrap_or(10)
             .max(str_width(tr(self.lang, Text::TitleLanguage)))
             + 6;
-        let h = names.len() + 4;
+        // a long list shows the rows around the selection
+        let shown = names.len().min(ROWS - 8);
+        let first = self.sel.saturating_sub(shown - 1).min(names.len() - shown);
+        let first = if self.sel < first + shown {
+            first
+        } else {
+            self.sel + 1 - shown
+        };
+        let h = shown + 4;
         let (x, y) = ((COLS - w) / 2, (ROWS - h) / 2);
         s.window(
             x,
@@ -794,14 +802,14 @@ impl App {
             BLACK,
             WIN_BG,
         );
-        for (i, n) in names.iter().enumerate() {
+        for (row, (i, n)) in names.iter().enumerate().skip(first).take(shown).enumerate() {
             let (fg, bg) = if i == self.sel {
                 (WHITE, BLACK)
             } else {
                 (BLACK, WIN_BG)
             };
-            s.fill(x + 2, y + 2 + i, w - 4, 1, ' ', fg, bg);
-            s.text(x + 3, y + 2 + i, n, fg, bg);
+            s.fill(x + 2, y + 2 + row, w - 4, 1, ' ', fg, bg);
+            s.text(x + 3, y + 2 + row, n, fg, bg);
         }
     }
 

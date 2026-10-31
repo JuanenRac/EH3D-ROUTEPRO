@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Room for 37 languages:** the words of the new languages are read from the files of `locales/` (the same scheme as DRILLPRO), and the list of languages scrolls.
+
 - **Pens switched off:** the pens listed in `JobOptions::skip_tools` are left out of the routing job (`select_paths`). 1 test.
 
 - **Tabs only on the outside, and on a single board:** the tabs of a panel are cut into the outside of each board only (the pockets and slots inside are routed whole), and a panel of one copy with tabs is cut at its tabs too.
