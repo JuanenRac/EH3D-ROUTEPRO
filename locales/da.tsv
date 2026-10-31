@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	RIGTIG MASKINE ({}) - Start bevæger den
 Text.RealStop	Esc stopper; hånd ved afbryderen
 Text.StatusMain	Esc: tilbage   Enter: acceptér   ↑/↓: flyt
+Text.SpindleLimit	Spindelgrænse:

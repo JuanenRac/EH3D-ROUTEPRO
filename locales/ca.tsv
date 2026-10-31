@@ -51,3 +51,4 @@ Text.KeyStop	Esc: atura
 Text.RealMachine	MÀQUINA REAL ({}) - Inicia la mou
 Text.RealStop	Esc l'atura; tingues la mà prop de l'interruptor
 Text.StatusMain	Esc: enrere   Enter: accepta   ↑/↓: mou
+Text.SpindleLimit	Límit de l'eix:

@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stöðva
 Text.RealMachine	RAUNVÉL ({}) - Ræsa hreyfir hana
 Text.RealStop	Esc stöðvar; hafðu hönd við rofann
 Text.StatusMain	Esc: til baka   Enter: samþykkja   ↑/↓: færa
+Text.SpindleLimit	Hámark spindils:

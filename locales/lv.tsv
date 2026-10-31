@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	REĀLA IEKĀRTA ({}) - Sākt to kustina
 Text.RealStop	Esc aptur; turiet roku pie slēdža
 Text.StatusMain	Esc: atpakaļ   Enter: apstiprināt   ↑/↓: pārvietot
+Text.SpindleLimit	Vārpstas robeža:

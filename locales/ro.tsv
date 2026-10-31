@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	MAȘINĂ REALĂ ({}) - Start o mișcă
 Text.RealStop	Esc o oprește; țineți mâna lângă întrerupător
 Text.StatusMain	Esc: înapoi   Enter: acceptă   ↑/↓: mișcare
+Text.SpindleLimit	Limita arborelui:

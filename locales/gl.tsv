@@ -51,3 +51,4 @@ Text.KeyStop	Esc: parar
 Text.RealMachine	MÁQUINA REAL ({}) - Iniciar móvea
 Text.RealStop	Esc párea; ten unha man preto do interruptor
 Text.StatusMain	Esc: atrás   Enter: acepta   ↑/↓: mover
+Text.SpindleLimit	Límite do fuso:

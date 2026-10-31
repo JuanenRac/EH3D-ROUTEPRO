@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	STVARNI STROJ ({}) - Start ga pokreće
 Text.RealStop	Esc zaustavlja; ruka uz prekidač
 Text.StatusMain	Esc: natrag   Enter: prihvati   ↑/↓: kretanje
+Text.SpindleLimit	Ograničenje vretena:

@@ -51,3 +51,4 @@ Text.KeyStop	Esc: стоп
 Text.RealMachine	ПРАВА МАШИНА ({}) - Старт је покреће
 Text.RealStop	Esc зауставља; држите руку уз прекидач
 Text.StatusMain	Esc: назад   Enter: прихвати   ↑/↓: кретање
+Text.SpindleLimit	Ограничење вретена:

@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	MEAISÍN RÉAL ({}) - gluaiseann Tosaigh é
 Text.RealStop	Stopann Esc é; coinnigh lámh ar an lasc cumhachta
 Text.StatusMain	Esc: ar ais   Enter: glac   ↑/↓: bog
+Text.SpindleLimit	Teorainn na fearsaide:

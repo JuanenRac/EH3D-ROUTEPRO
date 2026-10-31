@@ -51,3 +51,4 @@ Text.KeyStop	Esc: gelditu
 Text.RealMachine	BENETAKO MAKINA ({}) - Hasteak mugitzen du
 Text.RealStop	Esc-k gelditzen du; eduki esku bat etengailuaren ondoan
 Text.StatusMain	Esc: atzera   Enter: onartu   ↑/↓: mugitu
+Text.SpindleLimit	Ardatzaren muga:

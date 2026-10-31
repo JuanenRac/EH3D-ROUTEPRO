@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	DEJANSKI STROJ ({}) - Zagon ga premakne
 Text.RealStop	Esc ga ustavi; roka naj bo ob stikalu
 Text.StatusMain	Esc: nazaj   Enter: potrdi   ↑/↓: premik
+Text.SpindleLimit	Omejitev vretena:

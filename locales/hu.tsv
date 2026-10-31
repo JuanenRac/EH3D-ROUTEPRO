@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	VALÓDI GÉP ({}) - az Indítás mozgatja
 Text.RealStop	Az Esc leállítja; tartsa a kezét a főkapcsolónál
 Text.StatusMain	Esc: vissza   Enter: elfogad   ↑/↓: mozgás
+Text.SpindleLimit	Az orsó határa:

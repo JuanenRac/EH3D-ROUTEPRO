@@ -51,3 +51,4 @@ Text.KeyStop	Esc: стоп
 Text.RealMachine	РЕАЛЬНЫЙ СТАНОК ({}) - Пуск двигает его
 Text.RealStop	Esc останавливает; держите руку у выключателя
 Text.StatusMain	Esc: назад   Enter: принять   ↑/↓: перемещение
+Text.SpindleLimit	Предел шпинделя:

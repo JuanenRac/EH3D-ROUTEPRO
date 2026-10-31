@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stopp
 Text.RealMachine	RIKTIG MASKIN ({}) - Start rör den
 Text.RealStop	Esc stoppar den; ha handen nära strömbrytaren
 Text.StatusMain	Esc: tillbaka   Enter: godkänn   ↑/↓: flytta
+Text.SpindleLimit	Spindelgräns:

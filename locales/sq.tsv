@@ -51,3 +51,4 @@ Text.KeyStop	Esc: ndalo
 Text.RealMachine	MAKINË E VËRTETË ({}) - Nis e lëviz
 Text.RealStop	Esc e ndal; mbaj dorën afër çelësit
 Text.StatusMain	Esc: kthehu   Enter: prano   ↑/↓: lëviz
+Text.SpindleLimit	Kufiri i boshtit:

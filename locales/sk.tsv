@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	SKUTOČNÝ STROJ ({}) - Štart ho pohne
 Text.RealStop	Esc ho zastaví; majte ruku pri vypínači
 Text.StatusMain	Esc: späť   Enter: potvrdiť   ↑/↓: pohyb
+Text.SpindleLimit	Obmedzenie vretena:

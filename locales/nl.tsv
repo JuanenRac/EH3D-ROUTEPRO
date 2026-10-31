@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	ECHTE MACHINE ({}) - Start beweegt hem
 Text.RealStop	Esc stopt; hand bij de hoofdschakelaar
 Text.StatusMain	Esc: terug   Enter: accepteren   ↑/↓: verplaatsen
+Text.SpindleLimit	Spindelgrens:

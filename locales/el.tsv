@@ -51,3 +51,4 @@ Text.KeyStop	Esc: στοπ
 Text.RealMachine	ΠΡΑΓΜΑΤΙΚΟ ΜΗΧΑΝΗΜΑ ({}) - Η Έναρξη το κινεί
 Text.RealStop	Το Esc το σταματά· κρατήστε το χέρι στον διακόπτη
 Text.StatusMain	Esc: πίσω   Enter: αποδοχή   ↑/↓: κίνηση
+Text.SpindleLimit	Όριο ατράκτου:

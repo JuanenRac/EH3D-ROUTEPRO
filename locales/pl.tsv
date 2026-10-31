@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	PRAWDZIWA MASZYNA ({}) - Start ją porusza
 Text.RealStop	Esc zatrzymuje; trzymaj rękę przy wyłączniku
 Text.StatusMain	Esc: wstecz   Enter: zatwierdź   ↑/↓: ruch
+Text.SpindleLimit	Limit wrzeciona:

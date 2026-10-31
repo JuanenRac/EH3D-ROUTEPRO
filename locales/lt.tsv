@@ -51,3 +51,4 @@ Text.KeyStop	Esc: stop
 Text.RealMachine	TIKROS STAKLĖS ({}) - Pradėti jas judina
 Text.RealStop	Esc sustabdo; laikykite ranką prie jungiklio
 Text.StatusMain	Esc: atgal   Enter: patvirtinti   ↑/↓: judėti
+Text.SpindleLimit	Suklio riba:
