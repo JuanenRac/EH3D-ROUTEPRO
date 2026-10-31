@@ -181,6 +181,7 @@ pub fn select_paths(
         .iter()
         .enumerate()
         .filter(|(i, _)| (first..=last).contains(&(i + 1)))
+        .filter(|(_, p)| !opts.skip_tools.contains(&p.pen))
         .map(|(_, p)| p)
         .collect();
     let mut pens: Vec<u8> = Vec::new();

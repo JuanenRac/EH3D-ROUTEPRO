@@ -147,3 +147,14 @@ fn a_job_that_goes_on_leaves_out_the_paths_already_done() {
     };
     assert!(select_paths(&plot(), &o, (0.0, 0.0)).0.is_empty());
 }
+
+#[test]
+fn the_pens_switched_off_are_left_out_of_the_job() {
+    let o = JobOptions {
+        skip_tools: vec![1],
+        ..Default::default()
+    };
+    let (some, _) = select_paths(&plot(), &o, (0.0, 0.0));
+    assert_eq!(some.len(), 1);
+    assert_eq!(some[0].pen, 2);
+}
