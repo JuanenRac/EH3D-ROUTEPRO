@@ -1,1 +1,53 @@
 # Lietuvių (lt): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Įkelti
+Text.MenuPaths	Keliai
+Text.MenuTools	Įrankiai
+Text.MenuConfig	Konfig.
+Text.MenuStart	Pradėti
+Text.MenuLanguage	Kalba
+Text.MenuQuit	Išeiti
+Text.TitleSelectFile	Pasirinkti failą
+Text.TitlePaths	Keliai
+Text.TitleTools	Įrankių duomenys
+Text.TitleConfig	Konfigūracija
+Text.TitleLanguage	Kalba
+Text.TitleRouting	Frezavimas
+Text.TitleQuit	Išeiti
+Text.LblFile	Failas
+Text.LblPaths	Keliai
+Text.LblPens	Įrankiai
+Text.LblSize	Dydis (mm)
+Text.LblCut	Pjūvio ilgis (mm)
+Text.LblProgress	Eiga
+Text.LblTime	Imituotas laikas (s)
+Text.LblSerial	Nuosekli sąsaja
+Text.LblIgnored	Ignoruojamos komandos
+Text.ColTool	Įrankis
+Text.ColDepth	Gylis (mm)
+Text.ColPasses	Perėjimai
+Text.ColFeedXY	XY padava
+Text.ColFeedZ	Z padava
+Text.ColSpindle	Suklys (rpm)
+Text.NoFile	Failas neįkeltas
+Text.NoToolFile	Įrankių duomenų failas nerastas
+Text.NoConfigFile	Konfigūracijos failas nerastas
+Text.ErrRead	Gręžimo failo skaitymo klaida
+Text.SimOnly	IMITACIJA - staklės neprijungtos
+Text.Uncalibrated	Staklės nekalibruotos: judesys tik imituojamas
+Text.Connecting	Jungiamas valdymo blokas ...
+Text.Routing	Frezuojama ...
+Text.Done	Baigta
+Text.QuitAsk	Ar tikrai norite išeiti?
+Text.BtnYes	Taip
+Text.BtnNo	Ne
+Text.Directory	Katalogas
+Text.WaitToolChange	Įdėkite įrankį {} ir paspauskite Enter
+Text.WaitSpindle	Paspauskite Enter suklio paleidimui
+Text.Stopped	Sustabdyta (pavaros išjungtos)
+Text.LinkFailed	Ryšys nepavyko
+Text.LblLink	Ryšys
+Text.LblItems	Darbo žingsniai
+Text.KeyStop	Esc: stop
+Text.RealMachine	TIKROS STAKLĖS ({}) - Pradėti jas judina
+Text.RealStop	Esc sustabdo; laikykite ranką prie jungiklio
+Text.StatusMain	Esc: atgal   Enter: patvirtinti   ↑/↓: judėti

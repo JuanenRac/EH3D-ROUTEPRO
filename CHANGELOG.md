@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.8] - 37 languages and pens that can be left out of a job
+
 - **Room for 37 languages:** the words of the new languages are read from the files of `locales/` (the same scheme as DRILLPRO), and the list of languages scrolls.
 
 - **Pens switched off:** the pens listed in `JobOptions::skip_tools` are left out of the routing job (`select_paths`). 1 test.

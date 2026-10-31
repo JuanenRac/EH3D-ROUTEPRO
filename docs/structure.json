@@ -7,14 +7,14 @@
   "ecosystem": "eh3d",
   "svg": "en",
   "tagline": {
-    "en": "A Rust program with the classic screens of the Bungard CCD routing software, in eight languages.",
-    "es": "Un programa en Rust con las pantallas clásicas del software de fresado de Bungard CCD, en ocho idiomas.",
-    "de": "Ein Rust-Programm mit den klassischen Bildschirmen der Bungard-CCD-Fräs-Software, in acht Sprachen.",
-    "fr": "Un programme Rust avec les écrans classiques du logiciel de fraisage Bungard CCD, en huit langues.",
-    "it": "Un programma in Rust con le schermate classiche del software di fresatura Bungard CCD, in otto lingue.",
-    "ja": "Bungard CCD のルーターソフトの従来の画面を備えた、8 言語対応の Rust プログラム。",
-    "zh": "采用 Bungard CCD 铣削软件经典界面的 Rust 程序，支持八种语言。",
-    "pt": "Um programa em Rust com os ecrãs clássicos do software de fresagem da Bungard CCD, em oito idiomas."
+    "en": "A Rust program with the classic screens of the Bungard CCD routing software, in 37 languages.",
+    "es": "Un programa en Rust con las pantallas clásicas del software de fresado de Bungard CCD, en 37 idiomas.",
+    "de": "Ein Rust-Programm mit den klassischen Bildschirmen der Bungard-CCD-Fräs-Software, in 37 Sprachen.",
+    "fr": "Un programme Rust avec les écrans classiques du logiciel de fraisage Bungard CCD, en 37 langues.",
+    "it": "Un programma in Rust con le schermate classiche del software di fresatura Bungard CCD, in 37 lingue.",
+    "ja": "Bungard CCD のルーターソフトの従来の画面を備えた、37 言語対応の Rust プログラム。",
+    "zh": "采用 Bungard CCD 铣削软件经典界面的 Rust 程序，支持37 种语言。",
+    "pt": "Um programa em Rust com os ecrãs clássicos do software de fresagem da Bungard CCD, em 37 línguas."
   },
   "cards": [
     {
@@ -49,14 +49,14 @@
           "name": "app.rs  texts.rs",
           "tree_name": "app.rs texts.rs",
           "desc": {
-            "en": "the application and its texts in eight languages",
-            "es": "la aplicación y sus textos en ocho idiomas",
-            "de": "die Anwendung und ihre Texte in acht Sprachen",
-            "fr": "l'application et ses textes en huit langues",
-            "it": "l'applicazione e i suoi testi in otto lingue",
-            "ja": "アプリケーションと 8 言語のテキスト",
-            "zh": "应用程序及其八种语言的文本",
-            "pt": "a aplicação e os seus textos em oito idiomas"
+            "en": "the application and its texts in 37 languages",
+            "es": "la aplicación y sus textos en 37 idiomas",
+            "de": "die Anwendung und ihre Texte in 37 Sprachen",
+            "fr": "l'application et ses textes en 37 langues",
+            "it": "l'applicazione e i suoi testi in 37 lingue",
+            "ja": "アプリケーションと 37 言語のテキスト",
+            "zh": "应用程序及其37 种语言的文本",
+            "pt": "a aplicação e os seus textos em 37 línguas"
           }
         },
         {
@@ -240,6 +240,19 @@
             "ja": "例：四角から10万点",
             "zh": "示例：从方形到10万个点",
             "pt": "exemplos, de um quadrado a 100000 pontos"
+          }
+        },
+        {
+          "name": "locales/",
+          "desc": {
+            "en": "the words of the 29 languages that are read from files, one file per language",
+            "es": "las palabras de los 29 idiomas que se leen de ficheros, un fichero por idioma",
+            "it": "le parole delle 29 lingue lette da file, un file per lingua",
+            "de": "die Wörter der 29 Sprachen, die aus Dateien gelesen werden, eine Datei je Sprache",
+            "fr": "les mots des 29 langues lues dans des fichiers, un fichier par langue",
+            "pt": "as palavras das 29 línguas lidas de ficheiros, um ficheiro por língua",
+            "zh": "从文件读取的 29 种语言的文字，每种语言一个文件",
+            "ja": "ファイルから読み込む 29 言語の文言（言語ごとに 1 ファイル）"
           }
         },
         {

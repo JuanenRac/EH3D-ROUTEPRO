@@ -1,1 +1,53 @@
 # Română (ro): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Încărcare
+Text.MenuPaths	Trasee
+Text.MenuTools	Scule
+Text.MenuConfig	Config.
+Text.MenuStart	Start
+Text.MenuLanguage	Limbă
+Text.MenuQuit	Ieșire
+Text.TitleSelectFile	Alegeți fișierul
+Text.TitlePaths	Trasee
+Text.TitleTools	Date scule
+Text.TitleConfig	Configurare
+Text.TitleLanguage	Limbă
+Text.TitleRouting	Frezare
+Text.TitleQuit	Ieșire
+Text.LblFile	Fișier
+Text.LblPaths	Trasee
+Text.LblPens	Scule
+Text.LblSize	Dimensiune (mm)
+Text.LblCut	Lungime tăiere (mm)
+Text.LblProgress	Progres
+Text.LblTime	Timp simulat (s)
+Text.LblSerial	Interfață serială
+Text.LblIgnored	Comenzi ignorate
+Text.ColTool	Sculă
+Text.ColDepth	Adâncime (mm)
+Text.ColPasses	Treceri
+Text.ColFeedXY	Avans XY
+Text.ColFeedZ	Avans Z
+Text.ColSpindle	Arbore (rpm)
+Text.NoFile	Niciun fișier încărcat
+Text.NoToolFile	Fișierul cu datele sculelor nu a fost găsit
+Text.NoConfigFile	Fișierul de configurare nu a fost găsit
+Text.ErrRead	Eroare la citirea fișierului de găurire
+Text.SimOnly	SIMULARE - nicio mașină conectată
+Text.Uncalibrated	Mașină necalibrată: mișcarea este doar simulată
+Text.Connecting	Se conectează unitatea de comandă ...
+Text.Routing	Se frezează ...
+Text.Done	Gata
+Text.QuitAsk	Chiar doriți să ieșiți?
+Text.BtnYes	Da
+Text.BtnNo	Nu
+Text.Directory	Director
+Text.WaitToolChange	Introduceți scula {} și apăsați Enter
+Text.WaitSpindle	Apăsați Enter pentru pornirea arborelui
+Text.Stopped	Oprit (acționări oprite)
+Text.LinkFailed	Conexiune eșuată
+Text.LblLink	Conexiune
+Text.LblItems	Pașii lucrării
+Text.KeyStop	Esc: stop
+Text.RealMachine	MAȘINĂ REALĂ ({}) - Start o mișcă
+Text.RealStop	Esc o oprește; țineți mâna lângă întrerupător
+Text.StatusMain	Esc: înapoi   Enter: acceptă   ↑/↓: mișcare

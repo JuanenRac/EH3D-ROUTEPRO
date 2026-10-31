@@ -1,1 +1,53 @@
 # Čeština (cs): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Načíst
+Text.MenuPaths	Dráhy
+Text.MenuTools	Nástroje
+Text.MenuConfig	Nastav.
+Text.MenuStart	Start
+Text.MenuLanguage	Jazyk
+Text.MenuQuit	Konec
+Text.TitleSelectFile	Výběr souboru
+Text.TitlePaths	Dráhy
+Text.TitleTools	Data nástrojů
+Text.TitleConfig	Konfigurace
+Text.TitleLanguage	Jazyk
+Text.TitleRouting	Frézování
+Text.TitleQuit	Konec
+Text.LblFile	Soubor
+Text.LblPaths	Dráhy
+Text.LblPens	Nástroje
+Text.LblSize	Rozměr (mm)
+Text.LblCut	Délka řezu (mm)
+Text.LblProgress	Průběh
+Text.LblTime	Simulovaný čas (s)
+Text.LblSerial	Sériové rozhraní
+Text.LblIgnored	Ignorované příkazy
+Text.ColTool	Nástroj
+Text.ColDepth	Hloubka (mm)
+Text.ColPasses	Průchody
+Text.ColFeedXY	XY posuv
+Text.ColFeedZ	Z posuv
+Text.ColSpindle	Vřeteno
+Text.NoFile	Není načten soubor
+Text.NoToolFile	Soubor nástrojů nenalezen
+Text.NoConfigFile	Konfig. soubor nenalezen
+Text.ErrRead	Chyba čtení plot souboru
+Text.SimOnly	SIMULACE - stroj není připojen
+Text.Uncalibrated	Stroj nekalibrován: pohyb jen simulován
+Text.Connecting	Připojování řídicí jednotky ...
+Text.Routing	Frézování ...
+Text.Done	Hotovo
+Text.QuitAsk	Opravdu chcete skončit?
+Text.BtnYes	Ano
+Text.BtnNo	Ne
+Text.Directory	Adresář
+Text.WaitToolChange	Vložte nástroj {} a stiskněte Enter
+Text.WaitSpindle	Enterem spustíte vřeteno
+Text.Stopped	Zastaveno (pohony vypnuty)
+Text.LinkFailed	Spojení selhalo
+Text.LblLink	Spojení
+Text.LblItems	Kroky úlohy
+Text.KeyStop	Esc: stop
+Text.RealMachine	SKUTEČNÝ STROJ ({}) - Start ho rozpohybuje
+Text.RealStop	Esc zastaví; ruku u vypínače
+Text.StatusMain	Esc: zpět   Enter: potvrdit   ↑/↓: pohyb

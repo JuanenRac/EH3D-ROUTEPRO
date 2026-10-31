@@ -1,1 +1,53 @@
 # Русский (ru): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Загрузка
+Text.MenuPaths	Траект.
+Text.MenuTools	Инстр.
+Text.MenuConfig	Настр.
+Text.MenuStart	Пуск
+Text.MenuLanguage	Язык
+Text.MenuQuit	Выход
+Text.TitleSelectFile	Выбор файла
+Text.TitlePaths	Траектории
+Text.TitleTools	Данные инструментов
+Text.TitleConfig	Конфигурация
+Text.TitleLanguage	Язык
+Text.TitleRouting	Фрезеровка
+Text.TitleQuit	Выход
+Text.LblFile	Файл
+Text.LblPaths	Траектории
+Text.LblPens	Инструменты
+Text.LblSize	Размер (mm)
+Text.LblCut	Длина реза (mm)
+Text.LblProgress	Прогресс
+Text.LblTime	Время симуляции (s)
+Text.LblSerial	Последовательный интерфейс
+Text.LblIgnored	Игнорируемые команды
+Text.ColTool	Инстр.
+Text.ColDepth	Глубина (mm)
+Text.ColPasses	Проходы
+Text.ColFeedXY	Подача XY
+Text.ColFeedZ	Подача Z
+Text.ColSpindle	Шпиндель
+Text.NoFile	Файл не загружен
+Text.NoToolFile	Файл инструментов не найден
+Text.NoConfigFile	Файл конфигурации не найден
+Text.ErrRead	Ошибка чтения файла плоттера
+Text.SimOnly	СИМУЛЯЦИЯ - станок не подключён
+Text.Uncalibrated	Станок не откалиброван: движение только имитируется
+Text.Connecting	Подключение блока управления ...
+Text.Routing	Фрезеровка ...
+Text.Done	Готово
+Text.QuitAsk	Действительно выйти?
+Text.BtnYes	Да
+Text.BtnNo	Нет
+Text.Directory	Каталог
+Text.WaitToolChange	Вставьте инструмент {} и нажмите Enter
+Text.WaitSpindle	Нажмите Enter для пуска шпинделя
+Text.Stopped	Остановлено (приводы выкл.)
+Text.LinkFailed	Ошибка соединения
+Text.LblLink	Связь
+Text.LblItems	Шаги задания
+Text.KeyStop	Esc: стоп
+Text.RealMachine	РЕАЛЬНЫЙ СТАНОК ({}) - Пуск двигает его
+Text.RealStop	Esc останавливает; держите руку у выключателя
+Text.StatusMain	Esc: назад   Enter: принять   ↑/↓: перемещение

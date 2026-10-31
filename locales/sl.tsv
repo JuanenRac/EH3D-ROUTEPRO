@@ -1,1 +1,53 @@
 # Slovenščina (sl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Naloži
+Text.MenuPaths	Poti
+Text.MenuTools	Orodja
+Text.MenuConfig	Nastav.
+Text.MenuStart	Zagon
+Text.MenuLanguage	Jezik
+Text.MenuQuit	Izhod
+Text.TitleSelectFile	Izbira datoteke
+Text.TitlePaths	Poti
+Text.TitleTools	Podatki o orodjih
+Text.TitleConfig	Nastavitve
+Text.TitleLanguage	Jezik
+Text.TitleRouting	Frezanje
+Text.TitleQuit	Izhod
+Text.LblFile	Datoteka
+Text.LblPaths	Poti
+Text.LblPens	Orodja
+Text.LblSize	Velikost (mm)
+Text.LblCut	Dolžina reza (mm)
+Text.LblProgress	Napredek
+Text.LblTime	Simulirani čas (s)
+Text.LblSerial	Serijski vmesnik
+Text.LblIgnored	Prezrti ukazi
+Text.ColTool	Orodje
+Text.ColDepth	Globina (mm)
+Text.ColPasses	Prehodi
+Text.ColFeedXY	Podaj. XY
+Text.ColFeedZ	Podaj. Z
+Text.ColSpindle	Vreteno
+Text.NoFile	Nobena datoteka ni naložena
+Text.NoToolFile	Datoteka orodij ni najdena
+Text.NoConfigFile	Konfiguracijska datoteka ni najdena
+Text.ErrRead	Napaka pri branju datoteke risanja
+Text.SimOnly	SIMULACIJA - stroj ni priključen
+Text.Uncalibrated	Stroj ni kalibriran: gibanje je le simulirano
+Text.Connecting	Povezovanje s krmilno enoto ...
+Text.Routing	Frezanje ...
+Text.Done	Končano
+Text.QuitAsk	Res želite končati?
+Text.BtnYes	Da
+Text.BtnNo	Ne
+Text.Directory	Imenik
+Text.WaitToolChange	Vstavite orodje {} in pritisnite Enter
+Text.WaitSpindle	Pritisnite Enter za zagon vretena
+Text.Stopped	Ustavljeno (pogoni izklopljeni)
+Text.LinkFailed	Povezava ni uspela
+Text.LblLink	Povezava
+Text.LblItems	Koraki opravila
+Text.KeyStop	Esc: stop
+Text.RealMachine	DEJANSKI STROJ ({}) - Zagon ga premakne
+Text.RealStop	Esc ga ustavi; roka naj bo ob stikalu
+Text.StatusMain	Esc: nazaj   Enter: potrdi   ↑/↓: premik

@@ -1,1 +1,53 @@
 # Nederlands (nl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Laden
+Text.MenuPaths	Paden
+Text.MenuTools	Gereedschap
+Text.MenuConfig	Config.
+Text.MenuStart	Start
+Text.MenuLanguage	Taal
+Text.MenuQuit	Afsluiten
+Text.TitleSelectFile	Bestand kiezen
+Text.TitlePaths	Paden
+Text.TitleTools	Gereedschapsdata
+Text.TitleConfig	Configuratie
+Text.TitleLanguage	Taal
+Text.TitleRouting	Frezen
+Text.TitleQuit	Afsluiten
+Text.LblFile	Bestand
+Text.LblPaths	Paden
+Text.LblPens	Gereedschap
+Text.LblSize	Afmeting (mm)
+Text.LblCut	Snijlengte (mm)
+Text.LblProgress	Voortgang
+Text.LblTime	Gesimuleerde tijd (s)
+Text.LblSerial	Seriële interface
+Text.LblIgnored	Genegeerde opdrachten
+Text.ColTool	Gereedschap
+Text.ColDepth	Diepte (mm)
+Text.ColPasses	Gangen
+Text.ColFeedXY	XY-voeding
+Text.ColFeedZ	Z-voeding
+Text.ColSpindle	Spindel
+Text.NoFile	Geen bestand geladen
+Text.NoToolFile	Gereedschapsbestand niet gevonden
+Text.NoConfigFile	Configbestand niet gevonden
+Text.ErrRead	Fout bij lezen van plotbestand
+Text.SimOnly	SIMULATIE - geen machine verbonden
+Text.Uncalibrated	Machine niet gekalibreerd: alleen simulatie
+Text.Connecting	Besturingseenheid verbinden ...
+Text.Routing	Frezen ...
+Text.Done	Klaar
+Text.QuitAsk	Weet u zeker dat u wilt afsluiten?
+Text.BtnYes	Ja
+Text.BtnNo	Nee
+Text.Directory	Map
+Text.WaitToolChange	Plaats gereedschap {} en druk op Enter
+Text.WaitSpindle	Druk op Enter om de spindel te starten
+Text.Stopped	Gestopt (aandrijving uit)
+Text.LinkFailed	Verbinding mislukt
+Text.LblLink	Verbinding
+Text.LblItems	Stappen van de taak
+Text.KeyStop	Esc: stop
+Text.RealMachine	ECHTE MACHINE ({}) - Start beweegt hem
+Text.RealStop	Esc stopt; hand bij de hoofdschakelaar
+Text.StatusMain	Esc: terug   Enter: accepteren   ↑/↓: verplaatsen

@@ -1,1 +1,53 @@
 # Català (ca): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Carrega
+Text.MenuPaths	Camins
+Text.MenuTools	Eines
+Text.MenuConfig	Config.
+Text.MenuStart	Inicia
+Text.MenuLanguage	Idioma
+Text.MenuQuit	Surt
+Text.TitleSelectFile	Selecciona fitxer
+Text.TitlePaths	Camins
+Text.TitleTools	Dades d'eines
+Text.TitleConfig	Configuració
+Text.TitleLanguage	Idioma
+Text.TitleRouting	Fresat
+Text.TitleQuit	Surt
+Text.LblFile	Fitxer
+Text.LblPaths	Camins
+Text.LblPens	Eines
+Text.LblSize	Mida (mm)
+Text.LblCut	Longitud de tall (mm)
+Text.LblProgress	Progrés
+Text.LblTime	Temps simulat (s)
+Text.LblSerial	Interfície sèrie
+Text.LblIgnored	Ordres ignorades
+Text.ColTool	Eina
+Text.ColDepth	Fondària (mm)
+Text.ColPasses	Passades
+Text.ColFeedXY	Avanç XY
+Text.ColFeedZ	Avanç Z
+Text.ColSpindle	Eix
+Text.NoFile	Cap fitxer carregat
+Text.NoToolFile	Fitxer d'eines no trobat
+Text.NoConfigFile	Fitxer de configuració no trobat
+Text.ErrRead	Error en llegir el fitxer de traçat
+Text.SimOnly	SIMULACIÓ - cap màquina connectada
+Text.Uncalibrated	Màquina no calibrada: moviment només simulat
+Text.Connecting	Connectant la unitat de control ...
+Text.Routing	Fresant ...
+Text.Done	Fet
+Text.QuitAsk	Segur que vols sortir?
+Text.BtnYes	Sí
+Text.BtnNo	No
+Text.Directory	Directori
+Text.WaitToolChange	Insereix l'eina {} i prem Enter
+Text.WaitSpindle	Prem Enter per engegar l'eix
+Text.Stopped	Aturat (motors desactivats)
+Text.LinkFailed	Ha fallat la connexió
+Text.LblLink	Enllaç
+Text.LblItems	Passos de la feina
+Text.KeyStop	Esc: atura
+Text.RealMachine	MÀQUINA REAL ({}) - Inicia la mou
+Text.RealStop	Esc l'atura; tingues la mà prop de l'interruptor
+Text.StatusMain	Esc: enrere   Enter: accepta   ↑/↓: mou

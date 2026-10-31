@@ -1,1 +1,53 @@
 # Malti (mt): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Tella
+Text.MenuPaths	Perkorsi
+Text.MenuTools	Għodod
+Text.MenuConfig	Konfig.
+Text.MenuStart	Ibda
+Text.MenuLanguage	Lingwa
+Text.MenuQuit	Oħroġ
+Text.TitleSelectFile	Agħżel il-fajl
+Text.TitlePaths	Perkorsi
+Text.TitleTools	Dejta tal-għodod
+Text.TitleConfig	Konfigurazzjoni
+Text.TitleLanguage	Lingwa
+Text.TitleRouting	Qtugħ
+Text.TitleQuit	Oħroġ
+Text.LblFile	Fajl
+Text.LblPaths	Perkorsi
+Text.LblPens	Għodod
+Text.LblSize	Daqs (mm)
+Text.LblCut	Tul tal-qtugħ (mm)
+Text.LblProgress	Progress
+Text.LblTime	Ħin issimulat (s)
+Text.LblSerial	Interfaccja serjali
+Text.LblIgnored	Kmandi injorati
+Text.ColTool	Għodda
+Text.ColDepth	Fond (mm)
+Text.ColPasses	Passati
+Text.ColFeedXY	Avanz XY
+Text.ColFeedZ	Avanz Z
+Text.ColSpindle	Spindle (rpm)
+Text.NoFile	L-ebda fajl mtella'
+Text.NoToolFile	Fajl tad-dejta tal-għodod ma nstabx
+Text.NoConfigFile	Fajl tal-konfigurazzjoni ma nstabx
+Text.ErrRead	Żball fil-qari tal-fajl tat-titqib
+Text.SimOnly	SIMULAZZJONI - l-ebda magna konnessa
+Text.Uncalibrated	Magna mhux ikkalibrata: il-moviment huwa simulat biss
+Text.Connecting	Qed jgħaqqad l-unità tal-kontroll ...
+Text.Routing	Qed jaqta' ...
+Text.Done	Lest
+Text.QuitAsk	Tassew trid toħroġ?
+Text.BtnYes	Iva
+Text.BtnNo	Le
+Text.Directory	Direttorju
+Text.WaitToolChange	Daħħal l-għodda {} u agħfas Enter
+Text.WaitSpindle	Agħfas Enter biex tibda l-ispindle
+Text.Stopped	Mwaqqaf (drivers mitfija)
+Text.LinkFailed	Il-konnessjoni falliet
+Text.LblLink	Konnessjoni
+Text.LblItems	Passi tax-xogħol
+Text.KeyStop	Esc: waqqaf
+Text.RealMachine	MAGNA VERA ({}) - Ibda tmexxiha
+Text.RealStop	Esc iwaqqafha; żomm id ħdejn l-iswiċċ
+Text.StatusMain	Esc: lura   Enter: aċċetta   ↑/↓: mexxi

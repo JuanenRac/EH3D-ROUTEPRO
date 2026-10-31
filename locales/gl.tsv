@@ -1,1 +1,53 @@
 # Galego (gl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Cargar
+Text.MenuPaths	Trazados
+Text.MenuTools	Ferramentas
+Text.MenuConfig	Config.
+Text.MenuStart	Iniciar
+Text.MenuLanguage	Idioma
+Text.MenuQuit	Saír
+Text.TitleSelectFile	Seleccionar ficheiro
+Text.TitlePaths	Trazados
+Text.TitleTools	Datos das ferramentas
+Text.TitleConfig	Configuración
+Text.TitleLanguage	Idioma
+Text.TitleRouting	Fresado
+Text.TitleQuit	Saír
+Text.LblFile	Ficheiro
+Text.LblPaths	Trazados
+Text.LblPens	Ferramentas
+Text.LblSize	Tamaño (mm)
+Text.LblCut	Lonxitude de corte (mm)
+Text.LblProgress	Progreso
+Text.LblTime	Tempo simulado (s)
+Text.LblSerial	Interface serie
+Text.LblIgnored	Comandos ignorados
+Text.ColTool	Ferram.
+Text.ColDepth	Prof. (mm)
+Text.ColPasses	Pasadas
+Text.ColFeedXY	Avance XY
+Text.ColFeedZ	Avance Z
+Text.ColSpindle	Fuso (rpm)
+Text.NoFile	Ningún ficheiro cargado
+Text.NoToolFile	Ficheiro de ferramentas non atopado
+Text.NoConfigFile	Ficheiro de configuración non atopado
+Text.ErrRead	Erro ao ler o ficheiro de taladrado
+Text.SimOnly	SIMULACIÓN - sen máquina conectada
+Text.Uncalibrated	Máquina sen calibrar: movemento só simulado
+Text.Connecting	Conectando coa unidade de control ...
+Text.Routing	Fresando ...
+Text.Done	Feito
+Text.QuitAsk	Seguro que queres saír?
+Text.BtnYes	Si
+Text.BtnNo	Non
+Text.Directory	Directorio
+Text.WaitToolChange	Insire a ferramenta {} e preme Enter
+Text.WaitSpindle	Preme Enter para arrancar o fuso
+Text.Stopped	Parado (drivers apagados)
+Text.LinkFailed	Fallou a conexión
+Text.LblLink	Ligazón
+Text.LblItems	Pasos do traballo
+Text.KeyStop	Esc: parar
+Text.RealMachine	MÁQUINA REAL ({}) - Iniciar móvea
+Text.RealStop	Esc párea; ten unha man preto do interruptor
+Text.StatusMain	Esc: atrás   Enter: acepta   ↑/↓: mover

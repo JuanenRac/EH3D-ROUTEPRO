@@ -1,1 +1,53 @@
 # Gaeilge (ga): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Luchtaigh
+Text.MenuPaths	Cosáin
+Text.MenuTools	Uirlisí
+Text.MenuConfig	Cumraíocht
+Text.MenuStart	Tosaigh
+Text.MenuLanguage	Teanga
+Text.MenuQuit	Scoir
+Text.TitleSelectFile	Roghnaigh comhad
+Text.TitlePaths	Cosáin
+Text.TitleTools	Sonraí uirlisí
+Text.TitleConfig	Cumraíocht
+Text.TitleLanguage	Teanga
+Text.TitleRouting	Bealú
+Text.TitleQuit	Scoir
+Text.LblFile	Comhad
+Text.LblPaths	Cosáin
+Text.LblPens	Uirlisí
+Text.LblSize	Méid (mm)
+Text.LblCut	Fad gearrtha (mm)
+Text.LblProgress	Dul chun cinn
+Text.LblTime	Am insamhalta (s)
+Text.LblSerial	Comhéadan sraitheach
+Text.LblIgnored	Orduithe a ndearnadh neamhaird orthu
+Text.ColTool	Uirlis
+Text.ColDepth	Doimhneacht (mm)
+Text.ColPasses	Pasanna
+Text.ColFeedXY	Beatha XY
+Text.ColFeedZ	Beatha Z
+Text.ColSpindle	Fearsaid
+Text.NoFile	Níl comhad luchtaithe
+Text.NoToolFile	Níor aimsíodh comhad na n-uirlisí
+Text.NoConfigFile	Níor aimsíodh comhad cumraíochta
+Text.ErrRead	Earráid agus comhad plota á léamh
+Text.SimOnly	INSAMHLÚ - níl aon mheaisín ceangailte
+Text.Uncalibrated	Meaisín gan calabrú: gluaiseacht insamhlaithe amháin
+Text.Connecting	Aonad rialaithe á cheangal ...
+Text.Routing	Bealú ...
+Text.Done	Déanta
+Text.QuitAsk	An bhfuil tú cinnte go scoirfidh tú?
+Text.BtnYes	Tá
+Text.BtnNo	Níl
+Text.Directory	Eolaire
+Text.WaitToolChange	Cuir uirlis {} isteach agus brúigh Enter
+Text.WaitSpindle	Brúigh Enter chun an fhearsaid a thosú
+Text.Stopped	Stoptha (tiománaithe as)
+Text.LinkFailed	Theip ar an nasc
+Text.LblLink	Nasc
+Text.LblItems	Céimeanna na hoibre
+Text.KeyStop	Esc: stop
+Text.RealMachine	MEAISÍN RÉAL ({}) - gluaiseann Tosaigh é
+Text.RealStop	Stopann Esc é; coinnigh lámh ar an lasc cumhachta
+Text.StatusMain	Esc: ar ais   Enter: glac   ↑/↓: bog

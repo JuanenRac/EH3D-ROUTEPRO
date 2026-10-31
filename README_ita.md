@@ -6,19 +6,19 @@
 
 <p align="center"><a href="README.md">🇺🇸 English</a> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | 🇮🇹 <b>Italiano</b> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### Una reimplementazione multipiattaforma in Rust del flusso di fresatura del classico software DOS per le macchine Bungard CCD, a partire da file di tracciato HP-GL, con un'interfaccia in modalità testo simile all'originale in otto lingue
+### Una reimplementazione multipiattaforma in Rust del flusso di fresatura del classico software DOS per le macchine Bungard CCD, a partire da file di tracciato HP-GL, con un'interfaccia in modalità testo simile all'originale in 37 lingue
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Rust-DEA584.svg" alt="Rust">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Version-0.0.7-0f6cbd.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.0.8-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
 
 ---
 
-**Verifica di onestà - cosa funziona oggi:** un programma Rust con interfaccia testuale 80x25 che legge i file di tracciato HP-GL `.PLT`, la tabella utensili e la configurazione della macchina, pianifica percorsi di fresatura a più passate (movimento rapido, affondo, taglio, risalita) e li esegue **contro un simulatore** (predefinito) oppure, quando il file della macchina lo indica, **su una macchina reale** tramite la porta seriale del computer, un adattatore USB-seriale o l'EH3D-NODE-BUNGARD. 54 test girano su un computer. Il protocollo seriale che condivide con EH3D-DRILLPRO è stato provato su una Bungard CCD MTC reale (il riferimento dei tre assi e i movimenti di ogni asse); **un lavoro di fresatura completo non è ancora stato eseguito sulla macchina**, e i passi per millimetro sono verificati solo rispetto alla configurazione dell'originale. Per impostazione predefinita si vedono le schermate classiche del programma MS-DOS, verificate cella per cella con l'originale; `--modern` avvia l'interfaccia a menu. Si usano con tastiera e mouse, la finestra si può ingrandire (lo schermo scala da 640x400 a 1080p e oltre), i file di configurazione e degli utensili si modificano e si salvano dalle finestre, e il pulsante Info elenca le macchine Bungard CCD e CCD/2 (MTC supportate, ATC non ancora). Una versione console (`routepro-console`) disegna le stesse schermate in un terminale, con tastiera e mouse e senza sistema a finestre (SSH, console di testo, un PC vecchio). I pacchetti di ogni versione includono la configurazione base, spiegata riga per riga, e una cartella `examples` da un quadrato a centomila punti. Il cambio utensile dei modelli ATC non è ancora supportato.
+**Verifica di onestà - cosa funziona oggi:** un programma Rust con interfaccia testuale 80x25 che legge i file di tracciato HP-GL `.PLT`, la tabella utensili e la configurazione della macchina, pianifica percorsi di fresatura a più passate (movimento rapido, affondo, taglio, risalita) e li esegue **contro un simulatore** (predefinito) oppure, quando il file della macchina lo indica, **su una macchina reale** tramite la porta seriale del computer, un adattatore USB-seriale o l'EH3D-NODE-BUNGARD. 56 test girano su un computer. Il protocollo seriale che condivide con EH3D-DRILLPRO è stato provato su una Bungard CCD MTC reale (il riferimento dei tre assi e i movimenti di ogni asse); **un lavoro di fresatura completo non è ancora stato eseguito sulla macchina**, e i passi per millimetro sono verificati solo rispetto alla configurazione dell'originale. Per impostazione predefinita si vedono le schermate classiche del programma MS-DOS, verificate cella per cella con l'originale; `--modern` avvia l'interfaccia a menu. Si usano con tastiera e mouse, la finestra si può ingrandire (lo schermo scala da 640x400 a 1080p e oltre), i file di configurazione e degli utensili si modificano e si salvano dalle finestre, e il pulsante Info elenca le macchine Bungard CCD e CCD/2 (MTC supportate, ATC non ancora). Una versione console (`routepro-console`) disegna le stesse schermate in un terminale, con tastiera e mouse e senza sistema a finestre (SSH, console di testo, un PC vecchio). I pacchetti di ogni versione includono la configurazione base, spiegata riga per riga, e una cartella `examples` da un quadrato a centomila punti. Il cambio utensile dei modelli ATC non è ancora supportato.
 
 ---
 
@@ -28,9 +28,9 @@
 
 | | |
 |---|---|
-| Versione | `0.0.7` |
+| Versione | `0.0.8` |
 | Maturità | Impalcatura |
-| Test | 54 |
+| Test | 56 |
 | Stack tecnologico | Rust |
 | Su hardware reale | Sì, su una Bungard CCD MTC: il riferimento e i movimenti di ogni asse; un lavoro completo non è ancora stato eseguito. Senza file della macchina gira sul simulatore |
 
@@ -45,7 +45,7 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 | Area | Stato | Cosa significa qui |
 |---|---|---|
 | Software | 🟡 | Un programma Rust con schermo di testo 80x25 legge file di tracciato HP-GL, la tabella utensili e il file della macchina, pianifica percorsi di fresatura a più passate e li esegue su un simulatore, o su una macchina reale se il file della macchina lo indica; la cartella di EH3D-DRILLPRO deve stare accanto. |
-| Test | 🟢 | 54 test passano (`cargo test --workspace`): il lettore HP-GL, la pianificazione dei percorsi e le schermate in tutte e otto le lingue; il protocollo è coperto dai 228 test di EH3D-DRILLPRO. |
+| Test | 🟢 | 56 test passano (`cargo test --workspace`): il lettore HP-GL, la pianificazione dei percorsi e le schermate in tutte e otto le lingue; il protocollo è coperto dai 228 test di EH3D-DRILLPRO. |
 | Lettore HP-GL | 🟡 | Si capiscono solo `IN`, `SP`, `PU`, `PD`, `PA` e `PR`; ogni altro comando viene contato e ignorato, mai fatale. Provato solo con piccoli file di esempio scritti per i test. |
 | Pianificazione dei percorsi | 🟡 | Ogni percorso diventa, a ogni passata, uno spostamento rapido, un'affondata, il taglio e un sollevamento, con la profondità suddivisa in parti uguali e l'utensile che finisce sempre in superficie; verificato solo nei test e sul simulatore. |
 | Hardware reale | 🟠 | Il protocollo seriale condiviso con EH3D-DRILLPRO è stato provato su una Bungard CCD MTC (la corsa di riferimento e i movimenti di ogni asse); nessun lavoro di fresatura è girato su una macchina, e le uscite di mandrino e aspiratore non sono state provate. |
@@ -90,6 +90,7 @@ L'originale è il programma chiuso per MS-DOS di Bungard che fresa con le macchi
 | Aggiunte | Nessuna di queste | Un simulatore che esegue un lavoro intero, suoni per la fine del lavoro e per la richiesta di utensile, più macchine insieme tramite il server, archivi ZIP di lavoro, contorni DXF e Gerber, un cursore lampeggiante e una suite di test che gira a ogni modifica |
 | Sorgente e licenza | Chiuso, proprietario | Open source (GPL-3.0-or-later), scritto in Rust |
 | Maturità | Anni di uso su macchine reali | Molto più giovane: la corsa di riferimento e i movimenti di ogni asse sono stati provati su una Bungard CCD MTC reale; un lavoro intero non è ancora stato eseguito su una macchina, e il cambio utensile dei modelli ATC non ha ancora funzionato su una reale |
+* **37 lingue:** le schermate di testo, i menu e i dialoghi parlano inglese, spagnolo, italiano, tedesco, francese, portoghese, cinese, giapponese, bulgaro, croato, ceco, danese, olandese, estone, finlandese, greco, ungherese, irlandese, lettone, lituano, maltese, polacco, rumeno, slovacco, sloveno, svedese, norvegese, islandese, ucraino, russo, serbo, albanese, catalano, galiziano, basco, portoghese del Brasile e francese del Canada. Le parole dei 29 lingue oltre le prime otto sono tradotte dal modello e attendono la revisione di madrelingua; un testo che manca a una lingua appare in inglese.
 
 ## 🧩 Ruolo in EH3D
 
@@ -139,7 +140,7 @@ Avvialo con `run.bat` (Windows) o `./run.sh` (Linux e macOS); entrambi compilano
 
 ## 🧪 Test
 
-La suite ha 54 test (`cargo test --workspace`). Verificano il lettore HP-GL, la pianificazione dei percorsi (passate, penetrazione, taglio e sollevamento), il piano di fresatura del crate del protocollo, le schermate classiche cella per cella e le schermate in tutte e otto le lingue. Il protocollo riutilizzato (byte, movimento, blocco di sicurezza) è testato in EH3D-DRILLPRO. La CI esegue anche `cargo fmt --check` e `cargo clippy` con gli avvisi come errori, e `python -I tools/ci_validate.py` controlla il manifesto, le versioni, il changelog e gli otto README.
+La suite ha 56 test (`cargo test --workspace`). Verificano il lettore HP-GL, la pianificazione dei percorsi (passate, penetrazione, taglio e sollevamento), il piano di fresatura del crate del protocollo, le schermate classiche cella per cella e le schermate in tutte e otto le lingue. Il protocollo riutilizzato (byte, movimento, blocco di sicurezza) è testato in EH3D-DRILLPRO. La CI esegue anche `cargo fmt --check` e `cargo clippy` con gli avvisi come errori, e `python -I tools/ci_validate.py` controlla il manifesto, le versioni, il changelog e gli otto README.
 
 ## 🏗️ Compilazione e rilascio
 
@@ -160,7 +161,7 @@ La versione sta in `Cargo.toml` e in `eh3d.project.json`, e ogni versione ha la 
 EH3D-ROUTEPRO/
 ├── src/
 │   ├── job.rs                                   i percorsi HP-GL trasformati nel lavoro di fresatura
-│   ├── app.rs texts.rs                          l'applicazione e i suoi testi in otto lingue
+│   ├── app.rs texts.rs                          l'applicazione e i suoi testi in 37 lingue
 │   └── bin/                                     gli eseguibili routepro e routepro-console
 ├── protocol/src/
 │   ├── route.rs                                 passate, penetrazione, taglio e sollevamento per ogni percorso
@@ -170,6 +171,7 @@ EH3D-ROUTEPRO/
 ├── testdata/                                    piccoli file di esempio scritti per i test
 ├── config/                                      la configurazione base, spiegata riga per riga
 ├── examples/                                    esempi, da un quadrato a 100000 punti
+├── locales/                                     le parole delle 29 lingue lette da file, un file per lingua
 ├── tools/                                       controllo di CI, del README e strumenti per le immagini
 ├── images/                                      banner, le due immagini e le schermate
 ├── .github/                                     workflow di CI e di rilascio, modelli di issue e pull request

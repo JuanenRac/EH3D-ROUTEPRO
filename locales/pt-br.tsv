@@ -1,1 +1,19 @@
 # Português (Brasil) (pt-br): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.TitleSelectFile	Selecionar arquivo
+Text.LblFile	Arquivo
+Text.LblSerial	Interface serial
+Text.NoFile	Nenhum arquivo carregado
+Text.NoToolFile	Arquivo de ferramentas não encontrado
+Text.NoConfigFile	Arquivo de configuração não encontrado
+Text.ErrRead	Erro ao ler o arquivo de furação
+Text.SimOnly	SIMULAÇÃO - sem máquina conectada
+Text.Connecting	Conectando à unidade de controle ...
+Text.QuitAsk	Tem certeza de que quer sair?
+Text.WaitToolChange	Insira a ferramenta {} e pressione Enter
+Text.WaitSpindle	Pressione Enter para ligar o fuso
+Text.LinkFailed	Falha na conexão
+Text.LblLink	Conexão
+Text.RealMachine	MÁQUINA REAL ({}) - Iniciar a move
+Text.RealStop	Esc a para; mantenha uma mão perto do interruptor
+Text.Routing	Fresando ...
+Text.StatusMain	Esc: voltar   Enter: aceitar   ↑/↓: mover

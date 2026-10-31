@@ -50,7 +50,7 @@
       "lines": [
         "the classic 80x25 screens of",
         "the routing program; --modern",
-        "menus; eight languages"
+        "menus; 37 languages"
       ],
       "code": [
         "src/app.rs",

@@ -1,1 +1,53 @@
 # Українська (uk): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Завант.
+Text.MenuPaths	Траєкт.
+Text.MenuTools	Інстр.
+Text.MenuConfig	Налашт.
+Text.MenuStart	Пуск
+Text.MenuLanguage	Мова
+Text.MenuQuit	Вихід
+Text.TitleSelectFile	Вибір файлу
+Text.TitlePaths	Траєкторії
+Text.TitleTools	Дані інструментів
+Text.TitleConfig	Конфігурація
+Text.TitleLanguage	Мова
+Text.TitleRouting	Фрезерування
+Text.TitleQuit	Вихід
+Text.LblFile	Файл
+Text.LblPaths	Траєкторії
+Text.LblPens	Інструменти
+Text.LblSize	Розмір (mm)
+Text.LblCut	Довжина різу (mm)
+Text.LblProgress	Прогрес
+Text.LblTime	Модельований час (s)
+Text.LblSerial	Послідовний інтерфейс
+Text.LblIgnored	Ігноровані команди
+Text.ColTool	Інстр.
+Text.ColDepth	Глибина (mm)
+Text.ColPasses	Проходи
+Text.ColFeedXY	Подача XY
+Text.ColFeedZ	Подача Z
+Text.ColSpindle	Шпиндель
+Text.NoFile	Файл не завантажено
+Text.NoToolFile	Файл інструментів не знайдено
+Text.NoConfigFile	Файл конфігурації не знайдено
+Text.ErrRead	Помилка читання файлу плотера
+Text.SimOnly	СИМУЛЯЦІЯ - машину не підключено
+Text.Uncalibrated	Машину не відкалібровано: рух лише симулюється
+Text.Connecting	З'єднання з блоком керування ...
+Text.Routing	Фрезерування ...
+Text.Done	Готово
+Text.QuitAsk	Справді вийти?
+Text.BtnYes	Так
+Text.BtnNo	Ні
+Text.Directory	Каталог
+Text.WaitToolChange	Вставте інструмент {} і натисніть Enter
+Text.WaitSpindle	Натисніть Enter для пуску шпинделя
+Text.Stopped	Зупинено (приводи вимк.)
+Text.LinkFailed	Помилка з'єднання
+Text.LblLink	Зв'язок
+Text.LblItems	Кроки завдання
+Text.KeyStop	Esc: стоп
+Text.RealMachine	РЕАЛЬНА МАШИНА ({}) - Пуск її рухає
+Text.RealStop	Esc зупиняє; тримайте руку біля вимикача
+Text.StatusMain	Esc: назад   Enter: прийняти   ↑/↓: рух

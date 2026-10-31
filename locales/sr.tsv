@@ -1,1 +1,53 @@
 # Српски (sr): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Учитај
+Text.MenuPaths	Путање
+Text.MenuTools	Алати
+Text.MenuConfig	Подеш.
+Text.MenuStart	Старт
+Text.MenuLanguage	Језик
+Text.MenuQuit	Излаз
+Text.TitleSelectFile	Избор датотеке
+Text.TitlePaths	Путање
+Text.TitleTools	Подаци о алатима
+Text.TitleConfig	Конфигурација
+Text.TitleLanguage	Језик
+Text.TitleRouting	Глодање
+Text.TitleQuit	Излаз
+Text.LblFile	Датотека
+Text.LblPaths	Путање
+Text.LblPens	Алати
+Text.LblSize	Величина (mm)
+Text.LblCut	Дужина реза (mm)
+Text.LblProgress	Напредак
+Text.LblTime	Симулирано време (s)
+Text.LblSerial	Серијски интерфејс
+Text.LblIgnored	Игнорисане команде
+Text.ColTool	Алат
+Text.ColDepth	Дубина (mm)
+Text.ColPasses	Пролази
+Text.ColFeedXY	XY помак
+Text.ColFeedZ	Z помак
+Text.ColSpindle	Вретено
+Text.NoFile	Датотека није учитана
+Text.NoToolFile	Датотека алата није пронађена
+Text.NoConfigFile	Конфигурациона датотека није пронађена
+Text.ErrRead	Грешка при читању plot датотеке
+Text.SimOnly	СИМУЛАЦИЈА - машина није повезана
+Text.Uncalibrated	Машина није калибрисана: кретање је само симулирано
+Text.Connecting	Повезивање управљачке јединице ...
+Text.Routing	Глодање ...
+Text.Done	Готово
+Text.QuitAsk	Заиста желите да изађете?
+Text.BtnYes	Да
+Text.BtnNo	Не
+Text.Directory	Директоријум
+Text.WaitToolChange	Уметните алат {} и притисните Enter
+Text.WaitSpindle	Притисните Enter за покретање вретена
+Text.Stopped	Заустављено (погони искљ.)
+Text.LinkFailed	Веза није успела
+Text.LblLink	Веза
+Text.LblItems	Кораци посла
+Text.KeyStop	Esc: стоп
+Text.RealMachine	ПРАВА МАШИНА ({}) - Старт је покреће
+Text.RealStop	Esc зауставља; држите руку уз прекидач
+Text.StatusMain	Esc: назад   Enter: прихвати   ↑/↓: кретање

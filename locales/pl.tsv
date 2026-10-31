@@ -1,1 +1,53 @@
 # Polski (pl): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Wczytaj
+Text.MenuPaths	Ścieżki
+Text.MenuTools	Narzędzia
+Text.MenuConfig	Konfig.
+Text.MenuStart	Start
+Text.MenuLanguage	Język
+Text.MenuQuit	Koniec
+Text.TitleSelectFile	Wybierz plik
+Text.TitlePaths	Ścieżki
+Text.TitleTools	Dane narzędzi
+Text.TitleConfig	Konfiguracja
+Text.TitleLanguage	Język
+Text.TitleRouting	Frezowanie
+Text.TitleQuit	Koniec
+Text.LblFile	Plik
+Text.LblPaths	Ścieżki
+Text.LblPens	Narzędzia
+Text.LblSize	Rozmiar (mm)
+Text.LblCut	Długość cięcia (mm)
+Text.LblProgress	Postęp
+Text.LblTime	Czas symulacji (s)
+Text.LblSerial	Interfejs szeregowy
+Text.LblIgnored	Pominięte polecenia
+Text.ColTool	Narzędzie
+Text.ColDepth	Głębokość (mm)
+Text.ColPasses	Przejścia
+Text.ColFeedXY	Posuw XY
+Text.ColFeedZ	Posuw Z
+Text.ColSpindle	Wrzeciono (rpm)
+Text.NoFile	Nie wczytano pliku
+Text.NoToolFile	Nie znaleziono pliku danych narzędzi
+Text.NoConfigFile	Nie znaleziono pliku konfiguracji
+Text.ErrRead	Błąd odczytu pliku wierceń
+Text.SimOnly	SYMULACJA - brak podłączonej maszyny
+Text.Uncalibrated	Maszyna nieskalibrowana: ruch tylko symulowany
+Text.Connecting	Łączenie ze sterownikiem ...
+Text.Routing	Frezowanie ...
+Text.Done	Gotowe
+Text.QuitAsk	Czy na pewno zakończyć?
+Text.BtnYes	Tak
+Text.BtnNo	Nie
+Text.Directory	Katalog
+Text.WaitToolChange	Włóż narzędzie {} i naciśnij Enter
+Text.WaitSpindle	Naciśnij Enter, aby uruchomić wrzeciono
+Text.Stopped	Zatrzymano (napędy wyłączone)
+Text.LinkFailed	Połączenie nieudane
+Text.LblLink	Połączenie
+Text.LblItems	Kroki zadania
+Text.KeyStop	Esc: stop
+Text.RealMachine	PRAWDZIWA MASZYNA ({}) - Start ją porusza
+Text.RealStop	Esc zatrzymuje; trzymaj rękę przy wyłączniku
+Text.StatusMain	Esc: wstecz   Enter: zatwierdź   ↑/↓: ruch

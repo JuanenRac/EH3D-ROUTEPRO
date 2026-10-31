@@ -1,1 +1,53 @@
 # Dansk (da): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Indlæs
+Text.MenuPaths	Baner
+Text.MenuTools	Værktøj
+Text.MenuConfig	Opsætn.
+Text.MenuStart	Start
+Text.MenuLanguage	Sprog
+Text.MenuQuit	Afslut
+Text.TitleSelectFile	Vælg fil
+Text.TitlePaths	Baner
+Text.TitleTools	Værktøjsdata
+Text.TitleConfig	Konfiguration
+Text.TitleLanguage	Sprog
+Text.TitleRouting	Fræsning
+Text.TitleQuit	Afslut
+Text.LblFile	Fil
+Text.LblPaths	Baner
+Text.LblPens	Værktøj
+Text.LblSize	Størrelse (mm)
+Text.LblCut	Skærelængde (mm)
+Text.LblProgress	Fremdrift
+Text.LblTime	Simuleret tid (s)
+Text.LblSerial	Seriel grænseflade
+Text.LblIgnored	Ignorerede kommandoer
+Text.ColTool	Værktøj
+Text.ColDepth	Dybde (mm)
+Text.ColPasses	Gennemløb
+Text.ColFeedXY	XY-tilsp.
+Text.ColFeedZ	Z-tilsp.
+Text.ColSpindle	Spindel
+Text.NoFile	Ingen fil indlæst
+Text.NoToolFile	Værktøjsfil ikke fundet
+Text.NoConfigFile	Konfig.fil ikke fundet
+Text.ErrRead	Fejl ved læsning af plotfil
+Text.SimOnly	SIMULERING - ingen maskine tilsluttet
+Text.Uncalibrated	Maskine ikke kalibreret: kun simuleret
+Text.Connecting	Tilslutter styreenhed ...
+Text.Routing	Fræser ...
+Text.Done	Færdig
+Text.QuitAsk	Vil du virkelig afslutte?
+Text.BtnYes	Ja
+Text.BtnNo	Nej
+Text.Directory	Mappe
+Text.WaitToolChange	Sæt værktøj {} i og tryk Enter
+Text.WaitSpindle	Tryk Enter for at starte spindlen
+Text.Stopped	Stoppet (drev slukket)
+Text.LinkFailed	Forbindelse mislykkedes
+Text.LblLink	Forbindelse
+Text.LblItems	Jobbets trin
+Text.KeyStop	Esc: stop
+Text.RealMachine	RIGTIG MASKINE ({}) - Start bevæger den
+Text.RealStop	Esc stopper; hånd ved afbryderen
+Text.StatusMain	Esc: tilbage   Enter: acceptér   ↑/↓: flyt

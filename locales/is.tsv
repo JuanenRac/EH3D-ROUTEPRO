@@ -1,1 +1,53 @@
 # Íslenska (is): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Hlaða
+Text.MenuPaths	Brautir
+Text.MenuTools	Verkfæri
+Text.MenuConfig	Stillingar
+Text.MenuStart	Ræsa
+Text.MenuLanguage	Tungumál
+Text.MenuQuit	Hætta
+Text.TitleSelectFile	Veldu skrá
+Text.TitlePaths	Brautir
+Text.TitleTools	Verkfæragögn
+Text.TitleConfig	Stillingar
+Text.TitleLanguage	Tungumál
+Text.TitleRouting	Fræsing
+Text.TitleQuit	Hætta
+Text.LblFile	Skrá
+Text.LblPaths	Brautir
+Text.LblPens	Verkfæri
+Text.LblSize	Stærð (mm)
+Text.LblCut	Skurðlengd (mm)
+Text.LblProgress	Framvinda
+Text.LblTime	Hermdur tími (s)
+Text.LblSerial	Raðtengi
+Text.LblIgnored	Hunsaðar skipanir
+Text.ColTool	Verkfæri
+Text.ColDepth	Dýpt (mm)
+Text.ColPasses	Ferðir
+Text.ColFeedXY	XY-færsla
+Text.ColFeedZ	Z-færsla
+Text.ColSpindle	Spindill
+Text.NoFile	Engin skrá hlaðin
+Text.NoToolFile	Verkfæraskrá fannst ekki
+Text.NoConfigFile	Stillingaskrá fannst ekki
+Text.ErrRead	Villa við lestur teikniskrár
+Text.SimOnly	HERMUN - engin vél tengd
+Text.Uncalibrated	Vélin er ekki kvörðuð: hreyfing er aðeins hermd
+Text.Connecting	Tengi stýrieiningu ...
+Text.Routing	Fræsi ...
+Text.Done	Lokið
+Text.QuitAsk	Viltu í alvöru hætta?
+Text.BtnYes	Já
+Text.BtnNo	Nei
+Text.Directory	Mappa
+Text.WaitToolChange	Settu verkfæri {} í og ýttu á Enter
+Text.WaitSpindle	Ýttu á Enter til að ræsa spindil
+Text.Stopped	Stöðvað (drif af)
+Text.LinkFailed	Tenging mistókst
+Text.LblLink	Tenging
+Text.LblItems	Skref verksins
+Text.KeyStop	Esc: stöðva
+Text.RealMachine	RAUNVÉL ({}) - Ræsa hreyfir hana
+Text.RealStop	Esc stöðvar; hafðu hönd við rofann
+Text.StatusMain	Esc: til baka   Enter: samþykkja   ↑/↓: færa

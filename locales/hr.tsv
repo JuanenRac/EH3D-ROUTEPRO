@@ -1,1 +1,53 @@
 # Hrvatski (hr): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Učitaj
+Text.MenuPaths	Putanje
+Text.MenuTools	Alati
+Text.MenuConfig	Postavke
+Text.MenuStart	Start
+Text.MenuLanguage	Jezik
+Text.MenuQuit	Izlaz
+Text.TitleSelectFile	Odabir datoteke
+Text.TitlePaths	Putanje
+Text.TitleTools	Podaci o alatima
+Text.TitleConfig	Konfiguracija
+Text.TitleLanguage	Jezik
+Text.TitleRouting	Glodanje
+Text.TitleQuit	Izlaz
+Text.LblFile	Datoteka
+Text.LblPaths	Putanje
+Text.LblPens	Alati
+Text.LblSize	Veličina (mm)
+Text.LblCut	Duljina reza (mm)
+Text.LblProgress	Napredak
+Text.LblTime	Simulirano vrijeme (s)
+Text.LblSerial	Serijsko sučelje
+Text.LblIgnored	Zanemarene naredbe
+Text.ColTool	Alat
+Text.ColDepth	Dubina (mm)
+Text.ColPasses	Prolazi
+Text.ColFeedXY	XY posmak
+Text.ColFeedZ	Z posmak
+Text.ColSpindle	Vreteno
+Text.NoFile	Nema učitane datoteke
+Text.NoToolFile	Datoteka alata nije nađena
+Text.NoConfigFile	Konfig. datoteka nije nađena
+Text.ErrRead	Greška pri čitanju plot datoteke
+Text.SimOnly	SIMULACIJA - stroj nije spojen
+Text.Uncalibrated	Stroj nije kalibriran: samo simulacija
+Text.Connecting	Spajanje upravljačke jedinice ...
+Text.Routing	Glodanje ...
+Text.Done	Gotovo
+Text.QuitAsk	Želite li doista izaći?
+Text.BtnYes	Da
+Text.BtnNo	Ne
+Text.Directory	Direktorij
+Text.WaitToolChange	Umetnite alat {} i pritisnite Enter
+Text.WaitSpindle	Pritisnite Enter za start vretena
+Text.Stopped	Zaustavljeno (pogoni isključeni)
+Text.LinkFailed	Veza nije uspjela
+Text.LblLink	Veza
+Text.LblItems	Koraci posla
+Text.KeyStop	Esc: stop
+Text.RealMachine	STVARNI STROJ ({}) - Start ga pokreće
+Text.RealStop	Esc zaustavlja; ruka uz prekidač
+Text.StatusMain	Esc: natrag   Enter: prihvati   ↑/↓: kretanje

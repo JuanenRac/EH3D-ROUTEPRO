@@ -1,1 +1,53 @@
 # Ελληνικά (el): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Φόρτωση
+Text.MenuPaths	Διαδρομές
+Text.MenuTools	Εργαλεία
+Text.MenuConfig	Ρυθμίσεις
+Text.MenuStart	Έναρξη
+Text.MenuLanguage	Γλώσσα
+Text.MenuQuit	Έξοδος
+Text.TitleSelectFile	Επιλογή αρχείου
+Text.TitlePaths	Διαδρομές
+Text.TitleTools	Στοιχεία εργαλείων
+Text.TitleConfig	Ρυθμίσεις
+Text.TitleLanguage	Γλώσσα
+Text.TitleRouting	Φρεζάρισμα
+Text.TitleQuit	Έξοδος
+Text.LblFile	Αρχείο
+Text.LblPaths	Διαδρομές
+Text.LblPens	Εργαλεία
+Text.LblSize	Μέγεθος (mm)
+Text.LblCut	Μήκος κοπής (mm)
+Text.LblProgress	Πρόοδος
+Text.LblTime	Προσομ. χρόνος (s)
+Text.LblSerial	Σειριακή διεπαφή
+Text.LblIgnored	Αγνοημένες εντολές
+Text.ColTool	Εργαλείο
+Text.ColDepth	Βάθος (mm)
+Text.ColPasses	Περάσματα
+Text.ColFeedXY	Πρόωση XY
+Text.ColFeedZ	Πρόωση Z
+Text.ColSpindle	Άτρακτος
+Text.NoFile	Κανένα αρχείο φορτωμένο
+Text.NoToolFile	Δεν βρέθηκε αρχείο εργαλείων
+Text.NoConfigFile	Δεν βρέθηκε αρχείο ρυθμίσεων
+Text.ErrRead	Σφάλμα ανάγνωσης αρχείου plotter
+Text.SimOnly	ΠΡΟΣΟΜΟΙΩΣΗ - χωρίς συνδεδεμένο μηχάνημα
+Text.Uncalibrated	Μηχάνημα μη βαθμονομημένο: κίνηση μόνο προσομοιωμένη
+Text.Connecting	Σύνδεση μονάδας ελέγχου ...
+Text.Routing	Φρεζάρισμα ...
+Text.Done	Τέλος
+Text.QuitAsk	Θέλετε σίγουρα έξοδο;
+Text.BtnYes	Ναι
+Text.BtnNo	Όχι
+Text.Directory	Κατάλογος
+Text.WaitToolChange	Τοποθετήστε εργαλείο {} και πατήστε Enter
+Text.WaitSpindle	Πατήστε Enter για εκκίνηση ατράκτου
+Text.Stopped	Σταμάτησε (κινητήρες off)
+Text.LinkFailed	Η σύνδεση απέτυχε
+Text.LblLink	Σύνδεση
+Text.LblItems	Βήματα εργασίας
+Text.KeyStop	Esc: στοπ
+Text.RealMachine	ΠΡΑΓΜΑΤΙΚΟ ΜΗΧΑΝΗΜΑ ({}) - Η Έναρξη το κινεί
+Text.RealStop	Το Esc το σταματά· κρατήστε το χέρι στον διακόπτη
+Text.StatusMain	Esc: πίσω   Enter: αποδοχή   ↑/↓: κίνηση

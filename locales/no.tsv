@@ -1,1 +1,53 @@
 # Norsk (no): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Last
+Text.MenuPaths	Baner
+Text.MenuTools	Verktøy
+Text.MenuConfig	Konfig.
+Text.MenuStart	Start
+Text.MenuLanguage	Språk
+Text.MenuQuit	Avslutt
+Text.TitleSelectFile	Velg fil
+Text.TitlePaths	Baner
+Text.TitleTools	Verktøydata
+Text.TitleConfig	Konfigurasjon
+Text.TitleLanguage	Språk
+Text.TitleRouting	Fresing
+Text.TitleQuit	Avslutt
+Text.LblFile	Fil
+Text.LblPaths	Baner
+Text.LblPens	Verktøy
+Text.LblSize	Størrelse (mm)
+Text.LblCut	Skjærelengde (mm)
+Text.LblProgress	Fremdrift
+Text.LblTime	Simulert tid (s)
+Text.LblSerial	Seriegrensesnitt
+Text.LblIgnored	Ignorerte kommandoer
+Text.ColTool	Verktøy
+Text.ColDepth	Dybde (mm)
+Text.ColPasses	Passeringer
+Text.ColFeedXY	XY-mating
+Text.ColFeedZ	Z-mating
+Text.ColSpindle	Spindel
+Text.NoFile	Ingen fil lastet
+Text.NoToolFile	Verktøyfilen ble ikke funnet
+Text.NoConfigFile	Konfigurasjonsfilen ble ikke funnet
+Text.ErrRead	Feil ved lesing av plottfil
+Text.SimOnly	SIMULERING - ingen maskin tilkoblet
+Text.Uncalibrated	Maskinen er ikke kalibrert: bevegelsen simuleres bare
+Text.Connecting	Kobler til styreenheten ...
+Text.Routing	Freser ...
+Text.Done	Ferdig
+Text.QuitAsk	Vil du virkelig avslutte?
+Text.BtnYes	Ja
+Text.BtnNo	Nei
+Text.Directory	Katalog
+Text.WaitToolChange	Sett inn verktøy {} og trykk Enter
+Text.WaitSpindle	Trykk Enter for å starte spindelen
+Text.Stopped	Stoppet (drivere av)
+Text.LinkFailed	Tilkoblingen mislyktes
+Text.LblLink	Forbindelse
+Text.LblItems	Jobbens trinn
+Text.KeyStop	Esc: stopp
+Text.RealMachine	VIRKELIG MASKIN ({}) - Start flytter den
+Text.RealStop	Esc stopper den; hold hånden nær strømbryteren
+Text.StatusMain	Esc: tilbake   Enter: godta   ↑/↓: flytt

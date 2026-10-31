@@ -1,1 +1,53 @@
 # Euskara (eu): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Kargatu
+Text.MenuPaths	Ibilbideak
+Text.MenuTools	Erremintak
+Text.MenuConfig	Konfig.
+Text.MenuStart	Hasi
+Text.MenuLanguage	Hizkuntza
+Text.MenuQuit	Irten
+Text.TitleSelectFile	Hautatu fitxategia
+Text.TitlePaths	Ibilbideak
+Text.TitleTools	Erremintaren datuak
+Text.TitleConfig	Konfigurazioa
+Text.TitleLanguage	Hizkuntza
+Text.TitleRouting	Fresaketa
+Text.TitleQuit	Irten
+Text.LblFile	Fitxategia
+Text.LblPaths	Ibilbideak
+Text.LblPens	Erremintak
+Text.LblSize	Tamaina (mm)
+Text.LblCut	Ebaketa luzera (mm)
+Text.LblProgress	Aurrerapena
+Text.LblTime	Simulatutako denbora (s)
+Text.LblSerial	Serie interfazea
+Text.LblIgnored	Ez ikusi egindako komandoak
+Text.ColTool	Errem.
+Text.ColDepth	Sak. (mm)
+Text.ColPasses	Pasadak
+Text.ColFeedXY	XY aurrerapena
+Text.ColFeedZ	Z aurrerapena
+Text.ColSpindle	Ardatza (rpm)
+Text.NoFile	Ez da fitxategirik kargatu
+Text.NoToolFile	Ez da erreminta-fitxategia aurkitu
+Text.NoConfigFile	Ez da konfigurazio fitxategia aurkitu
+Text.ErrRead	Errorea zulaketa fitxategia irakurtzean
+Text.SimOnly	SIMULAZIOA - ez dago makinarik konektatuta
+Text.Uncalibrated	Makina kalibratu gabe: mugimendua simulatua soilik
+Text.Connecting	Kontrol unitatera konektatzen ...
+Text.Routing	Fresatzen ...
+Text.Done	Eginda
+Text.QuitAsk	Ziur irten nahi duzula?
+Text.BtnYes	Bai
+Text.BtnNo	Ez
+Text.Directory	Direktorioa
+Text.WaitToolChange	Sartu {} erreminta eta sakatu Enter
+Text.WaitSpindle	Sakatu Enter ardatza martxan jartzeko
+Text.Stopped	Geldituta (driverrak itzalita)
+Text.LinkFailed	Konexioak huts egin du
+Text.LblLink	Lotura
+Text.LblItems	Lanaren urratsak
+Text.KeyStop	Esc: gelditu
+Text.RealMachine	BENETAKO MAKINA ({}) - Hasteak mugitzen du
+Text.RealStop	Esc-k gelditzen du; eduki esku bat etengailuaren ondoan
+Text.StatusMain	Esc: atzera   Enter: onartu   ↑/↓: mugitu

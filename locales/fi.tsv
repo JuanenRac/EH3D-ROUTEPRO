@@ -1,1 +1,53 @@
 # Suomi (fi): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Lataa
+Text.MenuPaths	Reitit
+Text.MenuTools	Työkalut
+Text.MenuConfig	Asetukset
+Text.MenuStart	Käynnistä
+Text.MenuLanguage	Kieli
+Text.MenuQuit	Lopeta
+Text.TitleSelectFile	Valitse tiedosto
+Text.TitlePaths	Reitit
+Text.TitleTools	Työkalutiedot
+Text.TitleConfig	Asetukset
+Text.TitleLanguage	Kieli
+Text.TitleRouting	Jyrsintä
+Text.TitleQuit	Lopetus
+Text.LblFile	Tiedosto
+Text.LblPaths	Reitit
+Text.LblPens	Työkalut
+Text.LblSize	Koko (mm)
+Text.LblCut	Leikkauspituus (mm)
+Text.LblProgress	Eteneminen
+Text.LblTime	Simuloitu aika (s)
+Text.LblSerial	Sarjaliitäntä
+Text.LblIgnored	Ohitetut komennot
+Text.ColTool	Työkalu
+Text.ColDepth	Syvyys (mm)
+Text.ColPasses	Kierrokset
+Text.ColFeedXY	XY-syöttö
+Text.ColFeedZ	Z-syöttö
+Text.ColSpindle	Kara
+Text.NoFile	Tiedostoa ei ole ladattu
+Text.NoToolFile	Työkalutiedostoa ei löydy
+Text.NoConfigFile	Asetustiedostoa ei löydy
+Text.ErrRead	Virhe plotteritiedoston luvussa
+Text.SimOnly	SIMULAATIO - konetta ei ole kytketty
+Text.Uncalibrated	Konetta ei ole kalibroitu: liike vain simuloitu
+Text.Connecting	Yhdistetään ohjausyksikköön ...
+Text.Routing	Jyrsitään ...
+Text.Done	Valmis
+Text.QuitAsk	Haluatko varmasti lopettaa?
+Text.BtnYes	Kyllä
+Text.BtnNo	Ei
+Text.Directory	Hakemisto
+Text.WaitToolChange	Aseta työkalu {} ja paina Enter
+Text.WaitSpindle	Käynnistä kara painamalla Enter
+Text.Stopped	Pysäytetty (käytöt pois)
+Text.LinkFailed	Yhteys epäonnistui
+Text.LblLink	Yhteys
+Text.LblItems	Työn vaiheet
+Text.KeyStop	Esc: pysäytä
+Text.RealMachine	OIKEA KONE ({}) - Käynnistä liikuttaa sitä
+Text.RealStop	Esc pysäyttää; pidä käsi virtakytkimellä
+Text.StatusMain	Esc: takaisin   Enter: hyväksy   ↑/↓: siirry

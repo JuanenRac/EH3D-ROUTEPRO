@@ -1,1 +1,53 @@
 # Eesti (et): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Laadi
+Text.MenuPaths	Teed
+Text.MenuTools	Tööriistad
+Text.MenuConfig	Seaded
+Text.MenuStart	Start
+Text.MenuLanguage	Keel
+Text.MenuQuit	Välju
+Text.TitleSelectFile	Vali fail
+Text.TitlePaths	Teed
+Text.TitleTools	Tööriistade andmed
+Text.TitleConfig	Seadistus
+Text.TitleLanguage	Keel
+Text.TitleRouting	Freesimine
+Text.TitleQuit	Väljumine
+Text.LblFile	Fail
+Text.LblPaths	Teed
+Text.LblPens	Tööriistad
+Text.LblSize	Mõõt (mm)
+Text.LblCut	Lõikepikkus (mm)
+Text.LblProgress	Edenemine
+Text.LblTime	Simuleeritud aeg (s)
+Text.LblSerial	Jadaliides
+Text.LblIgnored	Ignoreeritud käsud
+Text.ColTool	Tööriist
+Text.ColDepth	Sügavus (mm)
+Text.ColPasses	Käigud
+Text.ColFeedXY	XY ettenihe
+Text.ColFeedZ	Z ettenihe
+Text.ColSpindle	Spindel
+Text.NoFile	Faili pole laaditud
+Text.NoToolFile	Tööriistafaili ei leitud
+Text.NoConfigFile	Seadistusfaili ei leitud
+Text.ErrRead	Viga plotterifaili lugemisel
+Text.SimOnly	SIMULATSIOON - masin pole ühendatud
+Text.Uncalibrated	Masin kalibreerimata: liikumine on vaid simuleeritud
+Text.Connecting	Ühendan juhtseadet ...
+Text.Routing	Freesin ...
+Text.Done	Valmis
+Text.QuitAsk	Kas tõesti väljuda?
+Text.BtnYes	Jah
+Text.BtnNo	Ei
+Text.Directory	Kataloog
+Text.WaitToolChange	Sisesta tööriist {} ja vajuta Enter
+Text.WaitSpindle	Spindli käivitamiseks vajuta Enter
+Text.Stopped	Peatatud (ajamid väljas)
+Text.LinkFailed	Ühendus ebaõnnestus
+Text.LblLink	Ühendus
+Text.LblItems	Töö sammud
+Text.KeyStop	Esc: stopp
+Text.RealMachine	TEGELIK MASIN ({}) - Start liigutab seda
+Text.RealStop	Esc peatab; hoia käsi toitelüliti juures
+Text.StatusMain	Esc: tagasi   Enter: kinnita   ↑/↓: liigu

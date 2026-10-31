@@ -1,1 +1,53 @@
 # Magyar (hu): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Betöltés
+Text.MenuPaths	Pályák
+Text.MenuTools	Szerszámok
+Text.MenuConfig	Beállítás
+Text.MenuStart	Indítás
+Text.MenuLanguage	Nyelv
+Text.MenuQuit	Kilépés
+Text.TitleSelectFile	Fájl kiválasztása
+Text.TitlePaths	Pályák
+Text.TitleTools	Szerszámadatok
+Text.TitleConfig	Beállítások
+Text.TitleLanguage	Nyelv
+Text.TitleRouting	Marás
+Text.TitleQuit	Kilépés
+Text.LblFile	Fájl
+Text.LblPaths	Pályák
+Text.LblPens	Szerszámok
+Text.LblSize	Méret (mm)
+Text.LblCut	Vágáshossz (mm)
+Text.LblProgress	Haladás
+Text.LblTime	Szimulált idő (s)
+Text.LblSerial	Soros interfész
+Text.LblIgnored	Figyelmen kívül hagyott parancsok
+Text.ColTool	Szerszám
+Text.ColDepth	Mélység (mm)
+Text.ColPasses	Menetek
+Text.ColFeedXY	XY előtolás
+Text.ColFeedZ	Z előtolás
+Text.ColSpindle	Orsó
+Text.NoFile	Nincs betöltött fájl
+Text.NoToolFile	A szerszámfájl nem található
+Text.NoConfigFile	A beállításfájl nem található
+Text.ErrRead	Hiba a plotterfájl olvasásakor
+Text.SimOnly	SZIMULÁCIÓ - nincs gép csatlakoztatva
+Text.Uncalibrated	A gép nincs kalibrálva: a mozgás csak szimulált
+Text.Connecting	Vezérlőegység csatlakoztatása ...
+Text.Routing	Marás ...
+Text.Done	Kész
+Text.QuitAsk	Biztosan kilép?
+Text.BtnYes	Igen
+Text.BtnNo	Nem
+Text.Directory	Könyvtár
+Text.WaitToolChange	Helyezze be a(z) {} szerszámot, majd Enter
+Text.WaitSpindle	Az orsó indításához nyomjon Entert
+Text.Stopped	Leállítva (hajtások ki)
+Text.LinkFailed	A kapcsolat sikertelen
+Text.LblLink	Kapcsolat
+Text.LblItems	A munka lépései
+Text.KeyStop	Esc: stop
+Text.RealMachine	VALÓDI GÉP ({}) - az Indítás mozgatja
+Text.RealStop	Az Esc leállítja; tartsa a kezét a főkapcsolónál
+Text.StatusMain	Esc: vissza   Enter: elfogad   ↑/↓: mozgás

@@ -1,1 +1,53 @@
 # Slovenčina (sk): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Načítať
+Text.MenuPaths	Dráhy
+Text.MenuTools	Nástroje
+Text.MenuConfig	Konfig.
+Text.MenuStart	Štart
+Text.MenuLanguage	Jazyk
+Text.MenuQuit	Koniec
+Text.TitleSelectFile	Výber súboru
+Text.TitlePaths	Dráhy
+Text.TitleTools	Údaje nástrojov
+Text.TitleConfig	Konfigurácia
+Text.TitleLanguage	Jazyk
+Text.TitleRouting	Frézovanie
+Text.TitleQuit	Koniec
+Text.LblFile	Súbor
+Text.LblPaths	Dráhy
+Text.LblPens	Nástroje
+Text.LblSize	Rozmer (mm)
+Text.LblCut	Dĺžka rezu (mm)
+Text.LblProgress	Priebeh
+Text.LblTime	Simulovaný čas (s)
+Text.LblSerial	Sériové rozhranie
+Text.LblIgnored	Ignorované príkazy
+Text.ColTool	Nástroj
+Text.ColDepth	Hĺbka (mm)
+Text.ColPasses	Prechody
+Text.ColFeedXY	Posuv XY
+Text.ColFeedZ	Posuv Z
+Text.ColSpindle	Vreteno
+Text.NoFile	Žiadny súbor
+Text.NoToolFile	Súbor nástrojov sa nenašiel
+Text.NoConfigFile	Konfiguračný súbor sa nenašiel
+Text.ErrRead	Chyba čítania súboru plotra
+Text.SimOnly	SIMULÁCIA - stroj nie je pripojený
+Text.Uncalibrated	Stroj nie je kalibrovaný: pohyb je len simulovaný
+Text.Connecting	Pripájam riadiacu jednotku ...
+Text.Routing	Frézujem ...
+Text.Done	Hotovo
+Text.QuitAsk	Naozaj chcete skončiť?
+Text.BtnYes	Áno
+Text.BtnNo	Nie
+Text.Directory	Adresár
+Text.WaitToolChange	Vložte nástroj {} a stlačte Enter
+Text.WaitSpindle	Stlačením Enter spustíte vreteno
+Text.Stopped	Zastavené (pohony vypnuté)
+Text.LinkFailed	Pripojenie zlyhalo
+Text.LblLink	Spojenie
+Text.LblItems	Kroky úlohy
+Text.KeyStop	Esc: stop
+Text.RealMachine	SKUTOČNÝ STROJ ({}) - Štart ho pohne
+Text.RealStop	Esc ho zastaví; majte ruku pri vypínači
+Text.StatusMain	Esc: späť   Enter: potvrdiť   ↑/↓: pohyb

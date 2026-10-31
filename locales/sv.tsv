@@ -1,1 +1,53 @@
 # Svenska (sv): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Läs in
+Text.MenuPaths	Banor
+Text.MenuTools	Verktyg
+Text.MenuConfig	Konfig.
+Text.MenuStart	Start
+Text.MenuLanguage	Språk
+Text.MenuQuit	Avsluta
+Text.TitleSelectFile	Välj fil
+Text.TitlePaths	Banor
+Text.TitleTools	Verktygsdata
+Text.TitleConfig	Konfiguration
+Text.TitleLanguage	Språk
+Text.TitleRouting	Fräsning
+Text.TitleQuit	Avsluta
+Text.LblFile	Fil
+Text.LblPaths	Banor
+Text.LblPens	Verktyg
+Text.LblSize	Storlek (mm)
+Text.LblCut	Skärlängd (mm)
+Text.LblProgress	Förlopp
+Text.LblTime	Simulerad tid (s)
+Text.LblSerial	Seriellt gränssnitt
+Text.LblIgnored	Ignorerade kommandon
+Text.ColTool	Verktyg
+Text.ColDepth	Djup (mm)
+Text.ColPasses	Varv
+Text.ColFeedXY	XY-matning
+Text.ColFeedZ	Z-matning
+Text.ColSpindle	Spindel
+Text.NoFile	Ingen fil inläst
+Text.NoToolFile	Verktygsfilen hittades inte
+Text.NoConfigFile	Konfigurationsfilen hittades inte
+Text.ErrRead	Fel vid läsning av plotfil
+Text.SimOnly	SIMULERING - ingen maskin ansluten
+Text.Uncalibrated	Maskinen är inte kalibrerad: rörelsen simuleras bara
+Text.Connecting	Ansluter styrenheten ...
+Text.Routing	Fräser ...
+Text.Done	Klart
+Text.QuitAsk	Vill du verkligen avsluta?
+Text.BtnYes	Ja
+Text.BtnNo	Nej
+Text.Directory	Katalog
+Text.WaitToolChange	Sätt in verktyg {} och tryck Enter
+Text.WaitSpindle	Tryck Enter för att starta spindeln
+Text.Stopped	Stoppad (drivningar av)
+Text.LinkFailed	Anslutningen misslyckades
+Text.LblLink	Länk
+Text.LblItems	Jobbets steg
+Text.KeyStop	Esc: stopp
+Text.RealMachine	RIKTIG MASKIN ({}) - Start rör den
+Text.RealStop	Esc stoppar den; ha handen nära strömbrytaren
+Text.StatusMain	Esc: tillbaka   Enter: godkänn   ↑/↓: flytta

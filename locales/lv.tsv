@@ -1,1 +1,53 @@
 # Latviešu (lv): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Ielādēt
+Text.MenuPaths	Ceļi
+Text.MenuTools	Rīki
+Text.MenuConfig	Konfig.
+Text.MenuStart	Sākt
+Text.MenuLanguage	Valoda
+Text.MenuQuit	Iziet
+Text.TitleSelectFile	Izvēlēties failu
+Text.TitlePaths	Ceļi
+Text.TitleTools	Rīku dati
+Text.TitleConfig	Konfigurācija
+Text.TitleLanguage	Valoda
+Text.TitleRouting	Frēzēšana
+Text.TitleQuit	Iziet
+Text.LblFile	Fails
+Text.LblPaths	Ceļi
+Text.LblPens	Rīki
+Text.LblSize	Izmērs (mm)
+Text.LblCut	Griezuma garums (mm)
+Text.LblProgress	Progress
+Text.LblTime	Simulētais laiks (s)
+Text.LblSerial	Seriālā saskarne
+Text.LblIgnored	Ignorētās komandas
+Text.ColTool	Rīks
+Text.ColDepth	Dziļums (mm)
+Text.ColPasses	Gājieni
+Text.ColFeedXY	XY padeve
+Text.ColFeedZ	Z padeve
+Text.ColSpindle	Vārpsta (rpm)
+Text.NoFile	Fails nav ielādēts
+Text.NoToolFile	Rīku datu fails nav atrasts
+Text.NoConfigFile	Konfigurācijas fails nav atrasts
+Text.ErrRead	Kļūda, lasot urbšanas failu
+Text.SimOnly	SIMULĀCIJA - iekārta nav pievienota
+Text.Uncalibrated	Iekārta nav kalibrēta: kustība tikai simulēta
+Text.Connecting	Savieno vadības bloku ...
+Text.Routing	Frēzē ...
+Text.Done	Gatavs
+Text.QuitAsk	Vai tiešām iziet?
+Text.BtnYes	Jā
+Text.BtnNo	Nē
+Text.Directory	Direktorija
+Text.WaitToolChange	Ievietojiet rīku {} un nospiediet Enter
+Text.WaitSpindle	Nospiediet Enter vārpstas startam
+Text.Stopped	Apturēts (piedziņas izslēgtas)
+Text.LinkFailed	Savienojums neizdevās
+Text.LblLink	Savienojums
+Text.LblItems	Darba soļi
+Text.KeyStop	Esc: stop
+Text.RealMachine	REĀLA IEKĀRTA ({}) - Sākt to kustina
+Text.RealStop	Esc aptur; turiet roku pie slēdža
+Text.StatusMain	Esc: atpakaļ   Enter: apstiprināt   ↑/↓: pārvietot

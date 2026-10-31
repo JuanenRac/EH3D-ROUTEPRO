@@ -1,1 +1,53 @@
 # Shqip (sq): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Ngarko
+Text.MenuPaths	Shtigjet
+Text.MenuTools	Mjetet
+Text.MenuConfig	Konfig.
+Text.MenuStart	Nis
+Text.MenuLanguage	Gjuha
+Text.MenuQuit	Dil
+Text.TitleSelectFile	Zgjidh skedarin
+Text.TitlePaths	Shtigjet
+Text.TitleTools	Të dhënat e mjeteve
+Text.TitleConfig	Konfigurimi
+Text.TitleLanguage	Gjuha
+Text.TitleRouting	Frezimi
+Text.TitleQuit	Dil
+Text.LblFile	Skedari
+Text.LblPaths	Shtigjet
+Text.LblPens	Mjetet
+Text.LblSize	Madhësia (mm)
+Text.LblCut	Gjatësia e prerjes (mm)
+Text.LblProgress	Përparimi
+Text.LblTime	Koha e simuluar (s)
+Text.LblSerial	Ndërfaqja serike
+Text.LblIgnored	Komandat e shpërfillura
+Text.ColTool	Mjeti
+Text.ColDepth	Thellësia (mm)
+Text.ColPasses	Kalimet
+Text.ColFeedXY	Avanc. XY
+Text.ColFeedZ	Avanc. Z
+Text.ColSpindle	Boshti
+Text.NoFile	Asnjë skedar i ngarkuar
+Text.NoToolFile	Skedari i mjeteve nuk u gjet
+Text.NoConfigFile	Skedari i konfigurimit nuk u gjet
+Text.ErrRead	Gabim në leximin e skedarit të plotterit
+Text.SimOnly	SIMULIM - asnjë makinë e lidhur
+Text.Uncalibrated	Makina nuk është kalibruar: lëvizja simulohet vetëm
+Text.Connecting	Lidhja e njësisë së kontrollit ...
+Text.Routing	Frezimi ...
+Text.Done	U krye
+Text.QuitAsk	Dëshironi vërtet të dilni?
+Text.BtnYes	Po
+Text.BtnNo	Jo
+Text.Directory	Dosja
+Text.WaitToolChange	Vendos mjetin {} dhe shtyp Enter
+Text.WaitSpindle	Shtyp Enter për të nisur boshtin
+Text.Stopped	Ndalur (drejtuesit të fikur)
+Text.LinkFailed	Lidhja dështoi
+Text.LblLink	Lidhja
+Text.LblItems	Hapat e punës
+Text.KeyStop	Esc: ndalo
+Text.RealMachine	MAKINË E VËRTETË ({}) - Nis e lëviz
+Text.RealStop	Esc e ndal; mbaj dorën afër çelësit
+Text.StatusMain	Esc: kthehu   Enter: prano   ↑/↓: lëviz

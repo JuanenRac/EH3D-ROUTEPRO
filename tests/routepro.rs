@@ -1,5 +1,5 @@
 use eh3d_drillpro::app::Input;
-use eh3d_drillpro::i18n::{cell_width, Lang};
+use eh3d_drillpro::i18n::{cell_width, Lang, CORE_LANGS};
 use eh3d_drillpro::job::Geometry;
 use eh3d_drillpro::protocol::{run_steps, Simulator};
 use eh3d_drillpro::screen::Screen;
@@ -133,7 +133,10 @@ fn texts_exist_in_all_languages_and_cjk_is_wide() {
         for l in Lang::ALL {
             let t = tr(l, k);
             assert!(!t.trim().is_empty());
-            assert_eq!(t.contains('~'), en, "{k:?} {l:?}");
+            // only the eight first languages have hot-key marks
+            if (l as usize) < CORE_LANGS {
+                assert_eq!(t.contains('~'), en, "{k:?} {l:?}");
+            }
         }
         for l in [Lang::Zh, Lang::Ja] {
             assert!(tr(l, k).chars().any(|c| cell_width(c) == 2), "{k:?} {l:?}");
@@ -144,7 +147,7 @@ fn texts_exist_in_all_languages_and_cjk_is_wide() {
 #[test]
 fn menu_hotkeys_unique_per_language() {
     use Text::*;
-    for l in Lang::ALL {
+    for l in Lang::ALL.into_iter().take(CORE_LANGS) {
         let mut seen: Vec<String> = Vec::new();
         for k in [
             MenuLoad,
@@ -260,4 +263,19 @@ M02*";
         "the operator is told which file was refused"
     );
     let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
+fn every_new_language_has_all_the_texts_of_the_program() {
+    use eh3d_drillpro::i18n::{Lang, CORE_LANGS};
+    use eh3d_routepro::texts::{locale_coverage, locale_problems};
+    assert!(locale_problems().is_empty());
+    for l in Lang::ALL.into_iter().skip(CORE_LANGS) {
+        let (have, total) = locale_coverage(l);
+        if l.fallback().is_some() {
+            assert!(have < total, "{l:?}");
+        } else {
+            assert_eq!(have, total, "{l:?}");
+        }
+    }
 }

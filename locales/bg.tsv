@@ -1,1 +1,53 @@
 # Български (bg): Table.Name<TAB>text, one per line (Text.* and CText.*); a text that is missing is taken from English (or from the main language of a variant). The hot-key markers ~X~ are not used in these languages.
+Text.MenuLoad	Зареди
+Text.MenuPaths	Траектории
+Text.MenuTools	Инструменти
+Text.MenuConfig	Настр.
+Text.MenuStart	Старт
+Text.MenuLanguage	Език
+Text.MenuQuit	Изход
+Text.TitleSelectFile	Избор на файл
+Text.TitlePaths	Траектории
+Text.TitleTools	Данни за инструм.
+Text.TitleConfig	Конфигурация
+Text.TitleLanguage	Език
+Text.TitleRouting	Фрезоване
+Text.TitleQuit	Изход
+Text.LblFile	Файл
+Text.LblPaths	Траектории
+Text.LblPens	Инструм.
+Text.LblSize	Размер (mm)
+Text.LblCut	Дължина на рязане (mm)
+Text.LblProgress	Напредък
+Text.LblTime	Симул. време (s)
+Text.LblSerial	Сериен интерфейс
+Text.LblIgnored	Игнорирани команди
+Text.ColTool	Инстр.
+Text.ColDepth	Дълбочина (mm)
+Text.ColPasses	Проходи
+Text.ColFeedXY	XY подаване
+Text.ColFeedZ	Z подаване
+Text.ColSpindle	Шпиндел
+Text.NoFile	Няма зареден файл
+Text.NoToolFile	Липсва файл с инструменти
+Text.NoConfigFile	Липсва конфигурац. файл
+Text.ErrRead	Грешка при четене на plot файла
+Text.SimOnly	СИМУЛАЦИЯ - няма свързана машина
+Text.Uncalibrated	Машината не е калибрирана: само симулация
+Text.Connecting	Свързване с управл. блок ...
+Text.Routing	Фрезоване ...
+Text.Done	Готово
+Text.QuitAsk	Наистина ли искате да излезете?
+Text.BtnYes	Да
+Text.BtnNo	Не
+Text.Directory	Директория
+Text.WaitToolChange	Поставете инструмент {} и натиснете Enter
+Text.WaitSpindle	Натиснете Enter за старт на шпиндела
+Text.Stopped	Спряно (задвижв. изкл.)
+Text.LinkFailed	Връзката е неуспешна
+Text.LblLink	Връзка
+Text.LblItems	Стъпки на задачата
+Text.KeyStop	Esc: стоп
+Text.RealMachine	РЕАЛНА МАШИНА ({}) - Старт я движи
+Text.RealStop	Esc спира; дръжте ръка до ключа
+Text.StatusMain	Esc: назад   Enter: приеми   ↑/↓: движение
