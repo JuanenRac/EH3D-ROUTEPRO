@@ -18,7 +18,7 @@
 
 ---
 
-**Ehrlichkeitscheck - was heute tatsächlich läuft:** ein Rust-Programm mit einer 80x25-Textoberfläche, das HP-GL-Plotdateien `.PLT`, die Werkzeugtabelle und die Maschinenkonfiguration liest, mehrfach durchlaufende Fräsbahnen plant (Eilgang, Eintauchen, Schnitt, Abheben) und entweder **gegen einen Simulator** (Standard) oder, wenn die Maschinendatei es vorgibt, **an einer echten Maschine** über die serielle Schnittstelle des Rechners, einen USB-Seriell-Adapter oder den EH3D-NODE-BUNGARD ausführt. 53 Tests laufen auf einem Rechner. Das serielle Protokoll, das es mit EH3D-DRILLPRO teilt, wurde an einer echten Bungard CCD MTC erprobt (die Referenzfahrt der drei Achsen und die Bewegungen jeder Achse); **ein vollständiger Fräsauftrag lief noch nicht an der Maschine**, und die Schritte pro Millimeter sind nur gegen die Konfiguration des Originals geprüft. Standardmäßig erscheinen die klassischen Bildschirme des MS-DOS-Programms, Zelle für Zelle mit dem Original verglichen; `--modern` startet stattdessen die menügesteuerte Oberfläche. Sie lassen sich mit Tastatur und Maus bedienen, das Fenster kann maximiert werden (der Bildschirm skaliert von 640x400 bis 1080p und mehr), die Konfigurations- und Werkzeugdateien werden in den Dialogen bearbeitet und gespeichert, und die Schaltfläche Info nennt die Bungard-Maschinen CCD und CCD/2 (MTC unterstützt, ATC noch nicht). Eine Konsolenversion (`routepro-console`) zeigt dieselben Bildschirme im Terminal, mit Tastatur und Maus und ohne Fenstersystem (SSH, Textkonsole, alter PC). Die Pakete jeder Version enthalten die Basiskonfiguration, Zeile für Zeile erklärt, und einen Ordner `examples` von einem Quadrat bis zu hunderttausend Punkten. Der Werkzeugwechsler der ATC-Modelle wird noch nicht unterstützt.
+**Ehrlichkeitscheck - was heute tatsächlich läuft:** ein Rust-Programm mit einer 80x25-Textoberfläche, das HP-GL-Plotdateien `.PLT`, die Werkzeugtabelle und die Maschinenkonfiguration liest, mehrfach durchlaufende Fräsbahnen plant (Eilgang, Eintauchen, Schnitt, Abheben) und entweder **gegen einen Simulator** (Standard) oder, wenn die Maschinendatei es vorgibt, **an einer echten Maschine** über die serielle Schnittstelle des Rechners, einen USB-Seriell-Adapter oder den EH3D-NODE-BUNGARD ausführt. 54 Tests laufen auf einem Rechner. Das serielle Protokoll, das es mit EH3D-DRILLPRO teilt, wurde an einer echten Bungard CCD MTC erprobt (die Referenzfahrt der drei Achsen und die Bewegungen jeder Achse); **ein vollständiger Fräsauftrag lief noch nicht an der Maschine**, und die Schritte pro Millimeter sind nur gegen die Konfiguration des Originals geprüft. Standardmäßig erscheinen die klassischen Bildschirme des MS-DOS-Programms, Zelle für Zelle mit dem Original verglichen; `--modern` startet stattdessen die menügesteuerte Oberfläche. Sie lassen sich mit Tastatur und Maus bedienen, das Fenster kann maximiert werden (der Bildschirm skaliert von 640x400 bis 1080p und mehr), die Konfigurations- und Werkzeugdateien werden in den Dialogen bearbeitet und gespeichert, und die Schaltfläche Info nennt die Bungard-Maschinen CCD und CCD/2 (MTC unterstützt, ATC noch nicht). Eine Konsolenversion (`routepro-console`) zeigt dieselben Bildschirme im Terminal, mit Tastatur und Maus und ohne Fenstersystem (SSH, Textkonsole, alter PC). Die Pakete jeder Version enthalten die Basiskonfiguration, Zeile für Zeile erklärt, und einen Ordner `examples` von einem Quadrat bis zu hunderttausend Punkten. Der Werkzeugwechsler der ATC-Modelle wird noch nicht unterstützt.
 
 ---
 
@@ -30,7 +30,7 @@
 |---|---|
 | Version | `0.0.7` |
 | Reifegrad | Gerüst |
-| Tests | 53 |
+| Tests | 54 |
 | Technologie-Stack | Rust |
 | Auf echter Hardware | Ja, an einer Bungard CCD MTC: die Referenzfahrt und die Bewegungen jeder Achse; ein ganzer Auftrag lief noch nicht. Ohne Maschinendatei läuft es im Simulator |
 
@@ -45,7 +45,7 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Software | 🟡 | Ein Rust-Programm mit 80x25-Textbildschirm liest HP-GL-Plotdateien, die Werkzeugtabelle und die Maschinendatei, plant mehrstufige Fräsbahnen und führt sie gegen einen Simulator aus, oder auf einer echten Maschine, wenn die Maschinendatei es sagt; der Ordner von EH3D-DRILLPRO muss daneben liegen. |
-| Tests | 🟢 | 53 Tests bestehen (`cargo test --workspace`): der HP-GL-Leser, die Bahnplanung und die Bildschirme in allen acht Sprachen; das Protokoll decken die 228 Tests von EH3D-DRILLPRO ab. |
+| Tests | 🟢 | 54 Tests bestehen (`cargo test --workspace`): der HP-GL-Leser, die Bahnplanung und die Bildschirme in allen acht Sprachen; das Protokoll decken die 228 Tests von EH3D-DRILLPRO ab. |
 | HP-GL-Leser | 🟡 | Nur `IN`, `SP`, `PU`, `PD`, `PA` und `PR` werden verstanden; jeder andere Befehl wird gezählt und ignoriert, nie fatal. Nur mit kleinen, für die Tests geschriebenen Beispieldateien erprobt. |
 | Bahnplanung | 🟡 | Jede Bahn wird für jeden Durchgang zu Eilgang, Eintauchen, Schnitt und Abheben, mit gleichmäßig verteilter Tiefe, und das Werkzeug endet immer an der Oberfläche; nur in Tests und am Simulator geprüft. |
 | Echte Hardware | 🟠 | Das serielle Protokoll, das es mit EH3D-DRILLPRO teilt, wurde an einer Bungard CCD MTC erprobt (Referenzlauf und Bewegungen jeder Achse); kein Fräsauftrag lief auf einer Maschine, und die Ausgänge für Spindel und Sauger sind unerprobt. |
@@ -139,7 +139,7 @@ Starten Sie es mit `run.bat` (Windows) oder `./run.sh` (Linux und macOS); beide 
 
 ## 🧪 Tests
 
-Die Suite hat 53 Tests (`cargo test --workspace`). Sie prüfen den HP-GL-Leser, die Bahnplanung (Durchgänge, Eintauchen, Schnitt und Abheben), den Frässplan des Protokoll-Crates, die klassischen Bildschirme Zelle für Zelle und die Bildschirme in allen acht Sprachen. Das wiederverwendete Protokoll (Bytes, Bewegung, Sicherheitstor) wird in EH3D-DRILLPRO getestet. Die CI führt außerdem `cargo fmt --check` und `cargo clippy` mit Warnungen als Fehlern aus, und `python -I tools/ci_validate.py` prüft Manifest, Versionen, Changelog und die acht READMEs.
+Die Suite hat 54 Tests (`cargo test --workspace`). Sie prüfen den HP-GL-Leser, die Bahnplanung (Durchgänge, Eintauchen, Schnitt und Abheben), den Frässplan des Protokoll-Crates, die klassischen Bildschirme Zelle für Zelle und die Bildschirme in allen acht Sprachen. Das wiederverwendete Protokoll (Bytes, Bewegung, Sicherheitstor) wird in EH3D-DRILLPRO getestet. Die CI führt außerdem `cargo fmt --check` und `cargo clippy` mit Warnungen als Fehlern aus, und `python -I tools/ci_validate.py` prüft Manifest, Versionen, Changelog und die acht READMEs.
 
 ## 🏗️ Build und Veröffentlichung
 
