@@ -106,6 +106,33 @@ fn the_outside_of_a_panel_is_cut_at_its_tabs() {
 }
 
 #[test]
+fn a_single_board_gets_tabs_on_its_outside_and_not_on_the_pockets_inside() {
+    use eh3d_drillpro::job::{TabPlacement, Tabs};
+    let outline = path(1, &[(0, 0), (2000, 0), (2000, 1000), (0, 1000), (0, 0)]);
+    let pocket = path(
+        2,
+        &[(400, 300), (1000, 300), (1000, 600), (400, 600), (400, 300)],
+    );
+    let o = JobOptions {
+        panel: Some(Panel {
+            columns: 1,
+            rows: 1,
+            pitch_mm: (0.0, 0.0),
+            tabs: Some(Tabs {
+                per_side: 1,
+                width_mm: 4.0,
+                placement: TabPlacement::Middle,
+            }),
+        }),
+        ..Default::default()
+    };
+    // the outside (50 mm by 25 mm) is cut into four pieces; the pocket stays one path
+    let (cut, _) = select_paths(&[outline, pocket], &o, (0.0, 0.0));
+    assert_eq!(cut.iter().filter(|p| p.pen == 1).count(), 4);
+    assert_eq!(cut.iter().filter(|p| p.pen == 2).count(), 1);
+}
+
+#[test]
 fn a_job_that_goes_on_leaves_out_the_paths_already_done() {
     let all = select_paths(&plot(), &JobOptions::default(), (0.0, 0.0)).0;
     let o = JobOptions {

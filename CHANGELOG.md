@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Tabs only on the outside, and on a single board:** the tabs of a panel are cut into the outside of each board only (the pockets and slots inside are routed whole), and a panel of one copy with tabs is cut at its tabs too.
+
 ## [0.0.7] - A table that is not flat and spoken notices
 
 - **A table that is not flat:** with the height map of the table the cut follows its height in pieces of 10 mm, so the tool keeps the same depth into the board from one end of the table to the other; without a map nothing changes.

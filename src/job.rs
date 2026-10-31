@@ -197,12 +197,26 @@ pub fn select_paths(
             .collect(),
         _ => vec![(0.0, 0.0)],
     };
+    // the tabs go on the outside of a board only, not on the pockets and slots inside it
+    let outer: Vec<bool> = {
+        let mm: Vec<Vec<(f64, f64)>> = kept
+            .iter()
+            .map(|p| {
+                p.points
+                    .iter()
+                    .map(|&(x, y)| (f64::from(x) * UNIT_MM, f64::from(y) * UNIT_MM))
+                    .collect()
+            })
+            .collect();
+        let refs: Vec<&[(f64, f64)]> = mm.iter().map(|v| v.as_slice()).collect();
+        eh3d_drillpro::job::outer_paths(&refs)
+    };
     let mut out = Vec::new();
     let mut skipped = 0;
     for pen in pens {
         for &(dx, dy) in &copies {
             let (ux, uy) = ((dx / UNIT_MM).round() as i32, (dy / UNIT_MM).round() as i32);
-            for p in kept.iter().filter(|p| p.pen == pen) {
+            for (index, p) in kept.iter().enumerate().filter(|(_, p)| p.pen == pen) {
                 let moved = Polyline {
                     pen: p.pen,
                     points: p.points.iter().map(|&(x, y)| (x + ux, y + uy)).collect(),
@@ -218,8 +232,8 @@ pub fn select_paths(
                 });
                 if inside {
                     match opts.panel.and_then(|p| p.tabs) {
-                        Some(tabs) => out.extend(with_tabs(moved, &tabs)),
-                        None => out.push(moved),
+                        Some(tabs) if outer[index] => out.extend(with_tabs(moved, &tabs)),
+                        _ => out.push(moved),
                     }
                 } else {
                     skipped += 1;
