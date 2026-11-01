@@ -70,6 +70,8 @@ pub struct App {
     tools_found: bool,
     config: Option<Config>,
     settings: Option<config::MachineSettings>,
+    /// The thickness of the board in mm: the one of the machine file at the start, then the one chosen in the window.
+    board_mm: f64,
     geometry: Geometry,
     connection: ConnectionConfig,
     run: Option<Run>,
@@ -113,6 +115,7 @@ impl App {
             tools_text: tool_text,
             job_options: eh3d_drillpro::job::JobOptions::default(),
             config: config.clone(),
+            board_mm: settings.as_ref().map_or(1.6, |m| m.board_mm),
             settings,
             geometry,
             connection: ConnectionConfig::default(),
@@ -137,12 +140,15 @@ impl App {
 
     /// Machine data for the job: from the configuration file when it was read, defaults otherwise.
     fn job_machine(&self) -> JobMachine {
-        eh3d_drillpro::job::job_machine(
+        let mut machine = eh3d_drillpro::job::job_machine(
             self.settings.as_ref(),
             self.geometry,
             &self.connection,
-            1.6,
-        )
+            self.board_mm,
+        );
+        // the thickness chosen in the window wins over the one of the machine file (the window starts with the file's)
+        machine.board_mm = self.board_mm;
+        machine
     }
 
     pub fn load_file(&mut self, path: &Path) {
@@ -1142,7 +1148,9 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
         self.config.as_ref()
     }
 
-    fn set_board(&mut self, _mm: f64) {}
+    fn set_board(&mut self, mm: f64) {
+        self.board_mm = mm;
+    }
 
     fn load(&mut self, path: &Path) {
         self.load_file(path);
@@ -1286,6 +1294,10 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
             skipped: run.skipped,
             run_mm,
         })
+    }
+
+    fn outcome(&self) -> eh3d_drillpro::classic::engine::Outcome {
+        eh3d_drillpro::classic::engine::outcome_of(self.run.as_ref().and_then(|r| r.real.as_ref()))
     }
 
     fn question(&self) -> Option<eh3d_drillpro::classic::engine::Question> {
