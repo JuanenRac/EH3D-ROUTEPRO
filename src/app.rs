@@ -66,6 +66,7 @@ pub struct App {
     sel: usize,
     plot: Option<(PathBuf, Plot)>,
     error: Option<String>,
+    warning: Option<String>,
     tools: Vec<Tool>,
     tools_found: bool,
     config: Option<Config>,
@@ -108,6 +109,7 @@ impl App {
             sel: 0,
             plot: None,
             error: None,
+            warning: None,
             tools_found: tool_text.is_some(),
             tools: tool_text.as_deref().map(tools::parse).unwrap_or_default(),
             data_dir: data_dir.to_path_buf(),
@@ -278,6 +280,7 @@ impl App {
     }
 
     fn start(&mut self) {
+        self.warning = None;
         if self.paths_loaded() > 0 {
             self.error = None; // a refusal of an earlier start is not the answer to this one
         }
@@ -286,8 +289,8 @@ impl App {
             self.mode = Mode::FileDialog;
             return;
         }
-        // a pen the plot uses whose line in the table could not be read would be cut with a made-up depth (0.1 mm), feed and speed: the job does not start and the
-        // line is named. (A pen with no line at all, and no line that failed to read, is the person's choice and keeps the cautious defaults.)
+        // the pens of the plot that the table does not give are cut with the cautious defaults (0.1 mm deep, 1000 mm/min, 60000 rpm); the person is told which, and the
+        // line that could not be read, if that is why
         if self.tools_found {
             if let Some((_, plot)) = &self.plot {
                 let mut used: Vec<u8> = plot.paths.iter().map(|p| p.pen).collect();
@@ -297,22 +300,19 @@ impl App {
                     .into_iter()
                     .filter(|u| !self.tools.iter().any(|t| t.number == *u))
                     .collect();
-                let bad = self
-                    .tools_text
-                    .as_deref()
-                    .map(|t| tools::parse_report(t).1)
-                    .unwrap_or_default();
-                let lost = bad.iter().find(|b| {
-                    b.text
-                        .split_whitespace()
-                        .next()
-                        .and_then(|w| w.parse::<u8>().ok())
-                        .is_some_and(|n| missing.contains(&n))
-                });
-                if let Some(b) = lost {
-                    let detail = format!("line {}: {}", b.line, b.text);
-                    self.error = Some(format!("{}: {detail}", tr(self.lang, Text::ToolTable)));
-                    return;
+                if !missing.is_empty() {
+                    let bad = self
+                        .tools_text
+                        .as_deref()
+                        .map(|t| tools::parse_report(t).1)
+                        .unwrap_or_default();
+                    let bad: Vec<(usize, String)> =
+                        bad.iter().map(|b| (b.line, b.text.clone())).collect();
+                    self.warning = Some(eh3d_drillpro::job::tool_defaults_message(
+                        tr(self.lang, Text::ToolDefaults),
+                        &missing,
+                        &bad,
+                    ));
                 }
             }
         }
@@ -1211,6 +1211,10 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn bounds(&self) -> Option<(f64, f64, f64, f64)> {
         self.plot.as_ref().and_then(|(_, p)| p.bounds_mm())
+    }
+
+    fn warning(&self) -> Option<&str> {
+        self.warning.as_deref()
     }
 
     fn error(&self) -> Option<&str> {

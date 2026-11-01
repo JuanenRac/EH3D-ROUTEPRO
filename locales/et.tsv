@@ -52,5 +52,5 @@ Text.RealMachine	TEGELIK MASIN ({}) - Start liigutab seda
 Text.RealStop	Esc peatab; hoia käsi toitelüliti juures
 Text.StatusMain	Esc: tagasi   Enter: kinnita   ↑/↓: liigu
 Text.SpindleLimit	Spindli piirang:
-Text.ToolTable	Tööriistatabel ei sisalda seda tööriista
+Text.ToolDefaults	Pole tööriistatabelis; tööriista jaoks kasutatakse ettevaatlikke väärtusi
 Text.LevelServer	Kõrguskaarti ei saa kasutada, kui töö käib läbi serveri

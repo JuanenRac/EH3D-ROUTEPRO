@@ -52,5 +52,5 @@ Text.RealMachine	REĀLA IEKĀRTA ({}) - Sākt to kustina
 Text.RealStop	Esc aptur; turiet roku pie slēdža
 Text.StatusMain	Esc: atpakaļ   Enter: apstiprināt   ↑/↓: pārvietot
 Text.SpindleLimit	Vārpstas robeža:
-Text.ToolTable	Instrumentu tabulā nav šī instrumenta
+Text.ToolDefaults	Nav instrumentu tabulā; instrumentam tiek izmantotas piesardzīgas vērtības
 Text.LevelServer	Augstuma karti nevar izmantot, kad darbs iet caur serveri

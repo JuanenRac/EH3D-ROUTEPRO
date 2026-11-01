@@ -52,5 +52,5 @@ Text.RealMachine	MAGNA VERA ({}) - Ibda tmexxiha
 Text.RealStop	Esc iwaqqafha; żomm id ħdejn l-iswiċċ
 Text.StatusMain	Esc: lura   Enter: aċċetta   ↑/↓: mexxi
 Text.SpindleLimit	Limitu tal-ispindle:
-Text.ToolTable	It-tabella tal-għodod ma tagħtix l-għodda
+Text.ToolDefaults	Mhux fit-tabella tal-għodod; jintużaw valuri kawti għall-għodda
 Text.LevelServer	Il-mappa tal-għoli ma tistax tintuża meta x-xogħol jgħaddi mis-server

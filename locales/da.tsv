@@ -52,5 +52,5 @@ Text.RealMachine	RIGTIG MASKINE ({}) - Start bevæger den
 Text.RealStop	Esc stopper; hånd ved afbryderen
 Text.StatusMain	Esc: tilbage   Enter: acceptér   ↑/↓: flyt
 Text.SpindleLimit	Spindelgrænse:
-Text.ToolTable	Værktøjstabellen angiver ikke værktøjet
+Text.ToolDefaults	Findes ikke i værktøjstabellen; der bruges forsigtige værdier for værktøj
 Text.LevelServer	Højdekortet kan ikke bruges, når jobbet går via serveren

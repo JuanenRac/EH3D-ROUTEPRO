@@ -52,5 +52,5 @@ Text.RealMachine	MAȘINĂ REALĂ ({}) - Start o mișcă
 Text.RealStop	Esc o oprește; țineți mâna lângă întrerupător
 Text.StatusMain	Esc: înapoi   Enter: acceptă   ↑/↓: mișcare
 Text.SpindleLimit	Limita arborelui:
-Text.ToolTable	Tabelul de scule nu conține scula
+Text.ToolDefaults	Nu este în tabelul de scule; pentru sculă se folosesc valori prudente
 Text.LevelServer	Harta înălțimilor nu poate fi folosită când lucrarea trece prin server
