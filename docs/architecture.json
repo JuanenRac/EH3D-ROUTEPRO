@@ -69,8 +69,6 @@
         "for every pass"
       ],
       "code": [
-        "src/hpgl.rs",
-        "src/tools.rs",
         "src/job.rs"
       ]
     },
