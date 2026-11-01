@@ -284,7 +284,16 @@ impl App {
             .map(|(_, p)| p.paths.clone())
             .unwrap_or_default();
         let offset = self.settings.as_ref().map_or((0.0, 0.0), |m| m.offset_mm);
-        let (plan, skipped) = crate::job::select_paths(&all_paths, &self.job_options, offset);
+        // with no area asked for, the table of the machine is the limit: nothing is sent outside it
+        let mut area_options = self.job_options.clone();
+        if area_options.clip_mm.is_none() {
+            area_options.clip_mm = self
+                .settings
+                .as_ref()
+                .map(|m| m.clip_mm)
+                .filter(|c| c.0 > 0.0 && c.1 > 0.0);
+        }
+        let (plan, skipped) = crate::job::select_paths(&all_paths, &area_options, offset);
         let (connected, real, total_items) = if self.connection.is_real() {
             let paths = plan.clone();
             let items = plan_route_job_levelled(

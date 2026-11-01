@@ -159,6 +159,34 @@ mod levelled_tests {
     }
 
     #[test]
+    fn the_tool_goes_down_to_cut_and_never_above_the_top() {
+        use eh3d_drillpro_protocol::bits::{Z_NEG, Z_POS};
+        let p = RouteParams {
+            depth_mm: 1.0,
+            passes: 2,
+            feed_xy_mm_min: 1000.0,
+            feed_z_mm_min: 300.0,
+            approach_mm: 2.0,
+        };
+        let plan = plan_polyline((0.0, 0.0), &[(0.0, 0.0), (20.0, 0.0)], &p, &g());
+        let (mut z, mut deepest) = (0i64, 0i64);
+        for s in &plan.steps {
+            if s.byte == Z_POS {
+                z += 1;
+            } else if s.byte == Z_NEG {
+                z -= 1;
+            }
+            assert!(z >= 0, "the plan lifts the tool above where it started");
+            deepest = deepest.max(z);
+        }
+        assert_eq!(z, 0, "the tool ends where it started");
+        assert!(
+            deepest >= g().z_steps(1.0) as i64,
+            "the cut reaches its depth"
+        );
+    }
+
+    #[test]
     fn the_cut_follows_a_table_that_is_higher_at_one_end() {
         let p = RouteParams {
             depth_mm: 0.2,
