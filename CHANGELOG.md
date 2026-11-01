@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Cut, copy and paste, and full screen:** the window of ROUTEPRO is the one of DRILLPRO, so it has the same clipboard in every field (the keys and the menu of the right button) and the same full-screen setting (Parameter window and F11); see DRILLPRO.
+
 ## [0.1.0] - Spindle warnings of the server and the head of the drill on screen
 
 
