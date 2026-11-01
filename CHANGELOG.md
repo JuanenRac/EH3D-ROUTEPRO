@@ -8,7 +8,7 @@ All notable changes to this project are documented here.
 
 
 - **What the server tells the run screen:** a job on the server shows the excesses of the spindle that the server cut (`spindle_warnings` of its view, one short text for each: the tool, the value asked for and the limit) under the progress, and, when the machine has the node of a drill head, the turns of the spindle and its temperature, asked of the server every two seconds and let go if the machine has no node or the node does not answer. The line is named in all 37 languages. The reading of the notes is the library of DRILLPRO's, tested there.
-- **A pen the plot uses must have a line in the tool table:** a missing or unreadable line stops the job and names the tool and the line, instead of cutting 0.1 mm deep at a made-up speed.
+- **A pen whose tool table line cannot be read stops the job:** the line is named, instead of cutting 0.1 mm deep at a made-up speed; the decimal comma is read.
 - **The height map and the server:** a job that goes through the server is not started with a height map in use, because the server plans on a flat table.
 - **Tests that prove what they say:** the levelling test now needs the tool to go down strictly less, and a new test checks that the cut reaches exactly the depth asked, going down with `Z_POS`, and is back up at the end.
 - **Two new texts in the 37 languages;** the notes of the project no longer say the protocol was never tried on a machine and that the program has eight languages.

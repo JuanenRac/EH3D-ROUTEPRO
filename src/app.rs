@@ -286,7 +286,8 @@ impl App {
             self.mode = Mode::FileDialog;
             return;
         }
-        // a pen the plot uses must have a line in the table that was read: otherwise the cut would have a made-up depth (0.1 mm), feed and speed
+        // a pen the plot uses whose line in the table could not be read would be cut with a made-up depth (0.1 mm), feed and speed: the job does not start and the
+        // line is named. (A pen with no line at all, and no line that failed to read, is the person's choice and keeps the cautious defaults.)
         if self.tools_found {
             if let Some((_, plot)) = &self.plot {
                 let mut used: Vec<u8> = plot.paths.iter().map(|p| p.pen).collect();
@@ -296,23 +297,20 @@ impl App {
                     .into_iter()
                     .filter(|u| !self.tools.iter().any(|t| t.number == *u))
                     .collect();
-                if !missing.is_empty() {
-                    let bad = self
-                        .tools_text
-                        .as_deref()
-                        .map(|t| tools::parse_report(t).1)
-                        .unwrap_or_default();
-                    let mut detail = format!(
-                        "tool {}",
-                        missing
-                            .iter()
-                            .map(|t| t.to_string())
-                            .collect::<Vec<_>>()
-                            .join(", ")
-                    );
-                    if let Some(b) = bad.first() {
-                        detail.push_str(&format!("; line {}: {}", b.line, b.text));
-                    }
+                let bad = self
+                    .tools_text
+                    .as_deref()
+                    .map(|t| tools::parse_report(t).1)
+                    .unwrap_or_default();
+                let lost = bad.iter().find(|b| {
+                    b.text
+                        .split_whitespace()
+                        .next()
+                        .and_then(|w| w.parse::<u8>().ok())
+                        .is_some_and(|n| missing.contains(&n))
+                });
+                if let Some(b) = lost {
+                    let detail = format!("line {}: {}", b.line, b.text);
                     self.error = Some(format!("{}: {detail}", tr(self.lang, Text::ToolTable)));
                     return;
                 }
