@@ -45,14 +45,14 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Software | 🟡 | Ein Rust-Programm mit 80x25-Textbildschirm liest HP-GL-Plotdateien, die Werkzeugtabelle und die Maschinendatei, plant mehrstufige Fräsbahnen und führt sie gegen einen Simulator aus, oder auf einer echten Maschine, wenn die Maschinendatei es sagt; der Ordner von EH3D-DRILLPRO muss daneben liegen. |
-| Tests | 🟢 | 59 Tests bestehen (`cargo test --workspace`): der HP-GL-Leser, die Bahnplanung und die Bildschirme in allen 37 Sprachen; das Protokoll decken die 237 Tests von EH3D-DRILLPRO ab. |
+| Tests | 🟡 | 59 Tests bestehen (`cargo test --workspace`): der HP-GL-Leser, die Bahnplanung und die Bildschirme in allen 37 Sprachen; das Protokoll decken die 237 Tests von EH3D-DRILLPRO ab. |
 | HP-GL-Leser | 🟡 | Nur `IN`, `SP`, `PU`, `PD`, `PA` und `PR` werden verstanden; jeder andere Befehl wird gezählt und ignoriert, nie fatal. Nur mit kleinen, für die Tests geschriebenen Beispieldateien erprobt. |
 | Bahnplanung | 🟡 | Jede Bahn wird für jeden Durchgang zu Eilgang, Eintauchen, Schnitt und Abheben, mit gleichmäßig verteilter Tiefe, und das Werkzeug endet immer an der Oberfläche; nur in Tests und am Simulator geprüft. |
 | Echte Hardware | 🟠 | Das serielle Protokoll, das es mit EH3D-DRILLPRO teilt, wurde an einer Bungard CCD MTC erprobt (Referenzlauf und Bewegungen jeder Achse); kein Fräsauftrag lief auf einer Maschine, und die Ausgänge für Spindel und Sauger sind unerprobt. |
 | Betriebssicherheit | 🟡 | `Esc` stoppt den Auftrag in einem Bruchteil einer Sekunde und schaltet die Schrittmotortreiber ab, und die Steuereinheit der Maschine überwacht die Endschalter; die Software hat keinen eigenen Not-Halt. |
 | Serververbindung | 🟠 | Mit `connection = server` schickt das Programm den Auftrag an EH3D-SERVER und verfolgt dessen Fortschritt; dieser Weg wurde nur gegen den Simulator geübt. |
 | Fertige Pakete | 🟡 | Die erste Veröffentlichung enthält Pakete für Windows, Linux und macOS (Apple Silicon und Intel), jeweils mit SHA-256, gebaut vom Release-Workflow. |
-| Dokumentation | 🟢 | README in acht Sprachen und die Protokollnotizen mit dem, was noch Hypothese ist; die Anleitung zur Maschinendatei liegt in EH3D-DRILLPRO. |
+| Dokumentation | 🟡 | README in acht Sprachen und die Protokollnotizen mit dem, was noch Hypothese ist; die Anleitung zur Maschinendatei liegt in EH3D-DRILLPRO. |
 
 ## 🎯 Überblick
 
