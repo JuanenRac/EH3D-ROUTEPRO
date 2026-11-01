@@ -52,3 +52,5 @@ Text.RealMachine	MÁQUINA REAL ({}) - Iniciar móvea
 Text.RealStop	Esc párea; ten unha man preto do interruptor
 Text.StatusMain	Esc: atrás   Enter: acepta   ↑/↓: mover
 Text.SpindleLimit	Límite do fuso:
+Text.ToolTable	A táboa de ferramentas non ten a ferramenta
+Text.LevelServer	O mapa de alturas non se pode usar cando o traballo pasa polo servidor

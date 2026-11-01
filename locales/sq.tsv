@@ -52,3 +52,5 @@ Text.RealMachine	MAKINË E VËRTETË ({}) - Nis e lëviz
 Text.RealStop	Esc e ndal; mbaj dorën afër çelësit
 Text.StatusMain	Esc: kthehu   Enter: prano   ↑/↓: lëviz
 Text.SpindleLimit	Kufiri i boshtit:
+Text.ToolTable	Tabela e veglave nuk e ka veglën
+Text.LevelServer	Harta e lartësive nuk mund të përdoret kur puna kalon nga serveri

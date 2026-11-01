@@ -52,3 +52,5 @@ Text.RealMachine	DEJANSKI STROJ ({}) - Zagon ga premakne
 Text.RealStop	Esc ga ustavi; roka naj bo ob stikalu
 Text.StatusMain	Esc: nazaj   Enter: potrdi   ↑/↓: premik
 Text.SpindleLimit	Omejitev vretena:
+Text.ToolTable	Tabela orodij ne vsebuje orodja
+Text.LevelServer	Višinskega zemljevida ni mogoče uporabiti, ko opravilo poteka prek strežnika

@@ -33,6 +33,29 @@ fn a_plan_returns_the_tool_to_the_surface_and_reaches_the_end() {
 }
 
 #[test]
+fn the_tool_reaches_exactly_the_depth_asked_going_down_and_comes_back_up() {
+    use eh3d_routepro_protocol::bits::{Z_NEG, Z_POS};
+    let g = Geometry::default();
+    for passes in [1u32, 3] {
+        let plan = plan_polyline((0.0, 0.0), &[(5.0, 5.0), (15.0, 5.0)], &params(passes), &g);
+        // Z_POS is down into the board, Z_NEG up: the deepest point is the depth that was asked
+        let (mut z, mut deepest, mut shallowest) = (0i64, 0i64, 0i64);
+        for s in &plan.steps {
+            if s.byte == Z_POS {
+                z += 1;
+            } else if s.byte == Z_NEG {
+                z -= 1;
+            }
+            deepest = deepest.max(z);
+            shallowest = shallowest.min(z);
+        }
+        assert_eq!(deepest, g.z_steps(0.5) as i64, "{passes} passes");
+        assert_eq!(shallowest, 0, "never above the surface");
+        assert_eq!(z, 0, "back up at the end");
+    }
+}
+
+#[test]
 fn several_passes_cost_more_time_and_end_at_the_last_point() {
     let g = Geometry::default();
     let pts = [(5.0, 5.0), (15.0, 5.0)];

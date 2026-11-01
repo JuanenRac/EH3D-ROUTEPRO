@@ -52,3 +52,5 @@ Text.RealMachine	SKUTOČNÝ STROJ ({}) - Štart ho pohne
 Text.RealStop	Esc ho zastaví; majte ruku pri vypínači
 Text.StatusMain	Esc: späť   Enter: potvrdiť   ↑/↓: pohyb
 Text.SpindleLimit	Obmedzenie vretena:
+Text.ToolTable	Tabuľka nástrojov tento nástroj neobsahuje
+Text.LevelServer	Mapu výšok nemožno použiť, keď úloha ide cez server

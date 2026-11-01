@@ -151,13 +151,6 @@ mod levelled_tests {
         Geometry::default()
     }
 
-    fn z_down_steps(steps: &[Step]) -> usize {
-        steps
-            .iter()
-            .filter(|s| s.byte == eh3d_drillpro_protocol::bits::Z_POS)
-            .count()
-    }
-
     #[test]
     fn the_tool_goes_down_to_cut_and_never_above_the_top() {
         use eh3d_drillpro_protocol::bits::{Z_NEG, Z_POS};
@@ -201,8 +194,34 @@ mod levelled_tests {
         assert_eq!(flat.steps, same.steps);
         // the table is 0.1 mm higher at the far end: the tool is lifted by that, so it goes down less in all
         let tilted = plan_polyline_levelled((0.0, 0.0), &pts, &p, &g(), &|x, _| x / 1000.0, 10.0);
-        let diff = z_down_steps(&flat.steps) as i64 - z_down_steps(&tilted.steps) as i64;
-        assert!(diff >= 0);
+        // where the tool is (in steps down into the board) at the last move along the path: on a flat table it is at the depth asked, and where the table is 0.1 mm
+        // higher the tool is lifted by that
+        let z_at_the_end = |steps: &[Step]| {
+            use eh3d_drillpro_protocol::bits::{Z_NEG, Z_POS};
+            let (mut z, mut at_end) = (0i64, 0i64);
+            for s in steps {
+                if s.byte == Z_POS {
+                    z += 1;
+                } else if s.byte == Z_NEG {
+                    z -= 1;
+                } else {
+                    at_end = z;
+                }
+            }
+            at_end
+        };
+        let (flat_z, tilted_z) = (z_at_the_end(&flat.steps), z_at_the_end(&tilted.steps));
+        assert_eq!(
+            flat_z,
+            g().z_steps(1.0 + 0.2) as i64,
+            "a flat table gets the approach and the depth asked"
+        );
+        let lifted = flat_z - tilted_z;
+        let wanted = g().z_steps(0.1) as i64;
+        assert!(
+            (lifted - wanted).abs() <= 2,
+            "the tool is lifted by {lifted} steps, the table rose {wanted}"
+        );
         // and it ends at the same place
         assert_eq!(tilted.end_mm, flat.end_mm);
     }

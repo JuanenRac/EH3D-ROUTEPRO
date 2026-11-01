@@ -278,9 +278,49 @@ impl App {
     }
 
     fn start(&mut self) {
+        if self.paths_loaded() > 0 {
+            self.error = None; // a refusal of an earlier start is not the answer to this one
+        }
         if self.paths_loaded() == 0 {
             self.refresh_entries();
             self.mode = Mode::FileDialog;
+            return;
+        }
+        // a pen the plot uses must have a line in the table that was read: otherwise the cut would have a made-up depth (0.1 mm), feed and speed
+        if self.tools_found {
+            if let Some((_, plot)) = &self.plot {
+                let mut used: Vec<u8> = plot.paths.iter().map(|p| p.pen).collect();
+                used.sort_unstable();
+                used.dedup();
+                let missing: Vec<u8> = used
+                    .into_iter()
+                    .filter(|u| !self.tools.iter().any(|t| t.number == *u))
+                    .collect();
+                if !missing.is_empty() {
+                    let bad = self
+                        .tools_text
+                        .as_deref()
+                        .map(|t| tools::parse_report(t).1)
+                        .unwrap_or_default();
+                    let mut detail = format!(
+                        "tool {}",
+                        missing
+                            .iter()
+                            .map(|t| t.to_string())
+                            .collect::<Vec<_>>()
+                            .join(", ")
+                    );
+                    if let Some(b) = bad.first() {
+                        detail.push_str(&format!("; line {}: {}", b.line, b.text));
+                    }
+                    self.error = Some(format!("{}: {detail}", tr(self.lang, Text::ToolTable)));
+                    return;
+                }
+            }
+        }
+        // the height map is not sent to the server, which plans the job on a flat table: the cut would not be as deep as the screen shows
+        if self.connection.kind == ConnectionKind::Server && self.job_options.table.is_some() {
+            self.error = Some(tr(self.lang, Text::LevelServer).to_string());
             return;
         }
         let mut sim = Simulator::default();

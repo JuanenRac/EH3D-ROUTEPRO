@@ -52,3 +52,5 @@ Text.RealMachine	BENETAKO MAKINA ({}) - Hasteak mugitzen du
 Text.RealStop	Esc-k gelditzen du; eduki esku bat etengailuaren ondoan
 Text.StatusMain	Esc: atzera   Enter: onartu   ↑/↓: mugitu
 Text.SpindleLimit	Ardatzaren muga:
+Text.ToolTable	Erreminta-taulak ez du erreminta ematen
+Text.LevelServer	Altuera-mapa ezin da erabili lana zerbitzaritik pasatzen denean

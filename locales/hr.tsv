@@ -52,3 +52,5 @@ Text.RealMachine	STVARNI STROJ ({}) - Start ga pokreće
 Text.RealStop	Esc zaustavlja; ruka uz prekidač
 Text.StatusMain	Esc: natrag   Enter: prihvati   ↑/↓: kretanje
 Text.SpindleLimit	Ograničenje vretena:
+Text.ToolTable	Tablica alata ne sadrži taj alat
+Text.LevelServer	Karta visina ne može se koristiti kada posao ide preko poslužitelja

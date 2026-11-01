@@ -52,3 +52,5 @@ Text.RealMachine	ECHTE MACHINE ({}) - Start beweegt hem
 Text.RealStop	Esc stopt; hand bij de hoofdschakelaar
 Text.StatusMain	Esc: terug   Enter: accepteren   ↑/↓: verplaatsen
 Text.SpindleLimit	Spindelgrens:
+Text.ToolTable	De gereedschapstabel bevat het gereedschap niet
+Text.LevelServer	De hoogtekaart kan niet worden gebruikt als de taak via de server loopt
