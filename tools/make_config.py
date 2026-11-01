@@ -70,7 +70,7 @@ RTD = [
     "ii    = passes: the depth is reached in that many passes (2 or 3 is gentler on a small cutter)",
     "xxxx  = feed of the cutter along the path in mm/min (500 to 1000 for FR4, slower for a small cutter)",
     "zzzz  = feed of the plunge in mm/min",
-    "sssss = spindle speed in turns per minute: 30000 to 60000 on the CCD",
+    "sssss = spindle speed in turns per minute: 5000 to 63000 on the CCD (the old control unit gives 30000 to 60000)",
     "",
     "Change the numbers, never the number of lines. Too fast a feed breaks cutters; try on a scrap board first.",
     "",
