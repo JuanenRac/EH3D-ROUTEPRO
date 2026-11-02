@@ -410,7 +410,8 @@ impl App {
                 paths.len(),
                 pens.len(),
             );
-            if let Some(why) = summary.refusal(&tuning, self.lang) {
+            if let Some(why) = summary.refusal(&eh3d_drillpro::summary::limits(&tuning), self.lang)
+            {
                 self.summary_ok = false;
                 self.error = Some(why);
                 return;
@@ -984,7 +985,7 @@ impl App {
                 &format!(
                     "{}: {}",
                     tr(self.lang, Text::LblLeft),
-                    eh3d_drillpro::summary::clock(left)
+                    eh3d_summary::summary::clock(left)
                 ),
                 BLACK,
                 WIN_BG,
