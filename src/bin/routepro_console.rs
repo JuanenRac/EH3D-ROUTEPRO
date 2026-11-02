@@ -11,6 +11,7 @@ use eh3d_routepro::app::App;
 const SETTINGS: &str = "eh3d-routepro.lang";
 
 fn main() -> std::io::Result<()> {
+    eh3d_drillpro::crash::install("routepro-console", env!("CARGO_PKG_VERSION"));
     let o = cli::parse(SETTINGS, "ROUTEPRO.RCF");
     if o.modern {
         let mut app = App::new(o.lang, &o.data);

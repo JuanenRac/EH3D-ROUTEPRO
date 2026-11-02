@@ -15,6 +15,7 @@ use eh3d_routepro::app::App;
 const SETTINGS: &str = "eh3d-routepro.lang";
 
 fn main() -> eframe::Result {
+    eh3d_drillpro::crash::install("routepro", env!("CARGO_PKG_VERSION"));
     attach_console();
     let o = cli::parse(SETTINGS, "ROUTEPRO.RCF");
     if o.machines {

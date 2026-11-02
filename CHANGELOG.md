@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A failure inside the work is told, and the machine is stopped:** when the thread that runs a job (or the Offset window) panics, the run no longer stays at "running" for ever with nothing said: the machine is stopped first and the state becomes failed with "internal error" and the words of the panic.
+- **A record of crashes:** a panic is also appended to `eh3d-crash.log` in the configuration folder (`%APPDATA%\EH3D`, `~/.config/eh3d`) with the program, its version, the words and the place, because a window program on Windows has no console to show it.
+- **The CI builds and tests the graphical interface too** (`--features gui`, with the libraries of the window system on Linux), and checks the pictures of the README; the architecture picture pointed at files that no longer exist and now points at the ones that do.
+
 ## [0.1.1] - Cautious values named, acceleration and spindle start counted, cut copy and paste, and full screen
 
 - **The pens that are cut with the cautious values are named:** a pen of the plot that the tool table does not give (or whose line could not be read, which is then shown) is cut with the cautious defaults as before, but the screen says which pens they are; the decimal comma is read in the table.
