@@ -31,6 +31,8 @@ enum Mode {
     Language,
     Running,
     ConfirmQuit,
+    /// The summary of the job waits for Enter before a machine that moves is started.
+    ConfirmStart,
 }
 
 struct Entry {
@@ -82,6 +84,9 @@ pub struct App {
     tools_text: Option<String>,
     /// What the main form and the Panelization dialog add to the job.
     job_options: eh3d_drillpro::job::JobOptions,
+    /// The lines of the summary that wait for the person's answer, and whether it was accepted (the next start goes through).
+    summary: Option<Vec<String>>,
+    summary_ok: bool,
     pub quit: bool,
 }
 
@@ -123,6 +128,8 @@ impl App {
             connection: ConnectionConfig::default(),
             run: None,
             teach: None,
+            summary: None,
+            summary_ok: false,
             quit: false,
         };
         app.dir = config::work_dir(data_dir, app.config.as_ref());
@@ -185,6 +192,18 @@ impl App {
                 };
                 match plot {
                     Ok(p) => {
+                        // what looks wrong in the work is said as soon as it is loaded (a unit that is probably wrong, a work far from the corner)
+                        self.warning = eh3d_drillpro::summary::load_warning(
+                            p.paths.iter().flat_map(|q| {
+                                q.points
+                                    .iter()
+                                    .map(|pt| (pt.0 as f64 * UNIT_MM, pt.1 as f64 * UNIT_MM))
+                            }),
+                            p.paths.len(),
+                            self.settings.as_ref(),
+                            &self.connection.tuning,
+                            self.lang,
+                        );
                         self.plot = Some((path.to_path_buf(), p));
                         self.error = None;
                     }
@@ -347,6 +366,37 @@ impl App {
                 self.job_options.table.as_ref(),
             );
             let n = items.len();
+            // the exact plan is followed on paper first: a plan that leaves the course is refused (when the tuning says so) and the person sees the
+            // summary and accepts it before anything starts
+            self.summary = None;
+            let tuning = self.connection.tuning;
+            let mut pens: Vec<u8> = paths.iter().map(|p| p.pen).collect();
+            pens.sort_unstable();
+            pens.dedup();
+            let summary = eh3d_drillpro::summary::build(
+                &items,
+                &self.job_machine().geometry,
+                self.settings.as_ref(),
+                &tuning,
+                paths.iter().flat_map(|p| {
+                    p.points
+                        .iter()
+                        .map(|q| (q.0 as f64 * UNIT_MM, q.1 as f64 * UNIT_MM))
+                }),
+                paths.len(),
+                pens.len(),
+            );
+            if let Some(why) = summary.refusal(&tuning, self.lang) {
+                self.summary_ok = false;
+                self.error = Some(why);
+                return;
+            }
+            if tuning.confirm_start && !self.summary_ok {
+                self.summary = Some(summary.lines(self.lang));
+                self.mode = Mode::ConfirmStart;
+                return;
+            }
+            self.summary_ok = false;
             let real = if self.connection.kind == ConnectionKind::Server {
                 // the job goes to the EH3D server, which plans it again with the machine's constants and runs it on the machine's node
                 let name = self
@@ -552,6 +602,11 @@ impl App {
                 Input::Esc | Input::Char(_) => self.mode = Mode::Main,
                 _ => {}
             },
+            Mode::ConfirmStart => match input {
+                Input::Enter => self.accept_summary(),
+                Input::Esc => self.decline_summary(),
+                _ => {}
+            },
             Mode::Running => {
                 let live = self.run.as_ref().and_then(|r| r.real.as_ref());
                 match (live, input) {
@@ -642,6 +697,7 @@ impl App {
             Mode::Language => self.render_languages(s),
             Mode::Running => self.render_run(s),
             Mode::ConfirmQuit => self.render_quit(s),
+            Mode::ConfirmStart => self.render_summary(s),
         }
         s.fill(0, ROWS - 1, COLS, 1, ' ', BLACK, MENU_BG);
         s.text(1, ROWS - 1, tr(self.lang, Text::StatusMain), BLACK, MENU_BG);
@@ -975,6 +1031,43 @@ impl App {
                 WIN_BG,
             );
         }
+    }
+
+    /// The person accepted the summary: the job starts.
+    fn accept_summary(&mut self) {
+        self.summary_ok = true;
+        self.summary = None;
+        self.mode = Mode::Main;
+        self.start();
+    }
+
+    /// The person did not accept the summary: nothing starts.
+    fn decline_summary(&mut self) {
+        self.summary_ok = false;
+        self.summary = None;
+        self.mode = Mode::Main;
+    }
+
+    fn render_summary(&self, s: &mut Screen) {
+        use eh3d_drillpro::texts::{tr as words, Text as Words};
+        let Some(lines) = &self.summary else {
+            return;
+        };
+        let buttons = format!(
+            "[ {} ]   [ {} ]",
+            words(self.lang, Words::BtnStartJob),
+            words(self.lang, Words::BtnCancel)
+        );
+        let w = (lines.iter().map(|l| str_width(l)).max().unwrap_or(0) + 4)
+            .max(str_width(&buttons) + 4)
+            .min(COLS - 2);
+        let h = lines.len() + 5;
+        let (x, y) = ((COLS - w) / 2, 3);
+        s.window(x, y, w, h, words(self.lang, Words::SumTitle), WHITE, BLUE);
+        for (i, l) in lines.iter().skip(1).enumerate() {
+            s.text(x + 2, y + 1 + i, l, WHITE, BLUE);
+        }
+        s.text_centered(y + h - 2, x, w, &buttons, YELLOW, BLUE);
     }
 
     fn render_quit(&self, s: &mut Screen) {
@@ -1365,6 +1458,18 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn start(&mut self) {
         App::start(self);
+    }
+
+    fn pending_summary(&self) -> Option<&[String]> {
+        self.summary.as_deref()
+    }
+
+    fn accept_summary(&mut self) {
+        App::accept_summary(self);
+    }
+
+    fn decline_summary(&mut self) {
+        App::decline_summary(self);
     }
 
     fn started(&self) -> bool {

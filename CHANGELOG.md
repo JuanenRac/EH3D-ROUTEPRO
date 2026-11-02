@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A summary before a job moves a real machine:** the exact plan of the routing job is followed on paper first (the dry run of the shared library) and a window shows what the job does, how long it takes, how far each axis goes and what looks wrong in the file, in the 37 languages. The job starts only when the summary is accepted, in the text screens and in the classic ones; a plan that would take an axis past its course is refused (`dry_run = reject`, the default, or only warned with `warn`). The keys `confirm_start`, `dry_run`, `dry_run_margin_mm`, `sanity_tiny_mm` and `sanity_far_mm` of the machine file set it.
+
 ## [0.1.2] - A failure inside the work is told and stops the machine, a record of crashes and a CI that builds the interface
 
 - **A failure inside the work is told, and the machine is stopped:** when the thread that runs a job (or the Offset window) panics, the run no longer stays at "running" for ever with nothing said: the machine is stopped first and the state becomes failed with "internal error" and the words of the panic.
