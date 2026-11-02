@@ -166,3 +166,72 @@ fn a_flat_table_cuts_the_same_with_the_levelled_and_the_plain_planner() {
     let levelled = plan_path_levelled(path, &tool(1), (0, 0), &g, 1.0, &|_, _| 0.0);
     assert_eq!(plain, levelled);
 }
+
+fn rack(places: usize) -> eh3d_drillpro::protocol::job::Rack {
+    eh3d_drillpro::protocol::job::Rack::new(
+        (0..places)
+            .map(|i| (540.0, 20.0 + 20.0 * i as f64, 30.0))
+            .collect(),
+    )
+}
+
+#[test]
+fn on_a_machine_with_the_changer_the_operator_is_never_asked_for_a_tool() {
+    use eh3d_routepro::job::plan_route_job_atc_marked;
+    let (items, marks) = plan_route_job_atc_marked(
+        &paths(),
+        &[tool(1), tool(2)],
+        &machine(),
+        None,
+        Some(&rack(4)),
+    );
+    let pauses: Vec<Pause> = items
+        .iter()
+        .filter_map(|i| match i {
+            Item::Pause(p) => Some(*p),
+            _ => None,
+        })
+        .collect();
+    // only the start of the spindle is the operator's (once); the tools are taken from the rack
+    assert_eq!(pauses, vec![Pause::SpindleStart]);
+    assert_eq!(marks.len(), 3, "a mark for each path");
+    // the exchanges (the auxiliary output opens and closes the chuck) make the plan longer than the same job changed by hand
+    let (by_hand, _) = plan_route_job_marked(&paths(), &[tool(1), tool(2)], &machine(), None);
+    assert!(items.len() > by_hand.len() + 8);
+    // the head goes to the bar: it travels as far as place 2 (the last tool used) along X more than the paths need
+    let far = items
+        .iter()
+        .filter(|i| matches!(i, Item::Steps(s) if s.len() > 4000))
+        .count();
+    assert!(far >= 4, "{far}");
+}
+
+#[test]
+fn the_job_with_the_changer_runs_to_the_end_and_comes_back_to_the_origin() {
+    use eh3d_routepro::job::plan_route_job_atc_marked;
+    let (items, _) = plan_route_job_atc_marked(
+        &paths(),
+        &[tool(1), tool(2)],
+        &machine(),
+        None,
+        Some(&rack(4)),
+    );
+    let mut m = Machine::new(Simulator::default());
+    m.set_pacing(Pacing::Bytes);
+    m.connect().unwrap();
+    m.arm(Verified::all()).unwrap();
+    let mut h = Auto { pauses: vec![] };
+    assert_eq!(
+        run_items(&mut m, &items, &mut h).unwrap(),
+        Outcome::Completed
+    );
+    assert_eq!(h.pauses, vec![Pause::SpindleStart]);
+}
+
+#[test]
+fn without_a_rack_the_plan_is_the_one_of_before() {
+    use eh3d_routepro::job::plan_route_job_atc_marked;
+    let a = plan_route_job_marked(&paths(), &[tool(1), tool(2)], &machine(), None);
+    let b = plan_route_job_atc_marked(&paths(), &[tool(1), tool(2)], &machine(), None, None);
+    assert_eq!(a, b);
+}

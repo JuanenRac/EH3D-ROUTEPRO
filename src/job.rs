@@ -2,7 +2,7 @@
 //! The planning itself lives in `eh3d-routepro-protocol`; this module adapts HP-GL data to it.
 
 use eh3d_drillpro::job::Geometry;
-use eh3d_drillpro::protocol::job::{Item, JobBuilder, JobMachine, Pause};
+use eh3d_drillpro::protocol::job::{Item, JobBuilder, JobMachine, Pause, Rack};
 use eh3d_drillpro::protocol::Step;
 use eh3d_routepro_protocol::route::{plan_polyline, plan_polyline_levelled, RouteParams};
 
@@ -118,8 +118,25 @@ pub fn plan_route_job_marked(
     m: &JobMachine,
     table: Option<&eh3d_levelling::HeightMap>,
 ) -> (Vec<Item>, Vec<usize>) {
+    plan_route_job_atc_marked(paths, tools, m, table, None)
+}
+
+/// The same job on a machine with the automatic tool changer (`rack`): the tools wait in the places of the rack in the order the paths use them (place 1 for the
+/// first pen used, 2 for the second, ...; place 0 is the test pin where the cycle starts and ends), and the head changes them itself, so the operator is never asked
+/// for a tool. Without a rack it is the job of [`plan_route_job_marked`].
+pub fn plan_route_job_atc_marked(
+    paths: &[Polyline],
+    tools: &[Tool],
+    m: &JobMachine,
+    table: Option<&eh3d_levelling::HeightMap>,
+    rack: Option<&Rack>,
+) -> (Vec<Item>, Vec<usize>) {
     let g = m.geometry;
     let mut b = JobBuilder::new(m);
+    if let Some(rack) = rack {
+        b = b.with_rack(rack.clone());
+    }
+    let mut used = 0usize;
     // Z of the plan is the travel height: the free stroke above the surface of the board.
     let travel_mm =
         (m.max_depth_mm + 0.5 - m.base_mm - m.board_mm - m.distance_tool_board_mm).max(0.0);
@@ -142,7 +159,13 @@ pub fn plan_route_job_marked(
                 b.z_to(0);
                 b.spindle_off();
             }
-            b.pause(Pause::ToolChange { tool: path.pen });
+            if b.has_rack() {
+                // the tool in the chuck goes back to its own place and the next one is taken from its place
+                b.chuck_swap(used, used + 1);
+                used += 1;
+            } else {
+                b.pause(Pause::ToolChange { tool: path.pen });
+            }
             if first_tool {
                 b.pause(Pause::SpindleStart);
                 first_tool = false;
@@ -179,6 +202,10 @@ pub fn plan_route_job_marked(
     if current.is_some() {
         b.z_to(0);
         b.spindle_off();
+        // the last tool goes back to its place and the chuck is left closed on the test pin's place
+        if b.has_rack() {
+            b.chuck_swap(used, 0);
+        }
     }
     b.finish_marked()
 }

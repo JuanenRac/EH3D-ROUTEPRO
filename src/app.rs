@@ -18,7 +18,7 @@ use eh3d_drillpro::screen::*;
 use eh3d_drillpro::textapp::TextApp;
 
 use crate::hpgl::{self, Plot, UNIT_MM};
-use crate::job::plan_route_job_marked;
+use crate::job::plan_route_job_atc_marked;
 use crate::texts::{tr, Text};
 use crate::tools::{self, Tool};
 
@@ -381,13 +381,29 @@ impl App {
         let (plan, skipped) = crate::job::select_paths(&all_paths, &area_options, offset);
         // the same plan goes to the machine and to the simulation: the demo shows what the machine would do
         let paths = plan.clone();
-        let (items, marks) = plan_route_job_marked(
+        // a machine with the tool changer: the pens wait in the rack and the head changes them itself
+        let pens = {
+            let mut p: Vec<u8> = paths.iter().map(|p| p.pen).collect();
+            p.sort_unstable();
+            p.dedup();
+            p.len()
+        };
+        let rack = match eh3d_drillpro::job::job_rack(self.settings.as_ref(), pens) {
+            Ok(rack) => rack,
+            Err(why) => {
+                self.error = Some(why.message(self.lang));
+                return;
+            }
+        };
+        let (items, marks) = plan_route_job_atc_marked(
             &paths,
             &self.tools,
             &self.job_machine(),
             self.job_options.table.as_ref(),
+            rack.as_ref(),
         );
-        let progress = Progress::new(&items, &marks);
+        let progress =
+            Progress::new(&items, &marks).with_track(&items, &self.job_machine().geometry);
         let real = if self.connection.is_real() {
             let n = items.len();
             // the exact plan is followed on paper first: a plan that leaves the course is refused (when the tuning says so) and the person sees the
@@ -1136,6 +1152,16 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
         eh3d_drillpro::classic::engine::Kind::Route
     }
 
+    fn head_mm(&self) -> Option<(f64, f64, f64)> {
+        let run = self.run.as_ref()?;
+        let into = if run.real.is_some() {
+            0.0
+        } else {
+            run.item_clock
+        };
+        run.progress.head_mm(run.next, into)
+    }
+
     fn jog(&mut self, dx: i32, dy: i32, dz: i32) {
         const MIL_MM: f64 = 0.0254;
         if let Some(t) = &self.teach {
@@ -1606,6 +1632,7 @@ mod server_request_tests {
 #[cfg(test)]
 mod demo_tests {
     use super::*;
+    use crate::job::plan_route_job_marked;
     use eh3d_drillpro::protocol::job::flatten_bytes;
 
     fn started() -> App {
