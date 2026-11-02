@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The README says what the ATC models do:** it no longer says that the tool changer is not supported; a routing job takes the tools from the rack of the machine file and has not run on a real machine.
 - **A routing job on a machine with the tool changer does not ask for the tools:** `plan_route_job_atc_marked` takes the pens from the places of the rack in the order the paths use them (place 1 for the first, place 0 is the test pin), changes them itself and puts the last one back; the operator is asked for the start of the spindle only. `plan_route_job_marked` is the same job without a rack, as before.
 - **The classic engine tells where the head is during a simulated job** (`head_mm`, from the steps of the plan), for the views of the modern interface.
 
