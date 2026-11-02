@@ -4,7 +4,10 @@ use eh3d_drillpro::protocol::job::{Item, JobMachine, Pause};
 use eh3d_drillpro::protocol::safety::{Machine, Verified};
 use eh3d_drillpro::protocol::{Pacing, Simulator};
 use eh3d_routepro::hpgl::Polyline;
-use eh3d_routepro::job::plan_route_job;
+use eh3d_routepro::job::{
+    default_tool, plan_path_levelled, plan_path_with, plan_route_job, plan_route_job_marked,
+    tool_for,
+};
 use eh3d_routepro::tools::Tool;
 
 struct Auto {
@@ -111,4 +114,55 @@ fn an_empty_plot_still_homes_and_finishes_without_touching_the_spindle() {
     let items = plan_route_job(&[], &[], &machine());
     assert!(!items.iter().any(|i| matches!(i, Item::Pause(_))));
     assert!(items.len() > 5);
+}
+
+#[test]
+fn every_path_has_a_mark_on_the_item_that_cuts_it() {
+    let (items, marks) = plan_route_job_marked(&paths(), &[tool(1), tool(2)], &machine(), None);
+    assert_eq!(marks.len(), 3, "one mark for each path");
+    assert!(
+        marks.windows(2).all(|w| w[0] < w[1]),
+        "in the order of the plan"
+    );
+    for &m in &marks {
+        assert!(matches!(&items[m], Item::Steps(s) if s.len() > 100), "{m}");
+    }
+    // the plan is the same with or without the marks
+    assert_eq!(
+        items,
+        plan_route_job(&paths(), &[tool(1), tool(2)], &machine())
+    );
+}
+
+#[test]
+fn a_path_with_no_points_is_done_at_once() {
+    let mut p = paths();
+    p.insert(
+        1,
+        Polyline {
+            pen: 1,
+            points: Vec::new(),
+        },
+    );
+    let (_, marks) = plan_route_job_marked(&p, &[tool(1), tool(2)], &machine(), None);
+    assert_eq!(marks.len(), 4, "the count of marks is the count of paths");
+    assert!(marks.windows(2).all(|w| w[0] <= w[1]));
+}
+
+#[test]
+fn the_pen_the_table_does_not_give_is_cut_with_the_one_cautious_tool() {
+    assert_eq!(tool_for(&[tool(1)], 7), default_tool(7));
+    assert_eq!(tool_for(&[tool(1)], 1), tool(1));
+    let d = default_tool(3);
+    assert_eq!(d.number, 3);
+    assert_eq!((d.iterations, d.depth_mm), (1, 0.1));
+}
+
+#[test]
+fn a_flat_table_cuts_the_same_with_the_levelled_and_the_plain_planner() {
+    let path = &paths()[0];
+    let g = machine().geometry;
+    let plain = plan_path_with(path, &tool(1), (0, 0), &g, 1.0);
+    let levelled = plan_path_levelled(path, &tool(1), (0, 0), &g, 1.0, &|_, _| 0.0);
+    assert_eq!(plain, levelled);
 }

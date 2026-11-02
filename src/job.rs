@@ -9,6 +9,17 @@ use eh3d_routepro_protocol::route::{plan_polyline, plan_polyline_levelled, Route
 use crate::hpgl::{Polyline, UNIT_MM};
 use crate::tools::Tool;
 
+/// The parameters of the planner for a tool: the one place where the tool table becomes `RouteParams`.
+fn route_params(tool: &Tool, approach_mm: f64) -> RouteParams {
+    RouteParams {
+        depth_mm: tool.depth_mm,
+        passes: tool.iterations,
+        feed_xy_mm_min: tool.feed_xy_mm_min as f64,
+        feed_z_mm_min: tool.feed_z_mm_min as f64,
+        approach_mm,
+    }
+}
+
 /// Plans one polyline. `from` is the current XY position in plotter units;
 /// returns the steps and the final position, also in plotter units.
 pub fn plan_path(
@@ -31,13 +42,7 @@ pub fn plan_path_with(
 ) -> (Vec<Step>, (i32, i32)) {
     let mm = |p: (i32, i32)| (p.0 as f64 * UNIT_MM, p.1 as f64 * UNIT_MM);
     let points: Vec<(f64, f64)> = path.points.iter().map(|&p| mm(p)).collect();
-    let params = RouteParams {
-        depth_mm: tool.depth_mm,
-        passes: tool.iterations,
-        feed_xy_mm_min: tool.feed_xy_mm_min as f64,
-        feed_z_mm_min: tool.feed_z_mm_min as f64,
-        approach_mm,
-    };
+    let params = route_params(tool, approach_mm);
     let plan = plan_polyline(mm(from), &points, &params, g);
     let end = (
         (plan.end_mm.0 / UNIT_MM).round() as i32,
@@ -57,13 +62,7 @@ pub fn plan_path_levelled(
 ) -> (Vec<Step>, (i32, i32)) {
     let mm = |p: (i32, i32)| (p.0 as f64 * UNIT_MM, p.1 as f64 * UNIT_MM);
     let points: Vec<(f64, f64)> = path.points.iter().map(|&p| mm(p)).collect();
-    let params = RouteParams {
-        depth_mm: tool.depth_mm,
-        passes: tool.iterations,
-        feed_xy_mm_min: tool.feed_xy_mm_min as f64,
-        feed_z_mm_min: tool.feed_z_mm_min as f64,
-        approach_mm,
-    };
+    let params = route_params(tool, approach_mm);
     let plan = plan_polyline_levelled(mm(from), &points, &params, g, lift, 10.0);
     let end = (
         (plan.end_mm.0 / UNIT_MM).round() as i32,
@@ -72,20 +71,25 @@ pub fn plan_path_levelled(
     (plan.steps, end)
 }
 
+/// The cautious tool that cuts a pen the table does not give: shallow, slow, one pass. The only place the defaults are written.
+pub fn default_tool(pen: u8) -> Tool {
+    Tool {
+        number: pen,
+        depth_mm: 0.1,
+        iterations: 1,
+        feed_xy_mm_min: 1000,
+        feed_z_mm_min: 500,
+        spindle_rpm: 60000,
+    }
+}
+
 /// The tool to use for a pen number: the one in the table, or the cautious default.
 pub fn tool_for(tools: &[Tool], pen: u8) -> Tool {
     tools
         .iter()
         .find(|t| t.number == pen)
         .cloned()
-        .unwrap_or(Tool {
-            number: pen,
-            depth_mm: 0.1,
-            iterations: 1,
-            feed_xy_mm_min: 1000,
-            feed_z_mm_min: 500,
-            spindle_rpm: 60000,
-        })
+        .unwrap_or_else(|| default_tool(pen))
 }
 
 /// Plans a whole routing job for a real machine: the reference runs, then for each tool in the order the paths use it the
@@ -103,6 +107,17 @@ pub fn plan_route_job_levelled(
     m: &JobMachine,
     table: Option<&eh3d_levelling::HeightMap>,
 ) -> Vec<Item> {
+    plan_route_job_marked(paths, tools, m, table).0
+}
+
+/// The same job with the item that ends each path (in the order of `paths`, one for each, a path with no points is done at once): a run tells how many
+/// paths are done from the item it has reached, and the simulation and the machine follow the same items.
+pub fn plan_route_job_marked(
+    paths: &[Polyline],
+    tools: &[Tool],
+    m: &JobMachine,
+    table: Option<&eh3d_levelling::HeightMap>,
+) -> (Vec<Item>, Vec<usize>) {
     let g = m.geometry;
     let mut b = JobBuilder::new(m);
     // Z of the plan is the travel height: the free stroke above the surface of the board.
@@ -118,6 +133,7 @@ pub fn plan_route_job_levelled(
     let mut first_tool = true;
     for path in paths {
         if path.points.is_empty() {
+            b.mark_done();
             continue;
         }
         let tool = tool_for(tools, path.pen);
@@ -158,12 +174,13 @@ pub fn plan_route_job_levelled(
             g.y_steps(end.1 as f64 * UNIT_MM),
         );
         b.steps(steps, end_steps);
+        b.mark_done();
     }
     if current.is_some() {
         b.z_to(0);
         b.spindle_off();
     }
-    b.finish()
+    b.finish_marked()
 }
 
 /// The paths of a job: the vectors the form asks for, copied over the panel and clipped to the working area. Pens are done one
