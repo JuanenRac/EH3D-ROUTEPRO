@@ -6,10 +6,11 @@ use eh3d_drillpro::app::Input;
 use eh3d_drillpro::config::{self, Config};
 use eh3d_drillpro::i18n::{str_width, Lang};
 use eh3d_drillpro::job::Geometry;
+use eh3d_drillpro::progress::Progress;
 use eh3d_drillpro::protocol::connection::ConnectionConfig;
 use eh3d_drillpro::protocol::connection::Kind as ConnectionKind;
-use eh3d_drillpro::protocol::job::{JobMachine, Pause};
-use eh3d_drillpro::protocol::{connect, run_steps, Simulator};
+use eh3d_drillpro::protocol::job::{Item, JobMachine, Pause};
+use eh3d_drillpro::protocol::{connect, Simulator};
 use eh3d_drillpro::runner::{RealRun, RunState};
 
 use crate::{dxf, gerber};
@@ -17,7 +18,7 @@ use eh3d_drillpro::screen::*;
 use eh3d_drillpro::textapp::TextApp;
 
 use crate::hpgl::{self, Plot, UNIT_MM};
-use crate::job::{plan_path, plan_route_job_levelled};
+use crate::job::plan_route_job_marked;
 use crate::texts::{tr, Text};
 use crate::tools::{self, Tool};
 
@@ -41,22 +42,43 @@ struct Entry {
 }
 
 struct Run {
+    /// Paths whose cut has been completed.
     done: usize,
     sim: Simulator,
-    at: (i32, i32),
     connected: bool,
     /// The job on a real machine (a connection other than `demo`); the simulator above is then unused.
     real: Option<RealRun>,
-    total_items: usize,
+    /// The plan of the job: the same items go to the machine and to the simulator.
+    items: Vec<Item>,
+    /// The next item of the plan for the simulated job (a real run reports its own).
+    next: usize,
+    /// The time each item takes and the item that ends each path: the paths done and the time left come from the item the job has reached.
+    progress: Progress,
     /// The paths of the job in the order they are routed (with the copies of a panel).
     plan: Vec<crate::hpgl::Polyline>,
     /// Paths left out because they end outside the working area.
     skipped: usize,
-    /// Seconds of machine time spent on the path that is being routed, and how long that path takes in all (once it is known).
-    clock: f64,
-    path_secs: Option<f64>,
+    /// The simulated job waits for the operator at this dialog.
+    waiting: Option<Pause>,
+    /// Seconds of machine time already spent on the item that is running (the simulated job follows the clock).
+    item_clock: f64,
     /// The sound of the tool change has been played for the dialog that is on.
     pause_sounded: bool,
+}
+
+impl Run {
+    /// How much of the job is done (0 to 1, by the time the items take on the machine) and the seconds left.
+    fn time_progress(&self) -> (f64, f64) {
+        let into = if self.real.is_some() {
+            0.0
+        } else {
+            self.item_clock
+        };
+        (
+            self.progress.fraction(self.next, into),
+            self.progress.remaining_seconds(self.next, into),
+        )
+    }
 }
 
 pub struct App {
@@ -357,14 +379,16 @@ impl App {
                 .filter(|c| c.0 > 0.0 && c.1 > 0.0);
         }
         let (plan, skipped) = crate::job::select_paths(&all_paths, &area_options, offset);
-        let (connected, real, total_items) = if self.connection.is_real() {
-            let paths = plan.clone();
-            let items = plan_route_job_levelled(
-                &paths,
-                &self.tools,
-                &self.job_machine(),
-                self.job_options.table.as_ref(),
-            );
+        // the same plan goes to the machine and to the simulation: the demo shows what the machine would do
+        let paths = plan.clone();
+        let (items, marks) = plan_route_job_marked(
+            &paths,
+            &self.tools,
+            &self.job_machine(),
+            self.job_options.table.as_ref(),
+        );
+        let progress = Progress::new(&items, &marks);
+        let real = if self.connection.is_real() {
             let n = items.len();
             // the exact plan is followed on paper first: a plan that leaves the course is refused (when the tuning says so) and the person sees the
             // summary and accepts it before anything starts
@@ -397,7 +421,7 @@ impl App {
                 return;
             }
             self.summary_ok = false;
-            let real = if self.connection.kind == ConnectionKind::Server {
+            Some(if self.connection.kind == ConnectionKind::Server {
                 // the job goes to the EH3D server, which plans it again with the machine's constants and runs it on the machine's node
                 let name = self
                     .plot
@@ -407,43 +431,30 @@ impl App {
                     .unwrap_or_default();
                 let request =
                     server_route_request(&name, &self.tools, &paths, &self.job_options.skip_tools);
+                // the server reports its own progress in items; it does not tell the paths, so the marks are not used to place it
                 RealRun::start_on_server(self.connection.clone(), request, Vec::new(), n)
             } else {
-                RealRun::start(self.connection.clone(), items)
-            };
-            (true, Some(real), n)
+                RealRun::start(self.connection.clone(), items.clone())
+            })
         } else {
-            (connect(&mut sim).is_ok(), None, 0)
+            None
         };
+        let connected = real.is_some() || connect(&mut sim).is_ok();
         self.run = Some(Run {
             done: 0,
             sim,
-            at: (0, 0),
             connected,
             real,
-            total_items,
+            items,
+            next: 0,
+            progress,
             plan,
             skipped,
-            clock: 0.0,
-            path_secs: None,
+            waiting: None,
+            item_clock: 0.0,
             pause_sounded: false,
         });
         self.mode = Mode::Running;
-    }
-
-    fn tool_of(&self, pen: u8) -> Tool {
-        self.tools
-            .iter()
-            .find(|t| t.number == pen)
-            .cloned()
-            .unwrap_or(Tool {
-                number: pen,
-                depth_mm: 0.1,
-                iterations: 1,
-                feed_xy_mm_min: 1000,
-                feed_z_mm_min: 500,
-                spindle_rpm: 60000,
-            })
     }
 
     /// The sound of the end of the job, when it ended by itself (not stopped, not failed) and the machine file asks for one.
@@ -453,7 +464,7 @@ impl App {
         };
         let done = match &run.real {
             Some(real) => matches!(real.state(), RunState::Done),
-            None => run.done >= run.plan.len(),
+            None => run.next >= run.items.len(),
         };
         if done {
             eh3d_drillpro::protocol::sound::play(
@@ -463,40 +474,28 @@ impl App {
         }
     }
 
-    /// The simulated job goes on by `dt` seconds of machine time: a path is done when the time it takes on the machine has passed.
+    /// The simulated job goes on by `dt` seconds of machine time: an item of the plan is done when the time it takes on the machine has passed.
     pub fn tick_seconds(&mut self, mut dt: f64) -> bool {
         for _ in 0..20_000 {
             if self.mode != Mode::Running {
                 return false;
             }
-            let Some(run) = self.run.as_ref() else {
-                return false;
-            };
-            if run.real.is_some() {
-                return self.tick_n(1);
-            }
-            let Some(path) = run.plan.get(run.done) else {
-                return false;
-            };
-            let dur = match run.path_secs {
-                Some(d) => d,
-                None => {
-                    let tool = self.tool_of(path.pen);
-                    let (steps, _) = plan_path(path, &tool, run.at, &self.geometry);
-                    eh3d_drillpro::protocol::motion::duration_s(&steps)
-                }
-            };
             let Some(run) = self.run.as_mut() else {
                 return false;
             };
-            run.path_secs = Some(dur);
-            if run.clock + dt < dur {
-                run.clock += dt;
+            if run.waiting.is_some() || run.real.is_some() {
+                return self.tick_n(1);
+            }
+            let Some(item) = run.items.get(run.next) else {
+                return false;
+            };
+            let dur = eh3d_drillpro::progress::item_seconds(item);
+            if run.item_clock + dt < dur {
+                run.item_clock += dt;
                 return true;
             }
-            dt -= dur - run.clock;
-            run.clock = 0.0;
-            run.path_secs = None;
+            dt -= dur - run.item_clock;
+            run.item_clock = 0.0;
             let more = self.tick_n(1);
             if !more || dt <= 0.0 {
                 return more;
@@ -505,15 +504,19 @@ impl App {
         true
     }
 
-    /// Routes up to `n` paths of the simulated job. Returns true while work remains.
+    /// Goes on with up to `n` items of the plan of the simulated job. Returns true while work remains.
     pub fn tick_n(&mut self, n: usize) -> bool {
         if self.mode != Mode::Running {
             return false;
         }
+        let ask = self.job_options.ask_operator;
         let tool_sound = self.connection.sound_tool_change.clone();
         let Some(run) = self.run.as_mut() else {
             return false;
         };
+        if run.waiting.is_some() {
+            return true;
+        }
         if let Some(real) = &run.real {
             // the machine asks for a tool: the sound is played once for each dialog
             let asks = matches!(real.state(), RunState::WaitPause(Pause::ToolChange { .. }));
@@ -524,35 +527,39 @@ impl App {
                 );
             }
             run.pause_sounded = asks;
-            let (next, total) = real.progress();
-            run.done = (next * run.plan.len())
-                .checked_div(total.max(1))
-                .unwrap_or(0);
+            let (next, _) = real.progress();
+            run.next = next;
+            run.done = run.progress.units_done(next);
             return !real.finished();
         }
         for _ in 0..n {
-            let Some(path) = run.plan.get(run.done) else {
+            let Some(item) = run.items.get(run.next) else {
                 return false;
             };
-            let tool = self
-                .tools
-                .iter()
-                .find(|t| t.number == path.pen)
-                .cloned()
-                .unwrap_or(Tool {
-                    number: path.pen,
-                    depth_mm: 0.1,
-                    iterations: 1,
-                    feed_xy_mm_min: 1000,
-                    feed_z_mm_min: 500,
-                    spindle_rpm: 60000,
-                });
-            let (steps, end) = plan_path(path, &tool, run.at, &self.geometry);
-            let _ = run_steps(&mut run.sim, &steps);
-            run.at = end;
-            run.done += 1;
+            match item {
+                Item::Steps(_) | Item::Search(_) | Item::Seek(_) | Item::Latch(_) => {
+                    eh3d_drillpro::progress::play(&mut run.sim, item);
+                }
+                // The operator's dialogs are asked for when the front end wants them and confirmed at once otherwise; there is
+                // nothing to unstick, and the simulator has no spindle.
+                Item::Pause(p) if ask => {
+                    if matches!(p, Pause::ToolChange { .. }) {
+                        eh3d_drillpro::protocol::sound::play(
+                            &tool_sound,
+                            eh3d_drillpro::protocol::sound::Cue::ToolChange,
+                        );
+                    }
+                    run.waiting = Some(*p);
+                    run.next += 1;
+                    run.done = run.progress.units_done(run.next);
+                    return true;
+                }
+                Item::Pause(_) | Item::Unstick(_) | Item::Spindle { .. } => {}
+            }
+            run.next += 1;
+            run.done = run.progress.units_done(run.next);
         }
-        run.done < run.plan.len()
+        run.next < run.items.len()
     }
 
     pub fn click(&mut self, col: usize, row: usize) {
@@ -915,10 +922,12 @@ impl App {
         };
         let (x, y, w) = (12, 6, 56);
         s.window(x, y, w, h, tr(self.lang, Text::TitleRouting), BLACK, WIN_BG);
-        let (Some(r), Some((_, plot))) = (&self.run, &self.plot) else {
+        let Some(r) = &self.run else {
             return;
         };
-        let total = plot.paths.len();
+        let total = r.plan.len();
+        // the share of the job done and the time left follow the time the items take on the machine, not the count of paths
+        let (fraction, left) = r.time_progress();
         let real = r.real.as_ref().map(|x| x.state());
         let status = match &real {
             Some(RunState::Connecting) => tr(self.lang, Text::Connecting).to_string(),
@@ -933,7 +942,7 @@ impl App {
             Some(RunState::Cancelled) => tr(self.lang, Text::Stopped).to_string(),
             Some(RunState::Failed(_)) => tr(self.lang, Text::LinkFailed).to_string(),
             None if !r.connected => tr(self.lang, Text::Connecting).to_string(),
-            None if r.done < total => tr(self.lang, Text::Routing).to_string(),
+            None if r.next < r.items.len() => tr(self.lang, Text::Routing).to_string(),
             None => tr(self.lang, Text::Done).to_string(),
         };
         let attention = matches!(
@@ -955,18 +964,32 @@ impl App {
             x + 2,
             y + 4,
             &format!(
-                "{}: {} / {}",
+                "{}: {} / {} ({} %)",
                 tr(self.lang, Text::LblProgress),
                 r.done,
-                total
+                total,
+                (fraction * 100.0).floor() as u32
             ),
             BLACK,
             WIN_BG,
         );
         let bar = w - 6;
-        let filled = (bar * r.done).checked_div(total).unwrap_or(0);
+        let filled = (bar as f64 * fraction).round() as usize;
         s.fill(x + 3, y + 5, bar, 1, '░', DARK_GRAY, WIN_BG);
-        s.fill(x + 3, y + 5, filled, 1, '█', BLUE, WIN_BG);
+        s.fill(x + 3, y + 5, filled.min(bar), 1, '█', BLUE, WIN_BG);
+        if left > 0.0 {
+            s.text(
+                x + 2,
+                y + 6,
+                &format!(
+                    "{}: {}",
+                    tr(self.lang, Text::LblLeft),
+                    eh3d_drillpro::summary::clock(left)
+                ),
+                BLACK,
+                WIN_BG,
+            );
+        }
         if let Some(real) = &r.real {
             let (next, _) = real.progress();
             s.text(
@@ -976,7 +999,7 @@ impl App {
                     "{}: {} / {}",
                     tr(self.lang, Text::LblItems),
                     next,
-                    r.total_items
+                    r.items.len()
                 ),
                 BLACK,
                 WIN_BG,
@@ -1438,21 +1461,35 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
     fn question(&self) -> Option<eh3d_drillpro::classic::engine::Question> {
         use eh3d_drillpro::classic::engine::Question;
         use eh3d_drillpro::protocol::job::Pause;
-        match self.run.as_ref()?.real.as_ref()?.state() {
-            RunState::WaitPause(Pause::ToolChange { tool }) => Some(Question::ToolChange(tool)),
-            RunState::WaitPause(Pause::SpindleStart) => Some(Question::SpindleStart),
-            _ => None,
-        }
+        let run = self.run.as_ref()?;
+        let pause = match run.real.as_ref().map(|r| r.state()) {
+            Some(RunState::WaitPause(p)) => Some(p),
+            Some(_) => None,
+            None => run.waiting,
+        }?;
+        Some(match pause {
+            Pause::ToolChange { tool } => Question::ToolChange(tool),
+            Pause::SpindleStart => Question::SpindleStart,
+        })
     }
 
     fn answer(&mut self, ok: bool) {
-        let Some(real) = self.run.as_ref().and_then(|r| r.real.as_ref()) else {
+        let Some(run) = self.run.as_mut() else {
             return;
         };
+        if let Some(real) = &run.real {
+            if ok {
+                real.confirm();
+            } else {
+                real.cancel();
+            }
+            return;
+        }
         if ok {
-            real.confirm();
+            run.waiting = None;
         } else {
-            real.cancel();
+            self.run = None;
+            self.mode = Mode::Main;
         }
     }
 
@@ -1562,5 +1599,95 @@ mod server_request_tests {
         assert_eq!(r["skip_tools"], serde_json::json!([2]));
         assert_eq!(r["paths"].as_array().unwrap().len(), 1);
         assert_eq!(r["tools"][0]["depth_mm"], 1.7);
+    }
+}
+
+#[cfg(test)]
+mod demo_tests {
+    use super::*;
+    use eh3d_drillpro::protocol::job::flatten_bytes;
+
+    fn started() -> App {
+        let data = Path::new(env!("CARGO_MANIFEST_DIR")).join("testdata");
+        let mut app = App::new(Lang::En, &data);
+        app.load_file(&data.join("FDEMO1.PLT"));
+        app.start();
+        app
+    }
+
+    #[test]
+    fn the_demo_sends_the_very_bytes_of_the_plan_of_the_machine() {
+        let mut app = started();
+        let mut guard = 0;
+        while app.tick_n(50) {
+            guard += 1;
+            assert!(guard < 100_000, "the demo never ends");
+        }
+        let run = app.run.as_ref().expect("the run");
+        let plan = flatten_bytes(&run.items);
+        assert!(
+            plan.len() > 1000,
+            "the plan has the reference runs and the cuts"
+        );
+        assert!(
+            run.sim.sent.ends_with(&plan),
+            "the simulator got something other than the plan"
+        );
+        assert_eq!(run.done, run.plan.len(), "every path is done");
+    }
+
+    #[test]
+    fn the_demo_plan_is_the_one_a_real_machine_gets() {
+        let app = started();
+        let run = app.run.as_ref().expect("the run");
+        let (items, marks) = plan_route_job_marked(
+            &run.plan,
+            &app.tools,
+            &app.job_machine(),
+            app.job_options.table.as_ref(),
+        );
+        assert_eq!(items, run.items);
+        assert_eq!(run.progress.units_total(), marks.len());
+        assert_eq!(marks.len(), run.plan.len());
+    }
+
+    #[test]
+    fn the_demo_stops_at_the_dialogs_when_the_operator_is_asked() {
+        let mut app = started();
+        app.job_options.ask_operator = true;
+        app.run = None;
+        app.start();
+        let mut seen = 0;
+        for _ in 0..100_000 {
+            if !app.tick_n(50) {
+                break;
+            }
+            if app.run.as_ref().is_some_and(|r| r.waiting.is_some()) {
+                seen += 1;
+                app.run.as_mut().unwrap().waiting = None;
+            }
+        }
+        assert!(seen >= 2, "a tool change and a spindle start, {seen}");
+        assert!(app.run.as_ref().unwrap().next >= app.run.as_ref().unwrap().items.len());
+    }
+
+    #[test]
+    fn the_progress_goes_with_the_time_and_ends_at_the_end() {
+        let mut app = started();
+        let (f0, left0) = app.run.as_ref().unwrap().time_progress();
+        assert_eq!(f0, 0.0);
+        assert!(left0 > 1.0, "the job takes time: {left0}");
+        let mut last = 0.0;
+        let mut guard = 0;
+        while app.tick_seconds(1.0) {
+            let (f, left) = app.run.as_ref().unwrap().time_progress();
+            assert!(f >= last && f <= 1.0, "{last} -> {f}");
+            assert!(left >= 0.0 && left <= left0);
+            last = f;
+            guard += 1;
+            assert!(guard < 1_000_000, "the demo never ends");
+        }
+        let (f, left) = app.run.as_ref().unwrap().time_progress();
+        assert_eq!((f, left), (1.0, 0.0));
     }
 }

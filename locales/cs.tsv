@@ -20,6 +20,7 @@ Text.LblSize	Rozměr (mm)
 Text.LblCut	Délka řezu (mm)
 Text.LblProgress	Průběh
 Text.LblTime	Simulovaný čas (s)
+Text.LblLeft	Zbývá
 Text.LblSerial	Sériové rozhraní
 Text.LblIgnored	Ignorované příkazy
 Text.ColTool	Nástroj

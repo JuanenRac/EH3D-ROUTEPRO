@@ -20,6 +20,7 @@ Text.LblSize	Madhësia (mm)
 Text.LblCut	Gjatësia e prerjes (mm)
 Text.LblProgress	Përparimi
 Text.LblTime	Koha e simuluar (s)
+Text.LblLeft	Koha e mbetur
 Text.LblSerial	Ndërfaqja serike
 Text.LblIgnored	Komandat e shpërfillura
 Text.ColTool	Mjeti

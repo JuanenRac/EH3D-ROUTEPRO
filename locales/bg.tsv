@@ -20,6 +20,7 @@ Text.LblSize	Размер (mm)
 Text.LblCut	Дължина на рязане (mm)
 Text.LblProgress	Напредък
 Text.LblTime	Симул. време (s)
+Text.LblLeft	Остава време
 Text.LblSerial	Сериен интерфейс
 Text.LblIgnored	Игнорирани команди
 Text.ColTool	Инстр.

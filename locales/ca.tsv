@@ -20,6 +20,7 @@ Text.LblSize	Mida (mm)
 Text.LblCut	Longitud de tall (mm)
 Text.LblProgress	Progrés
 Text.LblTime	Temps simulat (s)
+Text.LblLeft	Temps restant
 Text.LblSerial	Interfície sèrie
 Text.LblIgnored	Ordres ignorades
 Text.ColTool	Eina

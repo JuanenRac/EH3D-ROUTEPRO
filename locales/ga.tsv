@@ -20,6 +20,7 @@ Text.LblSize	Méid (mm)
 Text.LblCut	Fad gearrtha (mm)
 Text.LblProgress	Dul chun cinn
 Text.LblTime	Am insamhalta (s)
+Text.LblLeft	Am fágtha
 Text.LblSerial	Comhéadan sraitheach
 Text.LblIgnored	Orduithe a ndearnadh neamhaird orthu
 Text.ColTool	Uirlis

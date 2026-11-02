@@ -20,6 +20,7 @@ Text.LblSize	Dimensiune (mm)
 Text.LblCut	Lungime tăiere (mm)
 Text.LblProgress	Progres
 Text.LblTime	Timp simulat (s)
+Text.LblLeft	Timp rămas
 Text.LblSerial	Interfață serială
 Text.LblIgnored	Comenzi ignorate
 Text.ColTool	Sculă

@@ -20,6 +20,7 @@ Text.LblSize	Tamaina (mm)
 Text.LblCut	Ebaketa luzera (mm)
 Text.LblProgress	Aurrerapena
 Text.LblTime	Simulatutako denbora (s)
+Text.LblLeft	Geratzen den denbora
 Text.LblSerial	Serie interfazea
 Text.LblIgnored	Ez ikusi egindako komandoak
 Text.ColTool	Errem.

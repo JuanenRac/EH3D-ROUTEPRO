@@ -20,6 +20,7 @@ Text.LblSize	Koko (mm)
 Text.LblCut	Leikkauspituus (mm)
 Text.LblProgress	Eteneminen
 Text.LblTime	Simuloitu aika (s)
+Text.LblLeft	Aikaa jäljellä
 Text.LblSerial	Sarjaliitäntä
 Text.LblIgnored	Ohitetut komennot
 Text.ColTool	Työkalu

@@ -20,6 +20,7 @@ Text.LblSize	Størrelse (mm)
 Text.LblCut	Skjærelengde (mm)
 Text.LblProgress	Fremdrift
 Text.LblTime	Simulert tid (s)
+Text.LblLeft	Gjenstående tid
 Text.LblSerial	Seriegrensesnitt
 Text.LblIgnored	Ignorerte kommandoer
 Text.ColTool	Verktøy

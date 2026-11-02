@@ -20,6 +20,7 @@ Text.LblSize	Tamaño (mm)
 Text.LblCut	Lonxitude de corte (mm)
 Text.LblProgress	Progreso
 Text.LblTime	Tempo simulado (s)
+Text.LblLeft	Tempo restante
 Text.LblSerial	Interface serie
 Text.LblIgnored	Comandos ignorados
 Text.ColTool	Ferram.

@@ -20,6 +20,7 @@ Text.LblSize	Afmeting (mm)
 Text.LblCut	Snijlengte (mm)
 Text.LblProgress	Voortgang
 Text.LblTime	Gesimuleerde tijd (s)
+Text.LblLeft	Resterende tijd
 Text.LblSerial	Seriële interface
 Text.LblIgnored	Genegeerde opdrachten
 Text.ColTool	Gereedschap

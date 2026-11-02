@@ -27,6 +27,7 @@ translations! { Text, tr, ALL_TEXTS;
     LblCut => ["Cut length (mm)", "Longitud de corte (mm)", "Lunghezza di taglio (mm)", "Schnittlänge (mm)", "Longueur de coupe (mm)", "Comprimento de corte (mm)", "切削长度 (mm)", "切削長 (mm)"],
     LblProgress => ["Progress", "Progreso", "Avanzamento", "Fortschritt", "Progression", "Progresso", "进度", "進捗"],
     LblTime => ["Simulated time (s)", "Tiempo simulado (s)", "Tempo simulato (s)", "Simulierte Zeit (s)", "Temps simulé (s)", "Tempo simulado (s)", "模拟时间 (秒)", "シミュレーション時間 (秒)"],
+    LblLeft => ["Time left", "Tiempo restante", "Tempo rimasto", "Verbleibende Zeit", "Temps restant", "Tempo restante", "剩余时间", "残り時間"],
     LblSerial => ["Serial interface", "Interfaz serie", "Interfaccia seriale", "Serielle Schnittstelle", "Interface série", "Interface série", "串口", "シリアル"],
     LblIgnored => ["Ignored commands", "Comandos ignorados", "Comandi ignorati", "Ignorierte Befehle", "Commandes ignorées", "Comandos ignorados", "忽略的命令", "無視したコマンド"],
 

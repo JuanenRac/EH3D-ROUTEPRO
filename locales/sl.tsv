@@ -20,6 +20,7 @@ Text.LblSize	Velikost (mm)
 Text.LblCut	Dolžina reza (mm)
 Text.LblProgress	Napredek
 Text.LblTime	Simulirani čas (s)
+Text.LblLeft	Preostali čas
 Text.LblSerial	Serijski vmesnik
 Text.LblIgnored	Prezrti ukazi
 Text.ColTool	Orodje

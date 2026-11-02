@@ -5,6 +5,11 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 - **A summary before a job moves a real machine:** the exact plan of the routing job is followed on paper first (the dry run of the shared library) and a window shows what the job does, how long it takes, how far each axis goes and what looks wrong in the file, in the 37 languages. The job starts only when the summary is accepted, in the text screens and in the classic ones; a plan that would take an axis past its course is refused (`dry_run = reject`, the default, or only warned with `warn`). The keys `confirm_start`, `dry_run`, `dry_run_margin_mm`, `sanity_tiny_mm` and `sanity_far_mm` of the machine file set it.
+- **The demo follows the same plan as the machine:** the simulation runs the very items that go to a real machine (the reference runs, the spindle, the dialogs of the tool change, the cuts with the depth of the tool table and of a measured table) instead of planning each path on its own; the tests compare the bytes it sends with the plan.
+- **The plan says where each path ends:** `plan_route_job_marked` gives the item that ends every path (a path with no points is done at once), and the paths done come from those marks.
+- **Progress by time, and the time left:** the window of a run shows the share of the job done by the time the steps take on the machine, the time left, and the paths done out of the paths of the job (before, out of all the paths of the file).
+- **One cautious tool and one construction of the parameters of the planner:** `default_tool` is the only place the values for a pen the table does not give are written, and the parameters of the planner are built in one function for the plain and the levelled cut.
+- **`test.sh` and `test.bat` run the tests of the whole workspace,** the protocol crate included.
 
 ## [0.1.2] - A failure inside the work is told and stops the machine, a record of crashes and a CI that builds the interface
 

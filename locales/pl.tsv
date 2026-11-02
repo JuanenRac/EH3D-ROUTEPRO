@@ -20,6 +20,7 @@ Text.LblSize	Rozmiar (mm)
 Text.LblCut	Długość cięcia (mm)
 Text.LblProgress	Postęp
 Text.LblTime	Czas symulacji (s)
+Text.LblLeft	Pozostały czas
 Text.LblSerial	Interfejs szeregowy
 Text.LblIgnored	Pominięte polecenia
 Text.ColTool	Narzędzie

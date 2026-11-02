@@ -20,6 +20,7 @@ Text.LblSize	Dydis (mm)
 Text.LblCut	Pjūvio ilgis (mm)
 Text.LblProgress	Eiga
 Text.LblTime	Imituotas laikas (s)
+Text.LblLeft	Liko laiko
 Text.LblSerial	Nuosekli sąsaja
 Text.LblIgnored	Ignoruojamos komandos
 Text.ColTool	Įrankis

@@ -20,6 +20,7 @@ Text.LblSize	Stærð (mm)
 Text.LblCut	Skurðlengd (mm)
 Text.LblProgress	Framvinda
 Text.LblTime	Hermdur tími (s)
+Text.LblLeft	Tími eftir
 Text.LblSerial	Raðtengi
 Text.LblIgnored	Hunsaðar skipanir
 Text.ColTool	Verkfæri

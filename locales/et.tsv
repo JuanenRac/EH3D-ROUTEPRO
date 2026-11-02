@@ -20,6 +20,7 @@ Text.LblSize	Mõõt (mm)
 Text.LblCut	Lõikepikkus (mm)
 Text.LblProgress	Edenemine
 Text.LblTime	Simuleeritud aeg (s)
+Text.LblLeft	Aega jäänud
 Text.LblSerial	Jadaliides
 Text.LblIgnored	Ignoreeritud käsud
 Text.ColTool	Tööriist
