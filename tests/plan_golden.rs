@@ -13,27 +13,42 @@ fn testdata() -> PathBuf {
 }
 
 fn golden(name: &str) -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests").join("golden").join(name)
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("golden")
+        .join(name)
 }
 
 fn plan(file: &str, lang: Lang) -> String {
     let mut app = App::new(lang, &testdata());
     app.load_file(&testdata().join(file));
-    let mut text = app.plan_report().unwrap_or_else(|e| panic!("{file}: {e}")).join("\n");
+    let mut text = app
+        .plan_report()
+        .unwrap_or_else(|e| panic!("{file}: {e}"))
+        .join("\n");
     text.push('\n');
     text
 }
 
 fn same_as_stored(file: &str, lang: Lang) {
     let text = plan(file, lang);
-    let stored = golden(&format!("{}.{}.plan", file.to_ascii_lowercase(), lang.code()));
+    let stored = golden(&format!(
+        "{}.{}.plan",
+        file.to_ascii_lowercase(),
+        lang.code()
+    ));
     if std::env::var_os("EH3D_UPDATE_GOLDEN").is_some() {
         std::fs::create_dir_all(stored.parent().unwrap()).unwrap();
         std::fs::write(&stored, &text).unwrap();
         return;
     }
     let want = std::fs::read_to_string(&stored)
-        .unwrap_or_else(|_| panic!("{} is missing: write it with EH3D_UPDATE_GOLDEN=1", stored.display()))
+        .unwrap_or_else(|_| {
+            panic!(
+                "{} is missing: write it with EH3D_UPDATE_GOLDEN=1",
+                stored.display()
+            )
+        })
         .replace("\r\n", "\n");
     assert_eq!(text, want, "the plan of {file} in {} changed", lang.code());
 }
@@ -52,7 +67,10 @@ fn the_plan_is_said_in_the_language_asked_and_has_the_same_facts() {
     same_as_stored("FRAME.PLT", Lang::Es);
     assert_ne!(en, es);
     // the first five lines are facts that do not depend on the language
-    assert_eq!(en.lines().take(5).collect::<Vec<_>>(), es.lines().take(5).collect::<Vec<_>>());
+    assert_eq!(
+        en.lines().take(5).collect::<Vec<_>>(),
+        es.lines().take(5).collect::<Vec<_>>()
+    );
 }
 
 #[test]
@@ -69,8 +87,15 @@ fn a_file_that_is_not_there_has_no_plan_and_says_why() {
 }
 
 fn run(args: &[&str]) -> (Option<i32>, String, String) {
-    let o = Command::new(env!("CARGO_BIN_EXE_routepro-plan")).args(args).output().unwrap();
-    (o.status.code(), String::from_utf8_lossy(&o.stdout).into_owned(), String::from_utf8_lossy(&o.stderr).into_owned())
+    let o = Command::new(env!("CARGO_BIN_EXE_routepro-plan"))
+        .args(args)
+        .output()
+        .unwrap();
+    (
+        o.status.code(),
+        String::from_utf8_lossy(&o.stdout).into_owned(),
+        String::from_utf8_lossy(&o.stderr).into_owned(),
+    )
 }
 
 #[test]
@@ -88,6 +113,10 @@ fn the_command_prints_the_plan_and_refuses_what_it_does_not_know() {
     assert!(err.contains("xx"), "{err}");
     let (code, _, _) = run(&[]);
     assert_eq!(code, Some(1));
-    let (code, _, _) = run(&[data.join("NOT-THERE.PLT").to_str().unwrap(), "--data", data.to_str().unwrap()]);
+    let (code, _, _) = run(&[
+        data.join("NOT-THERE.PLT").to_str().unwrap(),
+        "--data",
+        data.to_str().unwrap(),
+    ]);
     assert_eq!(code, Some(1));
 }

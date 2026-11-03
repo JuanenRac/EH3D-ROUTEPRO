@@ -15,7 +15,10 @@ fn run(mut args: Vec<String>) -> Result<(), String> {
     let mut take = |name: &str| -> Result<Option<String>, String> {
         match args.iter().position(|a| a == name) {
             Some(i) => {
-                let v = args.get(i + 1).ok_or_else(|| format!("{name} needs a value"))?.clone();
+                let v = args
+                    .get(i + 1)
+                    .ok_or_else(|| format!("{name} needs a value"))?
+                    .clone();
                 args.drain(i..=i + 1);
                 Ok(Some(v))
             }
@@ -23,7 +26,8 @@ fn run(mut args: Vec<String>) -> Result<(), String> {
         }
     };
     let lang = match take("--lang")? {
-        Some(c) => Lang::from_code(&c).ok_or_else(|| format!("--lang '{c}' is not a language of the program"))?,
+        Some(c) => Lang::from_code(&c)
+            .ok_or_else(|| format!("--lang '{c}' is not a language of the program"))?,
         None => Lang::En,
     };
     let data = take("--data")?.map_or_else(|| PathBuf::from("."), PathBuf::from);

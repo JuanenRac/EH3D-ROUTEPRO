@@ -240,10 +240,11 @@ impl App {
     /// course of the machine file (none when the folder has no machine file) and the sanity checks, said in the language of the screen. The lines are always the same for the same files, so
     /// a program or a test can compare them with a stored copy. An error says why no plan could be made.
     pub fn plan_report(&self) -> Result<Vec<String>, String> {
-        let (path, plot) = self
-            .plot
-            .as_ref()
-            .ok_or_else(|| self.error.clone().unwrap_or_else(|| "no plot is loaded".to_string()))?;
+        let (path, plot) = self.plot.as_ref().ok_or_else(|| {
+            self.error
+                .clone()
+                .unwrap_or_else(|| "no plot is loaded".to_string())
+        })?;
         let offset = self.settings.as_ref().map_or((0.0, 0.0), |m| m.offset_mm);
         let mut area_options = self.job_options.clone();
         if area_options.clip_mm.is_none() {
