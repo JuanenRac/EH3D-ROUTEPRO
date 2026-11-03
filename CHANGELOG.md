@@ -3,6 +3,7 @@
 All notable changes to this project are documented here.
 
 ## [Unreleased]
+- **Shared checks updated:** the validator also compares the badge and the Version row of the README with the manifest, fails when one of its checks cannot run, and the CHANGELOG step of the workflow reads the base branch from the environment.
 
 - **A plan on paper with no machine (`routepro-plan`):** `routepro-plan FILE.PLT [--data DIR] [--lang CODE]` and `App::plan_report` work out what a job would do with the paths, pens, rack and machine file that a start uses and print the facts (paths, pens, steps, paths left out) and the summary (how far each axis goes, the time, the checks of the work and the verdict against the course), in any of the languages of the program. It needs no connection and sends nothing; an option it does not know, a language it does not have or a file it cannot read is an error with exit code 1.
 - **Stored plans of the sample files:** `tests/plan_golden.rs` compares the plans of `FRAME.PLT`, `FDEMO1.PLT` and `MEASURE.PLT` (English) and of `FRAME.PLT` in Spanish with the copies in `tests/golden/`; a change that is meant is stored again with `EH3D_UPDATE_GOLDEN=1`. It also checks that the facts do not depend on the language, that the same files give the same plan twice and the command line.
