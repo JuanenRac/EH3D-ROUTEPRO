@@ -12,6 +12,7 @@ All notable changes to this project are documented here.
 - **A routing job on a machine with the tool changer does not ask for the tools:** `plan_route_job_atc_marked` takes the pens from the places of the rack in the order the paths use them (place 1 for the first, place 0 is the test pin), changes them itself and puts the last one back; the operator is asked for the start of the spindle only. `plan_route_job_marked` is the same job without a rack, as before.
 - **The classic engine tells where the head is during a simulated job** (`head_mm`, from the steps of the plan), for the views of the modern interface.
 - **The workflows are hardened:** every action is pinned by its commit with its version in a comment, the checkouts keep no credentials, and the release workflow runs only for the owner on main, with no cache and the values of the matrix passed by environment.
+- **More tests of the planning of a routing path:** the approach, the passes, a path of one point, a table that is not flat and the length of a path.
 
 ## [0.1.3] - Shared summary, marks and progress by time
 - **The summary before a start comes from EH3D-COMMON (`eh3d-summary`):** the refusal of a plan that leaves the course takes the thresholds of the tuning through `eh3d_drillpro::summary::limits`, and the clock of the time left is the shared one.
