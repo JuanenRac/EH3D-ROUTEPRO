@@ -2,8 +2,7 @@
   <img src="images/EH3D_BANNER.svg" alt="EH3D-ROUTEPRO banner" width="100%">
 </p>
 
-# 🪚 EH3D-ROUTEPRO
-
+# <img src="images/brand/icon-64.png" alt="" width="40" height="40" align="absmiddle"> EH3D-ROUTEPRO
 <p align="center"><a href="README.md">🇺🇸 English</a> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | 🇮🇹 <b>Italiano</b> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
 ### Una reimplementazione multipiattaforma in Rust del flusso di fresatura del classico software DOS per le macchine Bungard CCD, a partire da file di tracciato HP-GL, con un'interfaccia in modalità testo simile all'originale in 37 lingue
