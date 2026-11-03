@@ -1,0 +1,12 @@
+file: FRAME.PLT
+paths: 6
+pens: 1
+steps: 28
+left out: 0
+Revisa antes de empezar
+Agujeros: 6
+Herramientas: 1
+Tamaño (mm): 20.0 x 30.0
+Tiempo estimado: 45 s
+Alcance de los ejes (mm): X 0.0 .. 22.5   Y 0.0 .. 32.5   Z 0.0 .. 24.9
+Simulación en seco: el plan exacto queda dentro del recorrido de cada eje

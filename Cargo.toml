@@ -45,3 +45,7 @@ zip = { version = "2", default-features = false, features = ["deflate"] }
 [profile.dev]
 # a lighter debug build: the file and line of a panic stay, the full debug symbols (the bulk of the target folder) do not
 debug = "line-tables-only"
+
+[[bin]]
+name = "routepro-plan"
+path = "src/bin/routepro_plan.rs"

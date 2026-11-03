@@ -1,0 +1,12 @@
+file: FDEMO1.PLT
+paths: 3
+pens: 2
+steps: 31
+left out: 0
+Check before starting
+Holes: 3
+Tools: 2
+Size (mm): 212.5 x 200.0
+Estimated time: 1 min 35 s
+Reach of the axes (mm): X 0.0 .. 240.0   Y 0.0 .. 227.5   Z 0.0 .. 24.9
+Dry run: the exact plan stays inside the course of every axis

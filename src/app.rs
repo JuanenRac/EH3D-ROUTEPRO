@@ -236,6 +236,64 @@ impl App {
         }
     }
 
+    /// The plan of the loaded plot, made on paper with no machine and no connection: the same paths, tools and rack that a start would plan, the exact steps followed against the
+    /// course of the machine file (none when the folder has no machine file) and the sanity checks, said in the language of the screen. The lines are always the same for the same files, so
+    /// a program or a test can compare them with a stored copy. An error says why no plan could be made.
+    pub fn plan_report(&self) -> Result<Vec<String>, String> {
+        let (path, plot) = self
+            .plot
+            .as_ref()
+            .ok_or_else(|| self.error.clone().unwrap_or_else(|| "no plot is loaded".to_string()))?;
+        let offset = self.settings.as_ref().map_or((0.0, 0.0), |m| m.offset_mm);
+        let mut area_options = self.job_options.clone();
+        if area_options.clip_mm.is_none() {
+            area_options.clip_mm = self
+                .settings
+                .as_ref()
+                .map(|m| m.clip_mm)
+                .filter(|c| c.0 > 0.0 && c.1 > 0.0);
+        }
+        let (paths, skipped) = crate::job::select_paths(&plot.paths, &area_options, offset);
+        let mut pens: Vec<u8> = paths.iter().map(|p| p.pen).collect();
+        pens.sort_unstable();
+        pens.dedup();
+        let rack = eh3d_drillpro::job::job_rack(self.settings.as_ref(), pens.len())
+            .map_err(|why| why.message(self.lang))?;
+        let (items, _marks) = plan_route_job_atc_marked(
+            &paths,
+            &self.tools,
+            &self.job_machine(),
+            self.job_options.table.as_ref(),
+            rack.as_ref(),
+        );
+        let summary = eh3d_drillpro::summary::build(
+            &items,
+            &self.job_machine().geometry,
+            self.settings.as_ref(),
+            &self.connection.tuning,
+            paths.iter().flat_map(|p| {
+                p.points
+                    .iter()
+                    .map(|q| (q.0 as f64 * UNIT_MM, q.1 as f64 * UNIT_MM))
+            }),
+            paths.len(),
+            pens.len(),
+        );
+        let name = path
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_default();
+        let mut out = vec![
+            format!("file: {name}"),
+            format!("paths: {}", paths.len()),
+            format!("pens: {}", pens.len()),
+            format!("steps: {}", items.len()),
+            format!("left out: {skipped}"),
+        ];
+        out.extend(summary.lines(self.lang));
+        Ok(out)
+    }
+
     pub fn paths_loaded(&self) -> usize {
         self.plot.as_ref().map_or(0, |(_, p)| p.paths.len())
     }

@@ -1,0 +1,12 @@
+file: FRAME.PLT
+paths: 6
+pens: 1
+steps: 28
+left out: 0
+Check before starting
+Holes: 6
+Tools: 1
+Size (mm): 20.0 x 30.0
+Estimated time: 45 s
+Reach of the axes (mm): X 0.0 .. 22.5   Y 0.0 .. 32.5   Z 0.0 .. 24.9
+Dry run: the exact plan stays inside the course of every axis
