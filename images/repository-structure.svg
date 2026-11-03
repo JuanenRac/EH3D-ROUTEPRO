@@ -45,7 +45,7 @@
 <text x="559.84" y="307" font-family="'Segoe UI','Noto Sans','Noto Sans CJK SC','Microsoft YaHei','Yu Gothic','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12.8" font-weight="400" fill="#8A97A6" text-anchor="start">the application and its texts in 37 languages</text>
 <line x1="392" y1="315" x2="1118" y2="315" stroke="#1A2430" stroke-width="1"/>
 <text x="392" y="334" font-family="'JetBrains Mono','Cascadia Code','SFMono-Regular',Consolas,'Liberation Mono',monospace" font-size="14.5" font-weight="600" fill="#E6EDF3" text-anchor="start">bin/</text>
-<text x="559.84" y="334" font-family="'Segoe UI','Noto Sans','Noto Sans CJK SC','Microsoft YaHei','Yu Gothic','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12.8" font-weight="400" fill="#8A97A6" text-anchor="start">the routepro and routepro-console executables</text>
+<text x="559.84" y="334" font-family="'Segoe UI','Noto Sans','Noto Sans CJK SC','Microsoft YaHei','Yu Gothic','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12.8" font-weight="400" fill="#8A97A6" text-anchor="start">routepro, routepro-console and routepro-plan</text>
 <line x1="392" y1="342" x2="1118" y2="342" stroke="#1A2430" stroke-width="1"/>
 <rect x="360" y="395" width="780" height="138" rx="10" fill="url(#card)" stroke="#1E2A36" stroke-width="1"/>
 <rect x="360" y="409" width="3" height="110" rx="1.5" fill="#4DA3FF"><animate attributeName="opacity" values="0.55;1;0.55" dur="4s" begin="0.6s" repeatCount="indefinite"/></rect>

@@ -4,6 +4,9 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A plan on paper with no machine (`routepro-plan`):** `routepro-plan FILE.PLT [--data DIR] [--lang CODE]` and `App::plan_report` work out what a job would do with the paths, pens, rack and machine file that a start uses and print the facts (paths, pens, steps, paths left out) and the summary (how far each axis goes, the time, the checks of the work and the verdict against the course), in any of the languages of the program. It needs no connection and sends nothing; an option it does not know, a language it does not have or a file it cannot read is an error with exit code 1.
+- **Stored plans of the sample files:** `tests/plan_golden.rs` compares the plans of `FRAME.PLT`, `FDEMO1.PLT` and `MEASURE.PLT` (English) and of `FRAME.PLT` in Spanish with the copies in `tests/golden/`; a change that is meant is stored again with `EH3D_UPDATE_GOLDEN=1`. It also checks that the facts do not depend on the language, that the same files give the same plan twice and the command line.
+
 - **The README says what the ATC models do:** it no longer says that the tool changer is not supported; a routing job takes the tools from the rack of the machine file and has not run on a real machine.
 - **A routing job on a machine with the tool changer does not ask for the tools:** `plan_route_job_atc_marked` takes the pens from the places of the rack in the order the paths use them (place 1 for the first, place 0 is the test pin), changes them itself and puts the last one back; the operator is asked for the start of the spindle only. `plan_route_job_marked` is the same job without a rack, as before.
 - **The classic engine tells where the head is during a simulated job** (`head_mm`, from the steps of the plan), for the views of the modern interface.

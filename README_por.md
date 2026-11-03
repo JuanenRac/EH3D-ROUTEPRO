@@ -18,7 +18,7 @@
 
 ---
 
-**Verificação de honestidade - o que funciona hoje:** um programa em Rust com interface de texto de 80x25 que lê ficheiros de traçado HP-GL `.PLT`, a tabela de ferramentas e a configuração da máquina, planeia trajetórias de fresagem de várias passagens (avanço rápido, penetração, corte, elevação) e executa-as **contra um simulador** (por omissão) ou, quando o ficheiro da máquina o indica, **numa máquina real** pela porta série do computador, um adaptador USB-série ou o EH3D-NODE-BUNGARD. 72 testes correm num computador. O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC real (a referência dos três eixos e os movimentos de cada eixo); **um trabalho de fresagem completo ainda não correu na máquina**, e os passos por milímetro só foram confrontados com a configuração do original. Por predefinição, aparecem os ecrãs clássicos do programa MS-DOS, verificados célula a célula com o original; `--modern` inicia a interface de menus. Funcionam com teclado e rato, a janela pode ser maximizada (o ecrã ajusta-se de 640x400 a 1080p e mais), os ficheiros de configuração e de ferramentas editam-se e gravam-se nos diálogos, e o botão Sobre indica as máquinas Bungard CCD e CCD/2 (MTC e ATC suportadas). Uma versão de consola (`routepro-console`) desenha os mesmos ecrãs num terminal, com teclado e rato e sem sistema de janelas (SSH, consola de texto, um PC antigo). Os pacotes de cada versão incluem a configuração básica, explicada linha a linha, e uma pasta `examples` desde um quadrado até cem mil pontos. Nos modelos ATC um trabalho de fresagem tira as ferramentas da barra do ficheiro da máquina e troca-as sozinho; segue o plano e o simulador e não foi experimentado numa máquina real.
+**Verificação de honestidade - o que funciona hoje:** um programa em Rust com interface de texto de 80x25 que lê ficheiros de traçado HP-GL `.PLT`, a tabela de ferramentas e a configuração da máquina, planeia trajetórias de fresagem de várias passagens (avanço rápido, penetração, corte, elevação) e executa-as **contra um simulador** (por omissão) ou, quando o ficheiro da máquina o indica, **numa máquina real** pela porta série do computador, um adaptador USB-série ou o EH3D-NODE-BUNGARD. 77 testes correm num computador. O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC real (a referência dos três eixos e os movimentos de cada eixo); **um trabalho de fresagem completo ainda não correu na máquina**, e os passos por milímetro só foram confrontados com a configuração do original. Por predefinição, aparecem os ecrãs clássicos do programa MS-DOS, verificados célula a célula com o original; `--modern` inicia a interface de menus. Funcionam com teclado e rato, a janela pode ser maximizada (o ecrã ajusta-se de 640x400 a 1080p e mais), os ficheiros de configuração e de ferramentas editam-se e gravam-se nos diálogos, e o botão Sobre indica as máquinas Bungard CCD e CCD/2 (MTC e ATC suportadas). Uma versão de consola (`routepro-console`) desenha os mesmos ecrãs num terminal, com teclado e rato e sem sistema de janelas (SSH, consola de texto, um PC antigo). Os pacotes de cada versão incluem a configuração básica, explicada linha a linha, e uma pasta `examples` desde um quadrado até cem mil pontos. Nos modelos ATC um trabalho de fresagem tira as ferramentas da barra do ficheiro da máquina e troca-as sozinho; segue o plano e o simulador e não foi experimentado numa máquina real.
 
 ---
 
@@ -30,7 +30,7 @@
 |---|---|
 | Versão | `0.1.3` |
 | Maturidade | Estrutura inicial |
-| Testes | 72 |
+| Testes | 77 |
 | Tecnologias | Rust |
 | Em hardware real | Sim, numa Bungard CCD MTC: a referência e os movimentos de cada eixo; um trabalho completo ainda não correu. Sem ficheiro da máquina corre no simulador |
 
@@ -45,7 +45,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Software | 🟡 | Um programa Rust com ecrã de texto de 80x25 lê ficheiros de traçado HP-GL, a tabela de ferramentas e o ficheiro da máquina, planeia trajetos de fresagem de várias passagens e executa-os num simulador, ou numa máquina real se o ficheiro da máquina o indicar; precisa da pasta do EH3D-DRILLPRO ao lado. |
-| Testes | 🟡 | Passam 72 testes (`cargo test --workspace`): o leitor de HP-GL, o planeamento de trajetos e os ecrãs nos 37 línguas; o protocolo é coberto pelos 252 testes do EH3D-DRILLPRO. |
+| Testes | 🟡 | Passam 77 testes (`cargo test --workspace`): o leitor de HP-GL, o planeamento de trajetos e os ecrãs nos 37 línguas; o protocolo é coberto pelos 252 testes do EH3D-DRILLPRO. |
 | Leitor de HP-GL | 🟡 | Só se entendem `IN`, `SP`, `PU`, `PD`, `PA` e `PR`; qualquer outro comando é contado e ignorado, nunca é fatal. Experimentado só com pequenos ficheiros de exemplo escritos para os testes. |
 | Planeamento de trajetos | 🟡 | Cada trajeto torna-se, em cada passagem, um movimento rápido, uma penetração, o corte e uma elevação, com a profundidade repartida por igual e a ferramenta a terminar sempre à superfície; verificado só em testes e no simulador. |
 | Hardware real | 🟠 | O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC (o movimento de referência e os movimentos de cada eixo); nenhum trabalho de fresagem correu numa máquina, e as saídas do fuso e do aspirador não foram experimentadas. |
@@ -65,6 +65,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 * O **ficheiro da máquina** (`machine.cfg`, partilhado pelo DRILLPRO e pelo ROUTEPRO): como o trabalho chega à máquina (`demo` simulador, `rs232` a porta série do próprio computador, `usb` um adaptador USB-série ou `node` o EH3D-NODE-BUNGARD pela rede) e, um valor por linha, tudo o que foi afinado numa máquina real: velocidades e rampas de procura, o salto de calibração, os limites dos motores.
 * A **referência**: Z sobe até ao fim de curso, depois X e Y, e por fim um salto de calibração suave. A unidade de controlo indica «os três eixos em origem» pela linha RI, que o programa vigia; com a máquina estacionada, salta as procuras, afasta X e Y 10 mm dos fins de curso e procura-os de novo, assim vê-los chegar em direto.
 * **Movimento estável**: os movimentos saem como um único fluxo contínuo cujas posições de byte levam o tempo (senão um adaptador USB entrega os bytes em rajadas), Z move-se byte a byte, e `Esc` cancela um trabalho numa fração de segundo e desliga os drivers dos motores.
+* **Um plano no papel, sem máquina** (`routepro-plan FICHEIRO.PLT [--data PASTA] [--lang CÓDIGO]`): calcula o que faria um trabalho com os mesmos trajetos, canetas, armazém e ficheiro da máquina que um início usa, e imprime os trajetos, as canetas, os passos do plano, os trajetos deixados de fora, até onde vai cada eixo, o tempo, as verificações do trabalho e o veredicto face ao curso. Nada é ligado nem enviado. Os planos dos ficheiros de exemplo ficam guardados em `tests/golden/` e um teste compara-os, de modo que uma alteração que mova um passo, um tempo ou uma verificação se note.
 * O **eixo-árvore**: por omissão o da própria unidade de controlo (os seus bits de latch, até 60000 rpm); com `spindle = node` no ficheiro da máquina o trabalho pede-o ao EH3D-NODE-BUNGARD (um variador de frequência nas saídas do nó, qualquer velocidade até ao máximo do nó, parado em qualquer paragem). Com um nó, os programas leem também os LED da máquina, de modo que cada eixo que chega a casa é visto em direto sem ler a linha de home a meio do fluxo.
 * A **ligação ao servidor** (`connection = server` no ficheiro da máquina, com `server_address`, `server_token` e `server_machine`): em vez de conduzir ele próprio a máquina, o programa envia o trabalho ao [EH3D-SERVER](https://github.com/JuanenRac/EH3D-SERVER), que o planeia com as constantes da máquina, o executa através do nó da máquina e diz ao programa como vai; o programa mostra o progresso e responde aos diálogos como sempre, `Esc` pára o trabalho no servidor, e fechar o programa não o pára.
 * **O que o servidor acrescenta ao ecrã de execução:** um trabalho no servidor mostra, por baixo do progresso, os excessos do fuso que o servidor limitou (quando o interruptor do fuso da máquina está em `warn`; com `reject` o servidor recusa o trabalho e diz porquê) e, se a máquina tiver o nó de uma cabeça de furação, as rotações do fuso e a sua temperatura.
@@ -143,7 +144,7 @@ Execute-o com `run.bat` (Windows) ou `./run.sh` (Linux e macOS); ambos compilam 
 
 ## 🧪 Testes
 
-A suite tem 72 testes (`cargo test --workspace`). Verificam o leitor HP-GL, o planeamento de trajetos (passagens, mergulho, corte e elevação), o plano de fresagem do crate do protocolo, os ecrãs clássicos célula a célula e os ecrãs nos oito idiomas. O protocolo que reutiliza (bytes, movimento, barreira de segurança) é testado no EH3D-DRILLPRO. A CI também executa `cargo fmt --check` e `cargo clippy` com os avisos como erros, e `python -I tools/ci_validate.py` verifica o manifesto, as versões, o registo de alterações e os oito README.
+A suite tem 77 testes (`cargo test --workspace`). Verificam o leitor HP-GL, o planeamento de trajetos (passagens, mergulho, corte e elevação), o plano de fresagem do crate do protocolo, os ecrãs clássicos célula a célula e os ecrãs nos oito idiomas. O protocolo que reutiliza (bytes, movimento, barreira de segurança) é testado no EH3D-DRILLPRO. A CI também executa `cargo fmt --check` e `cargo clippy` com os avisos como erros, e `python -I tools/ci_validate.py` verifica o manifesto, as versões, o registo de alterações e os oito README.
 
 ## 🏗️ Compilação e publicação
 
@@ -165,7 +166,7 @@ EH3D-ROUTEPRO/
 ├── src/
 │   ├── job.rs                                   os trajetos HP-GL convertidos no trabalho de fresagem
 │   ├── app.rs texts.rs                          a aplicação e os seus textos em 37 línguas
-│   └── bin/                                     os executáveis routepro e routepro-console
+│   └── bin/                                     routepro, routepro-console e routepro-plan
 ├── protocol/src/
 │   ├── route.rs                                 passagens, mergulho, corte e elevação de cada trajeto
 │   └── lib.rs                                   reexporta o protocolo do EH3D-DRILLPRO

@@ -62,14 +62,14 @@
         {
           "name": "bin/",
           "desc": {
-            "en": "the routepro and routepro-console executables",
-            "es": "los ejecutables routepro y routepro-console",
-            "de": "die Programme routepro und routepro-console",
-            "fr": "les exécutables routepro et routepro-console",
-            "it": "gli eseguibili routepro e routepro-console",
-            "ja": "実行ファイル routepro と routepro-console",
-            "zh": "可执行文件 routepro 和 routepro-console",
-            "pt": "os executáveis routepro e routepro-console"
+            "en": "routepro, routepro-console and routepro-plan",
+            "es": "routepro, routepro-console y routepro-plan",
+            "de": "routepro, routepro-console und routepro-plan",
+            "fr": "routepro, routepro-console et routepro-plan",
+            "it": "routepro, routepro-console e routepro-plan",
+            "ja": "routepro、routepro-console、routepro-plan",
+            "zh": "routepro、routepro-console 和 routepro-plan",
+            "pt": "routepro, routepro-console e routepro-plan"
           }
         }
       ]
