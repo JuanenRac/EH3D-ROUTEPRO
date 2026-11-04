@@ -3,6 +3,7 @@
 All notable changes to this project are documented here.
 
 ## [Unreleased]
+- **The window carries the icon of the program:** the title bar and the task bar show the icon of ROUTEPRO (the shared window of the classic screens takes the icon as a parameter).
 
 ## [0.1.4] - Audit fixes, the new reading limits, tests and the application icon
 

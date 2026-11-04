@@ -13,6 +13,8 @@ use eh3d_drillpro::gui;
 use eh3d_routepro::app::App;
 
 const SETTINGS: &str = "eh3d-routepro.lang";
+/// The icon of ROUTEPRO, for the title bar and the task bar.
+const ICON_PNG: &[u8] = include_bytes!("../../images/brand/icon-256.png");
 
 fn main() -> eframe::Result {
     eh3d_drillpro::crash::install("routepro", env!("CARGO_PKG_VERSION"));
@@ -47,14 +49,14 @@ fn main() -> eframe::Result {
             print!("{}", s.to_text());
             return Ok(());
         }
-        return gui::run_capture("ROUTEPRO", SETTINGS, app, capture);
+        return gui::run_capture_icon("ROUTEPRO", SETTINGS, app, capture, ICON_PNG);
     }
     let app = cli::start_classic(App::new(o.lang, &o.data), &o);
     if o.dump {
         print!("{}", cli::dump_text(&app));
         return Ok(());
     }
-    gui::run_capture("ROUTEPRO", SETTINGS, app, capture)
+    gui::run_capture_icon("ROUTEPRO", SETTINGS, app, capture, ICON_PNG)
 }
 
 /// A program with a window has no console of its own on Windows (no black window); when it was started from a terminal, what it prints (the help, a mistake in the options) goes to that terminal.
