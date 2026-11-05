@@ -49,3 +49,7 @@ debug = "line-tables-only"
 [[bin]]
 name = "routepro-plan"
 path = "src/bin/routepro_plan.rs"
+
+# the icon and the version information of the Windows executable (build.rs; nothing on other systems)
+[target.'cfg(windows)'.build-dependencies]
+winresource = "0.1.34"
