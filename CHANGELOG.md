@@ -3,6 +3,7 @@
 All notable changes to this project are documented here.
 
 ## [Unreleased]
+- **A folder with no machine file starts from the one that comes with the program,** as the drilling program does: before, the routing program had no settings there (offset, scale, area) while the drilling program had the offset of 2.5 mm, so a job of drilling and routing from such a folder put the paths 2.5 mm away from the holes.
 - **The Windows executable carries the icon of the program:** the file shows it in the explorer and the taskbar, together with the name, the description and the version, embedded by `build.rs`; other systems are not affected.
 - **The window carries the icon of the program:** the title bar and the task bar show the icon of ROUTEPRO (the shared window of the classic screens takes the icon as a parameter).
 

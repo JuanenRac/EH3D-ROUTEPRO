@@ -124,7 +124,16 @@ impl App {
                 .map(|b| b.iter().map(|&c| c as char).collect::<String>())
         };
         let tool_text = read("ROUTEPRO.RTD");
-        let config_text = read("ROUTEPRO.RCF");
+        // a folder with no machine file starts from the one that comes with the program (as the drilling program does), so the offset and the other settings are
+        // the same in both programs and a job of drilling and routing lands on the same board
+        let config_text = read("ROUTEPRO.RCF").or_else(|| {
+            Some(
+                include_bytes!("../config/ROUTEPRO.RCF")
+                    .iter()
+                    .map(|&c| c as char)
+                    .collect::<String>(),
+            )
+        });
         let config = config_text.as_deref().and_then(config::parse);
         let settings = config.as_ref().and_then(|c| c.route_settings());
         let geometry = eh3d_drillpro::job::geometry_from(settings.as_ref());
