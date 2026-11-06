@@ -3,12 +3,12 @@
 All notable changes to this project are documented here.
 
 ## [Unreleased]
-- **A folder with no machine file starts from the one that comes with the program,** as the drilling program does: before, the routing program had no settings there (offset, scale, area) while the drilling program had the offset of 2.5 mm, so a job of drilling and routing from such a folder put the paths 2.5 mm away from the holes.
-- **The Windows executable carries the icon of the program:** the file shows it in the explorer and the taskbar, together with the name, the description and the version, embedded by `build.rs`; other systems are not affected.
-- **The window carries the icon of the program:** the title bar and the task bar show the icon of ROUTEPRO (the shared window of the classic screens takes the icon as a parameter).
 
 ## [0.1.4] - Audit fixes, the new reading limits, tests and the application icon
 
+- **A folder with no machine file starts from the one that comes with the program,** as the drilling program does: before, the routing program had no settings there (offset, scale, area) while the drilling program had the offset of 2.5 mm, so a job of drilling and routing from such a folder put the paths 2.5 mm away from the holes.
+- **The Windows executable carries the icon of the program:** the file shows it in the explorer and the taskbar, together with the name, the description and the version, embedded by `build.rs`; other systems are not affected.
+- **The window carries the icon of the program:** the title bar and the task bar show the icon of ROUTEPRO (the shared window of the classic screens takes the icon as a parameter).
 - **The application icon and the logos of the program:** `images/brand/` holds the icon (SVG, PNG sizes, `.ico` and `.icns`), the horizontal and vertical logos in a light and a dark version and the social preview image.
 - **Release builds are checked and attested:** `release-binaries.yml` takes the owner's go-ahead only (a manual start from main, the commit must be part of main), builds the same packages as before, writes `SHA256SUMS` and a build manifest, attests their provenance, verifies the artifact as a stranger would, prepares a draft release of unsigned files only after the owner approves it (a dry run is the default) and opens an issue `build-failed` when anything does not finish.
 - **Shared checks updated:** the validator also compares the badge and the Version row of the README with the manifest, fails when one of its checks cannot run, and the CHANGELOG step of the workflow reads the base branch from the environment.
