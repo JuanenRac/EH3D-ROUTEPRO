@@ -414,6 +414,15 @@ impl App {
             self.mode = Mode::FileDialog;
             return;
         }
+        // a closing or a place of the tool changer that cannot be right is turned down here with the sentence the server would give, before anything is planned
+        // or sent to the server or to the node
+        if let Err(problem) = eh3d_drillpro::work_contract::check_rack_options(
+            &self.job_options,
+            eh3d_drillpro::work_contract::MAX_RACK_PLACES,
+        ) {
+            self.error = Some(problem.to_string());
+            return;
+        }
         // the pens of the plot that the table does not give are cut with the cautious defaults (0.1 mm deep, 1000 mm/min, 60000 rpm); the person is told which, and the
         // line that could not be read, if that is why
         if self.tools_found {
@@ -1016,9 +1025,10 @@ impl App {
     }
 
     fn render_run(&self, s: &mut Screen) {
-        // a job on the server has three more lines: the excesses of the spindle it cut, what the node of the head says and the chaining it did not do
+        // a job on the server has more lines: the excesses of the spindle it cut, what the node of the head says, the chaining it did not do and the
+        // warnings of the server about the request
         let h = if self.connection.kind == ConnectionKind::Server {
-            14
+            14 + eh3d_drillpro::work_contract::WARNING_ROWS
         } else {
             11
         };
@@ -1142,6 +1152,17 @@ impl App {
                     .take(w - 4)
                     .collect();
                 s.text(x + 2, y + 12, &text, RED, WIN_BG);
+            }
+            for (row, line) in eh3d_drillpro::work_contract::warning_lines(
+                &notes.warnings,
+                self.lang,
+                w - 4,
+                eh3d_drillpro::work_contract::WARNING_ROWS,
+            )
+            .iter()
+            .enumerate()
+            {
+                s.text(x + 2, y + 13 + row, line, RED, WIN_BG);
             }
         } else {
             s.text(
@@ -1799,6 +1820,26 @@ mod demo_tests {
         app.load_file(&data.join("FDEMO1.PLT"));
         app.start();
         app
+    }
+
+    #[test]
+    fn a_rack_the_server_would_refuse_is_refused_before_the_job_is_planned() {
+        let data = Path::new(env!("CARGO_MANIFEST_DIR")).join("testdata");
+        let mut app = App::new(Lang::En, &data);
+        app.load_file(&data.join("FDEMO1.PLT"));
+        // a place for the cutter in the chuck without saying that it comes holding one
+        app.job_options.rack_carry_slot = Some(3);
+        app.start();
+        assert_eq!(
+            app.error.as_deref(),
+            Some("bad_rack: rack.carry_slot needs rack.carry_in")
+        );
+        assert!(app.run.is_none());
+        // a job with nothing wrong in its rack starts as it always did
+        app.job_options = eh3d_drillpro::job::JobOptions::default();
+        app.start();
+        assert!(app.error.is_none(), "{:?}", app.error);
+        assert!(app.run.is_some());
     }
 
     #[test]
