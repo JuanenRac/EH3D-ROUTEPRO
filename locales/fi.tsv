@@ -53,5 +53,6 @@ Text.RealMachine	OIKEA KONE ({}) - Käynnistä liikuttaa sitä
 Text.RealStop	Esc pysäyttää; pidä käsi virtakytkimellä
 Text.StatusMain	Esc: takaisin   Enter: hyväksy   ↑/↓: siirry
 Text.SpindleLimit	Karan raja:
+Text.ChainDropped	Palvelin: työkalunvaihtoja ei ketjutettu
 Text.ToolDefaults	Ei ole työkalutaulukossa; työkalulle käytetään varovaisia arvoja
 Text.LevelServer	Korkeuskarttaa ei voi käyttää, kun työ kulkee palvelimen kautta

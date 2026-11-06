@@ -53,5 +53,6 @@ Text.RealMachine	RAUNVÉL ({}) - Ræsa hreyfir hana
 Text.RealStop	Esc stöðvar; hafðu hönd við rofann
 Text.StatusMain	Esc: til baka   Enter: samþykkja   ↑/↓: færa
 Text.SpindleLimit	Hámark spindils:
+Text.ChainDropped	Þjónn: verkfæraskipti eru ekki keðjuð
 Text.ToolDefaults	Ekki í verkfæratöflunni; varfærin gildi eru notuð fyrir verkfæri
 Text.LevelServer	Ekki er hægt að nota hæðarkortið þegar verkið fer um þjóninn

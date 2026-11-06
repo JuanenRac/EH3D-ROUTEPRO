@@ -53,5 +53,6 @@ Text.RealMachine	VALÓDI GÉP ({}) - az Indítás mozgatja
 Text.RealStop	Az Esc leállítja; tartsa a kezét a főkapcsolónál
 Text.StatusMain	Esc: vissza   Enter: elfogad   ↑/↓: mozgás
 Text.SpindleLimit	Az orsó határa:
+Text.ChainDropped	Szerver: a szerszámcserék nincsenek láncolva
 Text.ToolDefaults	Nincs a szerszámtáblázatban; a szerszámhoz óvatos értékek lesznek használva
 Text.LevelServer	A magassági térkép nem használható, ha a munka a szerveren megy át

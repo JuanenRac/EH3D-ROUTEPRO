@@ -53,5 +53,6 @@ Text.RealMachine	RIKTIG MASKIN ({}) - Start rör den
 Text.RealStop	Esc stoppar den; ha handen nära strömbrytaren
 Text.StatusMain	Esc: tillbaka   Enter: godkänn   ↑/↓: flytta
 Text.SpindleLimit	Spindelgräns:
+Text.ChainDropped	Server: verktygsbyten är inte kedjade
 Text.ToolDefaults	Finns inte i verktygstabellen; försiktiga värden används för verktyg
 Text.LevelServer	Höjdkartan kan inte användas när jobbet går via servern

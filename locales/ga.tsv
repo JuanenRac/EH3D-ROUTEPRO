@@ -53,5 +53,6 @@ Text.RealMachine	MEAISÍN RÉAL ({}) - gluaiseann Tosaigh é
 Text.RealStop	Stopann Esc é; coinnigh lámh ar an lasc cumhachta
 Text.StatusMain	Esc: ar ais   Enter: glac   ↑/↓: bog
 Text.SpindleLimit	Teorainn na fearsaide:
+Text.ChainDropped	Freastalaí: níl athruithe uirlise slabhraithe
 Text.ToolDefaults	Níl sa tábla uirlisí; úsáidtear luachanna cúramacha don uirlis
 Text.LevelServer	Ní féidir an léarscáil airde a úsáid nuair a théann an tasc tríd an bhfreastalaí

@@ -53,5 +53,6 @@ Text.RealMachine	ПРАВА МАШИНА ({}) - Старт је покреће
 Text.RealStop	Esc зауставља; држите руку уз прекидач
 Text.StatusMain	Esc: назад   Enter: прихвати   ↑/↓: кретање
 Text.SpindleLimit	Ограничење вретена:
+Text.ChainDropped	Сервер: промене алата нису повезане у ланац
 Text.ToolDefaults	Није у табели алата; за алат се користе опрезне вредности
 Text.LevelServer	Мапа висина се не може користити када посао иде преко сервера

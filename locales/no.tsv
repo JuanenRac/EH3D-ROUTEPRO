@@ -53,5 +53,6 @@ Text.RealMachine	VIRKELIG MASKIN ({}) - Start flytter den
 Text.RealStop	Esc stopper den; hold hånden nær strømbryteren
 Text.StatusMain	Esc: tilbake   Enter: godta   ↑/↓: flytt
 Text.SpindleLimit	Spindelgrense:
+Text.ChainDropped	Server: verktøyskift er ikke kjedet
 Text.ToolDefaults	Finnes ikke i verktøytabellen; det brukes forsiktige verdier for verktøy
 Text.LevelServer	Høydekartet kan ikke brukes når jobben går via serveren

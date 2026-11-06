@@ -53,5 +53,6 @@ Text.RealMachine	TIKROS STAKLĖS ({}) - Pradėti jas judina
 Text.RealStop	Esc sustabdo; laikykite ranką prie jungiklio
 Text.StatusMain	Esc: atgal   Enter: patvirtinti   ↑/↓: judėti
 Text.SpindleLimit	Suklio riba:
+Text.ChainDropped	Serveris: įrankių keitimai nesujungti į grandinę
 Text.ToolDefaults	Nėra įrankių lentelėje; įrankiui naudojamos atsargios reikšmės
 Text.LevelServer	Aukščių žemėlapio negalima naudoti, kai užduotis eina per serverį

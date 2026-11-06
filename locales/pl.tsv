@@ -53,5 +53,6 @@ Text.RealMachine	PRAWDZIWA MASZYNA ({}) - Start ją porusza
 Text.RealStop	Esc zatrzymuje; trzymaj rękę przy wyłączniku
 Text.StatusMain	Esc: wstecz   Enter: zatwierdź   ↑/↓: ruch
 Text.SpindleLimit	Limit wrzeciona:
+Text.ChainDropped	Serwer: zmiany narzędzi nie są łączone w łańcuch
 Text.ToolDefaults	Brak w tabeli narzędzi; dla narzędzia użyto ostrożnych wartości
 Text.LevelServer	Mapy wysokości nie można użyć, gdy zadanie idzie przez serwer
