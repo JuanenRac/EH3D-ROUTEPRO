@@ -267,8 +267,9 @@ impl App {
         let mut pens: Vec<u8> = paths.iter().map(|p| p.pen).collect();
         pens.sort_unstable();
         pens.dedup();
-        let rack = eh3d_drillpro::job::job_rack(self.settings.as_ref(), pens.len())
-            .map_err(|why| why.message(self.lang))?;
+        let rack =
+            eh3d_drillpro::job::job_rack_for(self.settings.as_ref(), pens.len(), &self.job_options)
+                .map_err(|why| why.message(self.lang))?;
         let (items, _marks) = plan_route_job_atc_marked(
             &paths,
             &self.tools,
@@ -456,13 +457,15 @@ impl App {
             p.dedup();
             p.len()
         };
-        let rack = match eh3d_drillpro::job::job_rack(self.settings.as_ref(), pens) {
-            Ok(rack) => rack,
-            Err(why) => {
-                self.error = Some(why.message(self.lang));
-                return;
-            }
-        };
+        let rack =
+            match eh3d_drillpro::job::job_rack_for(self.settings.as_ref(), pens, &self.job_options)
+            {
+                Ok(rack) => rack,
+                Err(why) => {
+                    self.error = Some(why.message(self.lang));
+                    return;
+                }
+            };
         let (items, marks) = plan_route_job_atc_marked(
             &paths,
             &self.tools,
@@ -1228,6 +1231,12 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
             run.item_clock
         };
         run.progress.head_mm(run.next, into)
+    }
+
+    fn depth_below_surface_mm(&self) -> Option<f64> {
+        let z = eh3d_drillpro::classic::engine::ClassicEngine::head_mm(self)?.2;
+        let m = self.job_machine();
+        Some(z - (m.max_depth_mm - m.base_mm - m.board_mm))
     }
 
     fn jog(&mut self, dx: i32, dy: i32, dz: i32) {

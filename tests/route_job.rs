@@ -235,3 +235,41 @@ fn without_a_rack_the_plan_is_the_one_of_before() {
     let b = plan_route_job_atc_marked(&paths(), &[tool(1), tool(2)], &machine(), None, None);
     assert_eq!(a, b);
 }
+
+#[test]
+fn by_hand_the_router_stops_the_spindle_before_asking_for_the_next_cutter_and_starts_it_after() {
+    for node in [false, true] {
+        let mut m = machine();
+        m.geometry.tuning.spindle_node = node;
+        let mut two = paths();
+        two.push(Polyline {
+            pen: 2,
+            points: vec![(0, 0), (300, 300)],
+        });
+        let items = plan_route_job(&two, &[tool(1), tool(2)], &m);
+        let at: Vec<usize> = items
+            .iter()
+            .enumerate()
+            .filter(|(_, i)| matches!(i, Item::Pause(Pause::ToolChange { .. })))
+            .map(|(k, _)| k)
+            .collect();
+        assert_eq!(at.len(), 2, "node: {node}");
+        let stops = |s: &[Item]| {
+            if node {
+                s.iter().any(|i| matches!(i, Item::Spindle { rpm: 0, .. }))
+            } else {
+                eh3d_drillpro::protocol::job::flatten_bytes(s).contains(&0xD2)
+            }
+        };
+        let starts = |s: &[Item]| {
+            if node {
+                s.iter()
+                    .any(|i| matches!(i, Item::Spindle { rpm, .. } if *rpm > 0))
+            } else {
+                eh3d_drillpro::protocol::job::flatten_bytes(s).contains(&0x90)
+            }
+        };
+        assert!(stops(&items[at[0]..at[1]]), "node: {node}");
+        assert!(starts(&items[at[1]..]), "node: {node}");
+    }
+}

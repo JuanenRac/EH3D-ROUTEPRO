@@ -159,17 +159,19 @@ pub fn plan_route_job_atc_marked(
                 b.z_to(0);
                 b.spindle_off();
             }
-            if b.has_rack() {
-                // the tool in the chuck goes back to its own place and the next one is taken from its place
-                b.chuck_swap(used, used + 1);
+            if let Some((from, to)) = b.exchange(used) {
+                // the tool in the chuck goes back to its own place and the next one is taken from its place (after the drills of the same load, when
+                // there are some, and from the place of the last drill when the drilling job left it in the chuck)
+                b.chuck_swap(from, to);
                 used += 1;
             } else {
                 b.pause(Pause::ToolChange { tool: path.pen });
             }
-            if first_tool {
+            // a job that goes on from the drilling in the same load does not ask for the spindle again
+            if first_tool && !b.carries().0 {
                 b.pause(Pause::SpindleStart);
-                first_tool = false;
             }
+            first_tool = false;
             b.spindle_on(tool.spindle_rpm);
             b.z_to(travel_steps);
             current = Some(path.pen);
@@ -203,8 +205,8 @@ pub fn plan_route_job_atc_marked(
         b.z_to(0);
         b.spindle_off();
         // the last tool goes back to its place and the chuck is left closed on the test pin's place
-        if b.has_rack() {
-            b.chuck_swap(used, 0);
+        if b.has_rack() && !b.carries().1 {
+            b.chuck_swap(b.last_place(used), 0);
         }
     }
     b.finish_marked()
