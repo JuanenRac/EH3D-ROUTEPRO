@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.1.5] - Guards for the input files, the contract of the job with the server and the zip library at 9
+
 - **The plots and drawings that are read have limits:** a plot, a drawing or an outline that is bigger than 64 MiB, has a character 0, a drawing with a line of more than 16384 characters or a file with a number of more than 40 digits in a row is turned down when it is loaded, with the stable code (`input_too_large`, `input_binary`, `input_line_too_long`, `input_number_too_long`) and the number of its line, through the limits of EH3D-DRILLPRO; a plot with all its commands on one line is not held to the length of a line, and the examples and sample plots load as before. With tests of the plot and the drawing through the window and of every example.
 - **The routing request is held to the contract of the server:** the request is sent with the fields of the second version only when it chains the tool changer, carries only the fields of `rack` that the server knows, passes the checks of the server for the places given to the tools and is read back as the very options of the program. With tests.
 - Update the zip library to the version without the known vulnerabilities.
