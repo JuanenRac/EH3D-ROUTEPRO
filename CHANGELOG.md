@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- Update the zip library to the version without the known vulnerabilities.
 - Screenshots of the application in the README.
 - **A routing job on the tool changer cuts where the design is:** after a tool was taken from the bar the plan of the next path went on from where the last path had ended, and not from where the head really was (at the bar), so the cut began shifted by the distance from the design to the bar - past the edge of the table. After every exchange the head now goes from the bar to the start of the path first. With tests that follow the planned steps from the switches and compare the end of every path with the design, with the tools in the places in the order of the job and in other places.
 - **The cutters are taken from the places of the rack that the person gave them:** the exchanges of a routing job - taking the cutter, putting the used one back, the one the drilling left in the chuck and the last one at the end - go to the place given to that cutter (`rack_slots` of the job options), and a cutter without a place is taken from the place the order of the job gives it, as before. With tests of the order of the chuck.
