@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 use eh3d_drillpro::app::Input;
 use eh3d_drillpro::config::{self, Config};
 use eh3d_drillpro::i18n::{str_width, Lang};
+use eh3d_drillpro::input_guard::{self, InputKind};
 use eh3d_drillpro::job::Geometry;
 use eh3d_drillpro::progress::Progress;
 use eh3d_drillpro::protocol::connection::ConnectionConfig;
@@ -205,6 +206,20 @@ impl App {
                     .file_name()
                     .map(|n| n.to_string_lossy().to_string())
                     .unwrap_or_default();
+                // a file that is far too big, not text or with absurd numbers is turned down with its code and line before the reader sees it
+                let kind = match path
+                    .extension()
+                    .map(|e| e.to_string_lossy().to_ascii_lowercase())
+                    .as_deref()
+                {
+                    Some(dxf::EXTENSION) => InputKind::Dxf,
+                    Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => InputKind::Gerber,
+                    _ => InputKind::Hpgl,
+                };
+                if let Err(problem) = input_guard::check(kind, &text) {
+                    self.error = Some(format!("{name}: {problem}"));
+                    return;
+                }
                 // the drawing of a board (DXF) and its outline (Gerber) are cut as a plotter file would be
                 let plot = match path
                     .extension()
@@ -1730,6 +1745,45 @@ mod server_request_tests {
         assert_eq!(c["rack"]["carry_in"], true);
         assert_eq!(c["rack"]["carry_out"], false);
         assert_eq!(c["paths"], r["paths"]);
+    }
+}
+
+#[cfg(test)]
+mod input_limit_tests {
+    use super::*;
+
+    /// Loads a file with `text` as its content and gives the error the window shows (none when it was taken).
+    fn load(extension: &str, text: &str) -> Option<String> {
+        let data = Path::new(env!("CARGO_MANIFEST_DIR")).join("testdata");
+        let file = std::env::temp_dir().join(format!(
+            "routepro_limits_{}_{extension}.{extension}",
+            std::process::id()
+        ));
+        std::fs::write(&file, text).unwrap();
+        let mut app = App::new(Lang::En, &data);
+        app.load_file(&file);
+        let _ = std::fs::remove_file(&file);
+        app.error
+    }
+
+    #[test]
+    fn a_plot_with_an_absurd_number_is_turned_down_with_its_line() {
+        let absurd = "9".repeat(eh3d_drillpro::input_guard::MAX_NUMBER_DIGITS + 1);
+        let error = load("plt", &format!("IN;\nSP1;PU0,0;PD{absurd},5;\n")).expect("an error");
+        assert!(error.ends_with("input_number_too_long (line 2)"), "{error}");
+        assert!(error.contains(".plt"), "{error}");
+        // a plot with its commands on one very long line is not held to the limit of the lines
+        let long = format!("IN;SP1;{}", "PU0,0;PD100,100;".repeat(2000));
+        assert_eq!(load("plt", &long), None);
+    }
+
+    #[test]
+    fn a_drawing_with_a_line_that_never_ends_or_not_text_is_turned_down() {
+        let long = "X".repeat(eh3d_drillpro::input_guard::MAX_LINE_CHARS + 1);
+        let error = load("dxf", &format!("0\nSECTION\n2\n{long}\n")).expect("an error");
+        assert!(error.ends_with("input_line_too_long (line 4)"), "{error}");
+        let error = load("dxf", "0\nSEC\u{0}TION\n").expect("an error");
+        assert!(error.ends_with("input_binary (line 2)"), "{error}");
     }
 }
 
