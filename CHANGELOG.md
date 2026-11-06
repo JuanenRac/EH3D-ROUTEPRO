@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A routing job sent to the server carries the chaining of the tool changer:** the request has the optional `rack` field (`first`, `carry_in`, `carry_out`, with `request_version` 2) when the job is one of a chain, and is the request of before when it is not. A server that turns the field down (400 or 422) gets the job again without it, and one that does not answer `rack_applied` is noticed too: the run window says in red that the tool changes were not chained. With tests of the request with and without chaining.
+
 ## [0.1.4] - Audit fixes, the new reading limits, tests and the application icon
 
 - **A folder with no machine file starts from the one that comes with the program,** as the drilling program does: before, the routing program had no settings there (offset, scale, area) while the drilling program had the offset of 2.5 mm, so a job of drilling and routing from such a folder put the paths 2.5 mm away from the holes.

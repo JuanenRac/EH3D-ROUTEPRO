@@ -71,6 +71,7 @@ translations! { Text, tr, ALL_TEXTS;
     LblLink => ["Link", "Enlace", "Collegamento", "Verbindung", "Liaison", "Ligação", "连接", "接続"],
     LblItems => ["Steps of the job", "Pasos del trabajo", "Passi del lavoro", "Arbeitsschritte", "Étapes du travail", "Passos do trabalho", "作业步骤", "作業ステップ"],
     SpindleLimit => ["Spindle limit:", "Límite del husillo:", "Limite del mandrino:", "Spindelgrenze:", "Limite de la broche :", "Limite do fuso:", "主轴限制：", "スピンドル上限："],
+    ChainDropped => ["Server: tool changes not chained", "Servidor: cambios no encadenados", "Server: cambi non concatenati", "Server: Wechsel nicht verkettet", "Serveur : changements non enchaînés", "Servidor: trocas não encadeadas", "服务器：换刀未衔接", "サーバー：工具交換は連結されません"],
     KeyStop => ["Esc: stop", "Esc: detener", "Esc: ferma", "Esc: stoppen", "Échap : arrêter", "Esc: parar", "Esc：停止", "Esc：停止"],
     RealMachine => ["REAL MACHINE ({}) - Start moves it", "MÁQUINA REAL ({}) - Iniciar la mueve", "MACCHINA REALE ({}) - Avvia la muove", "ECHTE MASCHINE ({}) - Start bewegt sie", "MACHINE RÉELLE ({}) - Démarrer la déplace", "MÁQUINA REAL ({}) - Iniciar move-a", "真实机器 ({}) - 开始将使其运动", "実機 ({}) - 開始すると動きます"],
     RealStop => ["Esc stops it; keep a hand near the power switch", "Esc la detiene; ten una mano cerca del interruptor", "Esc la ferma; tieni una mano vicino all'interruttore", "Esc stoppt sie; Hand am Netzschalter halten", "Échap l'arrête ; gardez une main près de l'interrupteur", "Esc pára-a; tenha uma mão perto do interruptor", "Esc 停止；手放在电源开关旁", "Esc で停止；電源スイッチの近くに手を置いてください"],

@@ -517,8 +517,7 @@ impl App {
                     .and_then(|(p, _)| p.file_name())
                     .map(|n| n.to_string_lossy().to_string())
                     .unwrap_or_default();
-                let request =
-                    server_route_request(&name, &self.tools, &paths, &self.job_options.skip_tools);
+                let request = server_route_request(&name, &self.tools, &paths, &self.job_options);
                 // the server reports its own progress in items; it does not tell the paths, so the marks are not used to place it
                 RealRun::start_on_server(self.connection.clone(), request, Vec::new(), n)
             } else {
@@ -1002,9 +1001,9 @@ impl App {
     }
 
     fn render_run(&self, s: &mut Screen) {
-        // a job on the server has two more lines: the excesses of the spindle it cut and what the node of the head says
+        // a job on the server has three more lines: the excesses of the spindle it cut, what the node of the head says and the chaining it did not do
         let h = if self.connection.kind == ConnectionKind::Server {
-            13
+            14
         } else {
             11
         };
@@ -1121,6 +1120,13 @@ impl App {
             if let Some(line) = notes.head_line() {
                 let text = format!("{}: {line}", tr(self.lang, Text::ColSpindle));
                 s.text(x + 2, y + 11, &text, BLACK, WIN_BG);
+            }
+            if notes.chain_dropped {
+                let text: String = tr(self.lang, Text::ChainDropped)
+                    .chars()
+                    .take(w - 4)
+                    .collect();
+                s.text(x + 2, y + 12, &text, RED, WIN_BG);
             }
         } else {
             s.text(
@@ -1652,14 +1658,16 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 }
 
 /// The job as the server's interface takes it. The paths are those the program chose (the pens that are switched off and the paths already done are
-/// left out of them); the switched-off pens go along too, so the server leaves them out by itself and shows them in the view of the job.
+/// left out of them); the switched-off pens go along too (`options.skip_tools`), so the server leaves them out by itself and shows them in the view of the job.
+/// When the job is one of a chain on the tool changer (`options.rack_*`) the request carries it as a versioned `rack` field; without chaining it is the
+/// request of the first version.
 pub fn server_route_request(
     name: &str,
     tools: &[Tool],
     paths: &[hpgl::Polyline],
-    skip_tools: &[u8],
+    options: &eh3d_drillpro::job::JobOptions,
 ) -> serde_json::Value {
-    serde_json::json!({
+    let request = serde_json::json!({
         "kind": "route",
         "name": name,
         "tools": tools.iter().map(|t| serde_json::json!({
@@ -1676,8 +1684,9 @@ pub fn server_route_request(
                 .map(|&(x, y)| [f64::from(x) * crate::hpgl::UNIT_MM, f64::from(y) * crate::hpgl::UNIT_MM])
                 .collect::<Vec<_>>(),
         })).collect::<Vec<_>>(),
-        "skip_tools": skip_tools,
-    })
+        "skip_tools": options.skip_tools,
+    });
+    eh3d_drillpro::server_link::with_chain(request, options)
 }
 
 #[cfg(test)]
@@ -1698,11 +1707,29 @@ mod server_request_tests {
             pen: 1,
             points: vec![(0, 0), (400, 0)],
         }];
-        let r = server_route_request("o.plt", &tools, &paths, &[2]);
+        let skipping = eh3d_drillpro::job::JobOptions {
+            skip_tools: vec![2],
+            ..Default::default()
+        };
+        let r = server_route_request("o.plt", &tools, &paths, &skipping);
         assert_eq!(r["kind"], "route");
+        assert!(r.get("rack").is_none() && r.get("request_version").is_none());
         assert_eq!(r["skip_tools"], serde_json::json!([2]));
         assert_eq!(r["paths"].as_array().unwrap().len(), 1);
         assert_eq!(r["tools"][0]["depth_mm"], 1.7);
+        // the routing that comes after the drilling takes over the chuck of the last drill and leaves its last pen in it
+        let chained = eh3d_drillpro::job::JobOptions {
+            rack_first: 4,
+            rack_carry_in: true,
+            rack_carry_out: false,
+            ..Default::default()
+        };
+        let c = server_route_request("o.plt", &tools, &paths, &chained);
+        assert_eq!(c["request_version"], 2);
+        assert_eq!(c["rack"]["first"], 4);
+        assert_eq!(c["rack"]["carry_in"], true);
+        assert_eq!(c["rack"]["carry_out"], false);
+        assert_eq!(c["paths"], r["paths"]);
     }
 }
 
