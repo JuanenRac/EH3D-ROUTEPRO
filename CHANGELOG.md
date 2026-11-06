@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A routing job on the tool changer cuts where the design is:** after a tool was taken from the bar the plan of the next path went on from where the last path had ended, and not from where the head really was (at the bar), so the cut began shifted by the distance from the design to the bar - past the edge of the table. After every exchange the head now goes from the bar to the start of the path first. With tests that follow the planned steps from the switches and compare the end of every path with the design, with the tools in the places in the order of the job and in other places.
+- **The cutters are taken from the places of the rack that the person gave them:** the exchanges of a routing job - taking the cutter, putting the used one back, the one the drilling left in the chuck and the last one at the end - go to the place given to that cutter (`rack_slots` of the job options), and a cutter without a place is taken from the place the order of the job gives it, as before. With tests of the order of the chuck.
 - **A routing job sent to the server carries the chaining of the tool changer:** the request has the optional `rack` field (`first`, `carry_in`, `carry_out`, with `request_version` 2) when the job is one of a chain, and is the request of before when it is not. A server that turns the field down (400 or 422) gets the job again without it, and one that does not answer `rack_applied` is noticed too: the run window says in red that the tool changes were not chained. With tests of the request with and without chaining.
 
 ## [0.1.4] - Audit fixes, the new reading limits, tests and the application icon

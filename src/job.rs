@@ -154,16 +154,19 @@ pub fn plan_route_job_atc_marked(
             continue;
         }
         let tool = tool_for(tools, path.pen);
+        // after the exchange the head is at the bar and not where the last path ended: the next path is gone to from there
+        let mut at_bar = false;
         if current != Some(path.pen) {
             if current.is_some() {
                 b.z_to(0);
                 b.spindle_off();
             }
-            if let Some((from, to)) = b.exchange(used) {
+            if let Some((from, to)) = b.exchange_of(used, path.pen, current) {
                 // the tool in the chuck goes back to its own place and the next one is taken from its place (after the drills of the same load, when
-                // there are some, and from the place of the last drill when the drilling job left it in the chuck)
+                // there are some, or where the person put them, and from the place of the last drill when the drilling job left it in the chuck)
                 b.chuck_swap(from, to);
                 used += 1;
+                at_bar = true;
             } else {
                 b.pause(Pause::ToolChange { tool: path.pen });
             }
@@ -184,6 +187,15 @@ pub fn plan_route_job_atc_marked(
                 .map(|&(x, y)| (x + shift.0, y + shift.1))
                 .collect(),
         };
+        if at_bar {
+            // the plan of a path starts from where the last one ended; the head came back from the bar, so it goes from there to the start of this one first
+            let start = moved.points[0];
+            b.goto_xy((
+                g.x_steps(start.0 as f64 * UNIT_MM),
+                g.y_steps(start.1 as f64 * UNIT_MM),
+            ));
+            at = start;
+        }
         let (steps, end) =
             match table.and_then(|t| Some((t, t.height_at(m.offset_mm.0, m.offset_mm.1)?))) {
                 Some((t, reference)) => {
@@ -206,7 +218,7 @@ pub fn plan_route_job_atc_marked(
         b.spindle_off();
         // the last tool goes back to its place and the chuck is left closed on the test pin's place
         if b.has_rack() && !b.carries().1 {
-            b.chuck_swap(b.last_place(used), 0);
+            b.chuck_swap(b.return_place(used, current), 0);
         }
     }
     b.finish_marked()
