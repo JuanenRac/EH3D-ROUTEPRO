@@ -4,6 +4,9 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A closing or a place of the tool changer that cannot be right is turned down before the job is planned:** when a job starts, the checks the server makes of a `rack` (`bad_rack`) are run on the options of the job, and the screen shows the same sentence the server gives; a job with a valid rack starts as it did.
+- **The warnings of the server about the request are shown under the job in the language of the program:** the unknown field of the rack, the version of the request read as the newest the server knows, the tool changer left out, the machine that changes its tools by hand and the work that goes past the course of an axis are told in up to four rows of the window of a routing job on the server, in the 37 languages of the shared texts.
+
 ## [0.1.5] - Guards for the input files, the contract of the job with the server and the zip library at 9
 
 - **The plots and drawings that are read have limits:** a plot, a drawing or an outline that is bigger than 64 MiB, has a character 0, a drawing with a line of more than 16384 characters or a file with a number of more than 40 digits in a row is turned down when it is loaded, with the stable code (`input_too_large`, `input_binary`, `input_line_too_long`, `input_number_too_long`) and the number of its line, through the limits of EH3D-DRILLPRO; a plot with all its commands on one line is not held to the length of a line, and the examples and sample plots load as before. With tests of the plot and the drawing through the window and of every example.
