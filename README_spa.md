@@ -110,19 +110,19 @@ Cómo encajan las partes de este repositorio: quién lo usa, qué contiene y de 
 ## 🖼️ Capturas de pantalla
 
 <p align="center">
-  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+  <img src="images/screens/routepro-01-main.png" alt="Pantalla principal del programa clásico" width="80%">
 </p>
 
 <p align="center"><em>La pantalla principal del programa clásico de fresado: la escala, el desplazamiento y el recorte, los vectores del trazado y los botones.</em></p>
 
 <p align="center">
-  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+  <img src="images/screens/routepro-02-tools.png" alt="Ventana de datos de herramientas" width="80%">
 </p>
 
 <p align="center"><em>Los datos de herramientas: la profundidad, las pasadas, los avances por la trayectoria y de penetración, y la velocidad del husillo de cada herramienta.</em></p>
 
 <p align="center">
-  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+  <img src="images/screens/routepro-03-connection.png" alt="Conexión con la máquina, con la lista de las formas de llegar a ella" width="80%">
 </p>
 
 <p align="center"><em>La conexión con la máquina: la forma elegida en el desplegable y lo que necesita (aquí el servidor EH3D).</em></p>

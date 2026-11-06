@@ -110,19 +110,19 @@ EH3D-ROUTEPRO 是 EH3D-DRILLPRO 的铣削姊妹项目，并通过路径依赖它
 ## 🖼️ 屏幕截图
 
 <p align="center">
-  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+  <img src="images/screens/routepro-01-main.png" alt="经典程序的主屏幕" width="80%">
 </p>
 
 <p align="center"><em>经典铣削程序的主界面：比例、偏移和裁剪、绘图的矢量以及按钮。</em></p>
 
 <p align="center">
-  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+  <img src="images/screens/routepro-02-tools.png" alt="刀具数据窗口" width="80%">
 </p>
 
 <p align="center"><em>刀具数据：每把刀具的深度、走刀次数、沿路径和下刀的进给以及主轴转速。</em></p>
 
 <p align="center">
-  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+  <img src="images/screens/routepro-03-connection.png" alt="与机器的连接，以及连接方式的列表" width="80%">
 </p>
 
 <p align="center"><em>与机床的连接：在下拉列表中选择的方式及其所需内容（此处为 EH3D 服务器）。</em></p>

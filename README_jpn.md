@@ -110,19 +110,19 @@ EH3D-ROUTEPRO は EH3D-DRILLPRO のフライス加工向けの姉妹プロジェ
 ## 🖼️ スクリーンショット
 
 <p align="center">
-  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+  <img src="images/screens/routepro-01-main.png" alt="クラシック版プログラムのメイン画面" width="80%">
 </p>
 
 <p align="center"><em>クラシック版ルーティングプログラムのメイン画面：倍率、オフセット、クリップ、プロットのベクトル、ボタン。</em></p>
 
 <p align="center">
-  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+  <img src="images/screens/routepro-02-tools.png" alt="工具データのウィンドウ" width="80%">
 </p>
 
 <p align="center"><em>ツールデータ：各ツールの深さ、パス数、経路に沿った送りと切り込みの送り、主軸回転数。</em></p>
 
 <p align="center">
-  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+  <img src="images/screens/routepro-03-connection.png" alt="マシンとの接続と、接続方法の一覧" width="80%">
 </p>
 
 <p align="center"><em>マシンとの接続：ドロップダウンで選んだ方法と必要なもの（ここでは EH3D サーバー）。</em></p>

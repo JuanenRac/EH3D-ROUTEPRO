@@ -110,19 +110,19 @@ How the parts of this repository fit together: who uses it, what it holds and wh
 ## 🖼️ Screenshots
 
 <p align="center">
-  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+  <img src="images/screens/routepro-01-main.png" alt="Main screen of the classic program" width="80%">
 </p>
 
 <p align="center"><em>The main screen of the classic routing program: the scale, the offset and the clip, the vectors of the plot and the buttons.</em></p>
 
 <p align="center">
-  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+  <img src="images/screens/routepro-02-tools.png" alt="Tool data window" width="80%">
 </p>
 
 <p align="center"><em>The tool data: the depth, the passes, the feeds along the path and of the plunge, and the spindle speed of every tool.</em></p>
 
 <p align="center">
-  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+  <img src="images/screens/routepro-03-connection.png" alt="Connection with the machine, with the list of the ways to reach it" width="80%">
 </p>
 
 <p align="center"><em>The connection with the machine: the way chosen in the drop-down and what it needs (here the EH3D server).</em></p>

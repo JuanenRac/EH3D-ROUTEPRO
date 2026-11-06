@@ -110,19 +110,19 @@ Wie die Teile dieses Repositorys zusammenpassen: wer es nutzt, was es enthält u
 ## 🖼️ Screenshots
 
 <p align="center">
-  <img src="images/screenshots/main.png" alt="main screen" width="80%">
+  <img src="images/screens/routepro-01-main.png" alt="Hauptbildschirm des klassischen Programms" width="80%">
 </p>
 
 <p align="center"><em>Die Hauptmaske des klassischen Fräsprogramms: Maßstab, Versatz und Beschnitt, die Vektoren des Plots und die Tasten.</em></p>
 
 <p align="center">
-  <img src="images/screenshots/tools.png" alt="tool data" width="80%">
+  <img src="images/screens/routepro-02-tools.png" alt="Fenster mit den Werkzeugdaten" width="80%">
 </p>
 
 <p align="center"><em>Die Werkzeugdaten: die Tiefe, die Durchgänge, die Vorschübe entlang der Bahn und beim Eintauchen und die Spindeldrehzahl jedes Werkzeugs.</em></p>
 
 <p align="center">
-  <img src="images/screenshots/connection.png" alt="connection" width="80%">
+  <img src="images/screens/routepro-03-connection.png" alt="Verbindung zur Maschine mit der Liste der möglichen Wege" width="80%">
 </p>
 
 <p align="center"><em>Die Verbindung mit der Maschine: der in der Auswahlliste gewählte Weg und was er braucht (hier der EH3D-Server).</em></p>
