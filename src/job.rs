@@ -233,8 +233,7 @@ pub fn select_paths(
     offset_mm: (f64, f64),
 ) -> (Vec<Polyline>, usize) {
     use crate::hpgl::UNIT_MM;
-    let first = opts.from.max(1);
-    let last = if opts.to == 0 { usize::MAX } else { opts.to };
+    let (first, last) = eh3d_drillpro::job::vector_range(opts);
     let kept: Vec<&Polyline> = paths
         .iter()
         .enumerate()
@@ -248,14 +247,7 @@ pub fn select_paths(
             pens.push(p.pen);
         }
     }
-    let copies: Vec<(f64, f64)> = match opts.panel {
-        Some(p) if p.columns * p.rows > 1 => (0..p.rows)
-            .flat_map(|iy| {
-                (0..p.columns).map(move |ix| (ix as f64 * p.pitch_mm.0, iy as f64 * p.pitch_mm.1))
-            })
-            .collect(),
-        _ => vec![(0.0, 0.0)],
-    };
+    let copies = eh3d_drillpro::job::panel_offsets(opts);
     // the tabs go on the outside of a board only, not on the pockets and slots inside it
     let outer: Vec<bool> = {
         let mm: Vec<Vec<(f64, f64)>> = kept
@@ -280,15 +272,14 @@ pub fn select_paths(
                     pen: p.pen,
                     points: p.points.iter().map(|&(x, y)| (x + ux, y + uy)).collect(),
                 };
-                let inside = opts.clip_mm.is_none_or(|(cx, cy)| {
-                    moved.points.iter().all(|&(x, y)| {
-                        let (mx, my) = (
-                            f64::from(x) * UNIT_MM + offset_mm.0,
-                            f64::from(y) * UNIT_MM + offset_mm.1,
-                        );
-                        mx >= 0.0 && my >= 0.0 && mx <= cx && my <= cy
-                    })
-                });
+                let inside = eh3d_drillpro::job::inside_work_area(
+                    opts.clip_mm,
+                    offset_mm,
+                    moved
+                        .points
+                        .iter()
+                        .map(|&(x, y)| (f64::from(x) * UNIT_MM, f64::from(y) * UNIT_MM)),
+                );
                 if inside {
                     match opts.panel.and_then(|p| p.tabs) {
                         Some(tabs) if outer[index] => out.extend(with_tabs(moved, &tabs)),
