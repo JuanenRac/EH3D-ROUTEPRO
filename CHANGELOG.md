@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The Rust toolchain is pinned:** `rust-toolchain.toml` fixes the version of Rust (the same one in every repository of the suite) with `rustfmt` and `clippy`, the workflows install that version and not `stable`, so a new release of Rust cannot turn the CI red by itself.
 - **The CI keeps its actions up to date and does not pile up runs:** a `dependabot.yml` groups the updates of the GitHub Actions in one monthly request, a new push to a branch cancels the run of the older one that is still going, and the Rust jobs have a time limit, so a stuck job cannot hold a runner for hours.
 - **Tests of the plots that cannot be loaded:** a plot that is not there is an error on the screen and the plot already loaded stays; plots of nothing (empty, blank, a bare command) are taken empty or turned down, never a panic.
 - **The selection of the paths takes the range of vectors, the panel and the working area from the code shared with the drilling:** the first and last vector, the copies on the panel and the test of the working area are the functions of `eh3d_drillpro::job` that the selection of the holes uses, so a change in one is a change in the other; what is selected does not change.

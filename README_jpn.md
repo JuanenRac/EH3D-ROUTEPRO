@@ -182,6 +182,7 @@ EH3D-ROUTEPRO/
 ├── run.sh run.bat                               プログラムを起動
 ├── eh3d.project.json                            マニフェスト：バージョン、役割、成熟度、ビルドコマンド
 ├── Cargo.toml Cargo.lock                        Rust パッケージと固定された依存関係
+├── rust-toolchain.toml                          固定されたRustツールチェーン
 ├── CHANGELOG.md                                 各バージョンの変更点
 ├── SECURITY.md SUPPORT.md                       脆弱性の報告方法と問い合わせ先
 └── CONTRIBUTING.md CODE_OF_CONDUCT.md LICENSE   貢献方法、行動規範、ライセンス

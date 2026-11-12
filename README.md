@@ -182,6 +182,7 @@ EH3D-ROUTEPRO/
 ├── run.sh run.bat                               start the program
 ├── eh3d.project.json                            manifest: version, role, maturity and build command
 ├── Cargo.toml Cargo.lock                        the Rust package and its locked dependencies
+├── rust-toolchain.toml                          the pinned Rust toolchain
 ├── CHANGELOG.md                                 what changed in each version
 ├── SECURITY.md SUPPORT.md                       how to report a vulnerability and where to ask
 └── CONTRIBUTING.md CODE_OF_CONDUCT.md LICENSE   how to contribute, the code of conduct and the licence
