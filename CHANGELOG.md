@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A plot, a drawing or an outline past the limits of the readers is refused with its code, and a big one is said:** loading goes through `hpgl::parse_limited` (and the same check for the DXF drawing and the Gerber outline) with the limits of `reader_limits.cfg` of the shared crate, so a file past a hard limit is refused with `EH3D-FORMATS-011` in the language of the screen and a file past a warning limit is read and the line under the file says that it is big, in the 37 languages. A test loads a plot past the warning limit.
 - **A closing or a place of the tool changer that cannot be right is turned down before the job is planned:** when a job starts, the checks the server makes of a `rack` (`bad_rack`) are run on the options of the job, and the screen shows the same sentence the server gives; a job with a valid rack starts as it did.
 - **The warnings of the server about the request are shown under the job in the language of the program:** the unknown field of the rack, the version of the request read as the newest the server knows, the tool changer left out, the machine that changes its tools by hand and the work that goes past the course of an axis are told in up to four rows of the window of a routing job on the server, in the 37 languages of the shared texts.
 

@@ -22,6 +22,7 @@ use crate::hpgl::{self, Plot, UNIT_MM};
 use crate::job::plan_route_job_atc_marked;
 use crate::texts::{tr, Text};
 use crate::tools::{self, Tool};
+use eh3d_bungard_formats::limits::{LimitVerdict, ReaderLimits};
 
 #[derive(Debug, Clone, PartialEq)]
 enum Mode {
@@ -220,26 +221,40 @@ impl App {
                     self.error = Some(format!("{name}: {problem}"));
                     return;
                 }
-                // the drawing of a board (DXF) and its outline (Gerber) are cut as a plotter file would be
-                let plot = match path
+                // the drawing of a board (DXF) and its outline (Gerber) are cut as a plotter file would be; every reader first checks the size of the file against
+                // the limits of reader_limits.cfg (a file past a hard limit is refused, one past a warning limit is read and said)
+                let limits = ReaderLimits::default();
+                let refusal = |e: eh3d_bungard_formats::error::FormatError, lang: Lang| {
+                    eh3d_drillpro::summary::refusal_message(&e, lang)
+                };
+                let lang = self.lang;
+                let read: Result<(Plot, LimitVerdict), String> = match path
                     .extension()
                     .map(|e| e.to_string_lossy().to_ascii_lowercase())
                     .as_deref()
                 {
-                    Some(dxf::EXTENSION) => dxf::outline(&text, segments),
-                    Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => {
-                        if gerber::looks_like_outline(&name, &text) {
-                            gerber::outline(&text, segments)
-                        } else {
-                            Err("not the outline of a board".to_string())
-                        }
+                    Some(dxf::EXTENSION) => limits
+                        .guard(&text)
+                        .map_err(|e| refusal(e, lang))
+                        .and_then(|v| dxf::outline(&text, segments).map(|p| (p, v))),
+                    Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => limits
+                        .guard(&text)
+                        .map_err(|e| refusal(e, lang))
+                        .and_then(|v| {
+                            if gerber::looks_like_outline(&name, &text) {
+                                gerber::outline(&text, segments).map(|p| (p, v))
+                            } else {
+                                Err("not the outline of a board".to_string())
+                            }
+                        }),
+                    _ => {
+                        hpgl::parse_limited(&text, segments, &limits).map_err(|e| refusal(e, lang))
                     }
-                    _ => Ok(hpgl::parse_with(&text, segments)),
                 };
-                match plot {
-                    Ok(p) => {
+                match read {
+                    Ok((p, verdict)) => {
                         // what looks wrong in the work is said as soon as it is loaded (a unit that is probably wrong, a work far from the corner)
-                        self.warning = eh3d_drillpro::summary::load_warning(
+                        let looks_wrong = eh3d_drillpro::summary::load_warning(
                             p.paths.iter().flat_map(|q| {
                                 q.points
                                     .iter()
@@ -249,6 +264,10 @@ impl App {
                             self.settings.as_ref(),
                             &self.connection.tuning,
                             self.lang,
+                        );
+                        self.warning = eh3d_drillpro::summary::join_warnings(
+                            eh3d_drillpro::summary::size_warning(verdict, self.lang),
+                            looks_wrong,
                         );
                         self.plot = Some((path.to_path_buf(), p));
                         self.error = None;
@@ -1796,6 +1815,25 @@ mod input_limit_tests {
         // a plot with its commands on one very long line is not held to the limit of the lines
         let long = format!("IN;SP1;{}", "PU0,0;PD100,100;".repeat(2000));
         assert_eq!(load("plt", &long), None);
+    }
+
+    #[test]
+    fn a_big_plot_is_read_and_the_window_says_it_is_big() {
+        let data = Path::new(env!("CARGO_MANIFEST_DIR")).join("testdata");
+        let file = std::env::temp_dir().join(format!("routepro_big_{}.plt", std::process::id()));
+        // a little more than the warning limit of the bytes (16 MiB), far under the hard limits
+        std::fs::write(
+            &file,
+            format!("IN;SP1;{}", "PU0,0;PD100,100;".repeat(1_100_000)),
+        )
+        .unwrap();
+        let mut app = App::new(Lang::En, &data);
+        app.load_file(&file);
+        let _ = std::fs::remove_file(&file);
+        assert_eq!(app.error, None);
+        assert!(app.plot.is_some());
+        let warning = app.warning.as_deref().unwrap_or_default();
+        assert!(warning.contains("The file is big"), "{warning}");
     }
 
     #[test]
