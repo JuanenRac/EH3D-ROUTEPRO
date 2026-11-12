@@ -1844,6 +1844,34 @@ mod input_limit_tests {
         let error = load("dxf", "0\nSEC\u{0}TION\n").expect("an error");
         assert!(error.ends_with("input_binary (line 2)"), "{error}");
     }
+
+    #[test]
+    fn a_plot_that_is_not_there_is_an_error_and_the_plot_already_loaded_stays() {
+        let data = Path::new(env!("CARGO_MANIFEST_DIR")).join("testdata");
+        let mut app = App::new(Lang::En, &data);
+        let good = std::fs::read_dir(&data)
+            .unwrap()
+            .filter_map(|e| e.ok().map(|e| e.path()))
+            .find(|p| p.extension().is_some_and(|x| x.eq_ignore_ascii_case("plt")))
+            .expect("a sample plot");
+        app.load_file(&good);
+        assert!(app.error.is_none() && app.plot.is_some());
+        let before = app.plot.as_ref().map(|(p, _)| p.clone());
+        app.load_file(&data.join("there-is-no-such-file.plt"));
+        assert!(app.error.is_some(), "an error must be shown");
+        assert_eq!(app.plot.as_ref().map(|(p, _)| p.clone()), before);
+    }
+
+    #[test]
+    fn a_plot_of_nothing_is_taken_empty_or_turned_down_never_a_panic() {
+        for text in ["", "\n\n", "IN;", ";;;;", "PU;PD;"] {
+            let error = load("plt", text);
+            // whatever the answer, the text reaches the window as an answer and not as a crash
+            if let Some(why) = error {
+                assert!(!why.is_empty());
+            }
+        }
+    }
 }
 
 #[cfg(test)]
