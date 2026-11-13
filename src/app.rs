@@ -1795,8 +1795,11 @@ mod input_limit_tests {
     /// Loads a file with `text` as its content and gives the error the window shows (none when it was taken).
     fn load(extension: &str, text: &str) -> Option<String> {
         let data = Path::new(env!("CARGO_MANIFEST_DIR")).join("testdata");
+        // the tests run at the same time: every call has a file of its own, or one would delete the file of another
+        static CALLS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        let call = CALLS.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
         let file = std::env::temp_dir().join(format!(
-            "routepro_limits_{}_{extension}.{extension}",
+            "routepro_limits_{}_{call}.{extension}",
             std::process::id()
         ));
         std::fs::write(&file, text).unwrap();

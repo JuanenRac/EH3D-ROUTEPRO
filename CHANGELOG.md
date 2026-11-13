@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The tests that load a plot no longer share a file:** each call of the helper of the input limits writes a file of its own, so two tests that run at the same time cannot delete the file of each other (a test failed now and then with a file that was not there).
 - **The CI and the release build take the sibling repositories at their released tags:** `EH3D-COMMON` at `v0.2.1`, and the other siblings at the version they were released in, instead of at `main`; the manifest asks for `min_common` 0.2.1.
 
 ## [0.1.6] - Shared path selection, reader limits and warnings of the server
