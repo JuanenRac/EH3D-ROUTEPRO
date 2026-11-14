@@ -729,7 +729,7 @@ version = "0.0.1"
 
 [[package]]
 name = "eh3d-routepro"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "eframe",
  "eh3d-bungard-formats",
