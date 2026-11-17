@@ -17,6 +17,50 @@ pub struct RouteParams {
     pub approach_mm: f64,
 }
 
+/// The most passes a plan is made of. A tool table with a number of passes that is not a number somebody typed (a corrupt file) would otherwise ask the planner for
+/// billions of passes; the server accepts at most 100.
+pub const MAX_PASSES: u32 = 1000;
+
+/// What is wrong with the parameters of a tool, in the order it is looked for.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ParamsError {
+    /// Zero passes, or more than [`MAX_PASSES`].
+    Passes,
+    /// The depth is not a number, is negative, or is deeper than the limit given.
+    Depth,
+    /// A feed is not a number or is not above zero.
+    Feed,
+    /// The approach is not a number or is negative.
+    Approach,
+}
+
+impl RouteParams {
+    /// Checks the parameters before a plan is made from them: `max_depth_mm` is the deepest the machine may go (the server uses 40 mm). The planners themselves keep
+    /// their signature and only bound the number of passes.
+    pub fn validate(&self, max_depth_mm: f64) -> Result<(), ParamsError> {
+        if self.passes == 0 || self.passes > MAX_PASSES {
+            return Err(ParamsError::Passes);
+        }
+        if !self.depth_mm.is_finite() || self.depth_mm < 0.0 || self.depth_mm > max_depth_mm {
+            return Err(ParamsError::Depth);
+        }
+        if !(self.feed_xy_mm_min.is_finite() && self.feed_xy_mm_min > 0.0)
+            || !(self.feed_z_mm_min.is_finite() && self.feed_z_mm_min > 0.0)
+        {
+            return Err(ParamsError::Feed);
+        }
+        if !self.approach_mm.is_finite() || self.approach_mm < 0.0 {
+            return Err(ParamsError::Approach);
+        }
+        Ok(())
+    }
+
+    /// The number of passes a plan is made of: at least one and at most [`MAX_PASSES`].
+    fn passes_planned(&self) -> u32 {
+        self.passes.clamp(1, MAX_PASSES)
+    }
+}
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct RoutePlan {
     pub steps: Vec<Step>,
@@ -40,7 +84,7 @@ pub fn plan_polyline(
         };
     };
     let mut steps = rapid_xy(from_mm, start, g);
-    let passes = p.passes.max(1);
+    let passes = p.passes_planned();
     let mut z_now_steps = 0u32;
     let mut cur = start;
     for pass in 1..=passes {
@@ -82,7 +126,7 @@ pub fn plan_polyline_levelled(
         };
     };
     let mut steps = rapid_xy(from_mm, start, g);
-    let passes = p.passes.max(1);
+    let passes = p.passes_planned();
     let mut z_now = 0u32;
     let mut cur = start;
     // the Z that is asked, in steps from the travel height, where the table is `lift` higher

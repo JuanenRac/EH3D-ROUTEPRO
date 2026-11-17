@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The parameters of a routing tool can be checked, and the planner no longer takes a number of passes that nobody typed:** `RouteParams::validate(max_depth_mm)` (new) says which parameter is wrong (passes outside 1 to 1000, a depth that is not a number, negative or deeper than the limit, a feed that is not above zero, an approach that is negative or not a number), and the two planners keep their signature but plan at most `MAX_PASSES` (1000) passes, so a corrupt tool table with billions of passes can no longer hang the program. Tests cover each wrong parameter and the cap. The desktop program does not call `validate` yet.
+
 ## [0.1.7] - Plot-loading tests no longer share a file
 
 - **The shared validation tools are updated:** the validator also runs the workflow and lessons checks of the suite with their latest rules, including a check to run before every push.
