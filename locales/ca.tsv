@@ -33,6 +33,7 @@ Text.NoFile	Cap fitxer carregat
 Text.NoToolFile	Fitxer d'eines no trobat
 Text.NoConfigFile	Fitxer de configuració no trobat
 Text.ErrRead	Error en llegir el fitxer de traçat
+Text.ErrToolParams	Paràmetres d'eina fora de rang (passades, profunditat, avanços o aproximació); la feina no es planifica
 Text.SimOnly	SIMULACIÓ - cap màquina connectada
 Text.Uncalibrated	Màquina no calibrada: moviment només simulat
 Text.Connecting	Connectant la unitat de control ...

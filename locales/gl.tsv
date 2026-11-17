@@ -33,6 +33,7 @@ Text.NoFile	Ningún ficheiro cargado
 Text.NoToolFile	Ficheiro de ferramentas non atopado
 Text.NoConfigFile	Ficheiro de configuración non atopado
 Text.ErrRead	Erro ao ler o ficheiro de taladrado
+Text.ErrToolParams	Axustes da ferramenta fóra de rango (pasadas, profundidade, avances ou aproximación); o traballo non se planifica
 Text.SimOnly	SIMULACIÓN - sen máquina conectada
 Text.Uncalibrated	Máquina sen calibrar: movemento só simulado
 Text.Connecting	Conectando coa unidade de control ...

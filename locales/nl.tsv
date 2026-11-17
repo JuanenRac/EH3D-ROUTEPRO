@@ -33,6 +33,7 @@ Text.NoFile	Geen bestand geladen
 Text.NoToolFile	Gereedschapsbestand niet gevonden
 Text.NoConfigFile	Configbestand niet gevonden
 Text.ErrRead	Fout bij lezen van plotbestand
+Text.ErrToolParams	Gereedschapsinstellingen buiten bereik (doorgangen, diepte, voedingen of nadering); de taak wordt niet gepland
 Text.SimOnly	SIMULATIE - geen machine verbonden
 Text.Uncalibrated	Machine niet gekalibreerd: alleen simulatie
 Text.Connecting	Besturingseenheid verbinden ...

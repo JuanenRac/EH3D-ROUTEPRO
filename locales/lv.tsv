@@ -33,6 +33,7 @@ Text.NoFile	Fails nav ielādēts
 Text.NoToolFile	Rīku datu fails nav atrasts
 Text.NoConfigFile	Konfigurācijas fails nav atrasts
 Text.ErrRead	Kļūda, lasot urbšanas failu
+Text.ErrToolParams	Instrumenta iestatījumi ārpus diapazona (gājieni, dziļums, padeves vai pietuvošanās); darbs netiek plānots
 Text.SimOnly	SIMULĀCIJA - iekārta nav pievienota
 Text.Uncalibrated	Iekārta nav kalibrēta: kustība tikai simulēta
 Text.Connecting	Savieno vadības bloku ...

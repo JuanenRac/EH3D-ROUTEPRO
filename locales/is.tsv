@@ -33,6 +33,7 @@ Text.NoFile	Engin skrá hlaðin
 Text.NoToolFile	Verkfæraskrá fannst ekki
 Text.NoConfigFile	Stillingaskrá fannst ekki
 Text.ErrRead	Villa við lestur teikniskrár
+Text.ErrToolParams	Stillingar verkfæris eru utan marka (umferðir, dýpt, mötun eða aðflug); verkið er ekki skipulagt
 Text.SimOnly	HERMUN - engin vél tengd
 Text.Uncalibrated	Vélin er ekki kvörðuð: hreyfing er aðeins hermd
 Text.Connecting	Tengi stýrieiningu ...

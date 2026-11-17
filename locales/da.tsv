@@ -33,6 +33,7 @@ Text.NoFile	Ingen fil indlæst
 Text.NoToolFile	Værktøjsfil ikke fundet
 Text.NoConfigFile	Konfig.fil ikke fundet
 Text.ErrRead	Fejl ved læsning af plotfil
+Text.ErrToolParams	Værktøjsindstillinger uden for området (gennemløb, dybde, tilspænding eller tilnærmelse); jobbet planlægges ikke
 Text.SimOnly	SIMULERING - ingen maskine tilsluttet
 Text.Uncalibrated	Maskine ikke kalibreret: kun simuleret
 Text.Connecting	Tilslutter styreenhed ...

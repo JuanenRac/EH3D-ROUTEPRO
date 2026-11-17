@@ -33,6 +33,7 @@ Text.NoFile	Níl comhad luchtaithe
 Text.NoToolFile	Níor aimsíodh comhad na n-uirlisí
 Text.NoConfigFile	Níor aimsíodh comhad cumraíochta
 Text.ErrRead	Earráid agus comhad plota á léamh
+Text.ErrToolParams	Socruithe uirlise lasmuigh den raon (pasanna, doimhneacht, bearta bia nó druidim); ní phleanáiltear an obair
 Text.SimOnly	INSAMHLÚ - níl aon mheaisín ceangailte
 Text.Uncalibrated	Meaisín gan calabrú: gluaiseacht insamhlaithe amháin
 Text.Connecting	Aonad rialaithe á cheangal ...

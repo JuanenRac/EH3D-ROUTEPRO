@@ -33,6 +33,7 @@ Text.NoFile	Nobena datoteka ni naložena
 Text.NoToolFile	Datoteka orodij ni najdena
 Text.NoConfigFile	Konfiguracijska datoteka ni najdena
 Text.ErrRead	Napaka pri branju datoteke risanja
+Text.ErrToolParams	Nastavitve orodja so izven območja (prehodi, globina, podajanja ali približevanje); naloga se ne načrtuje
 Text.SimOnly	SIMULACIJA - stroj ni priključen
 Text.Uncalibrated	Stroj ni kalibriran: gibanje je le simulirano
 Text.Connecting	Povezovanje s krmilno enoto ...
