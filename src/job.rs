@@ -48,7 +48,9 @@ pub fn check_levelling(
         return Ok(());
     };
     let lift_at = |x: f64, y: f64| table.height_at(x, y).map_or(0.0, |h| h - reference);
-    let refused = |lift: f64| !(lift.abs() <= max_lift_mm);
+    let refused = |lift: f64| {
+        !lift.is_finite() || !max_lift_mm.is_finite() || lift.abs() > max_lift_mm
+    };
     let mm = |p: (i32, i32)| {
         (
             p.0 as f64 * UNIT_MM + m.offset_mm.0,
