@@ -237,3 +237,65 @@ fn the_length_of_a_path_is_zero_without_two_points_and_does_not_depend_on_the_di
     assert!((length_mm(&path) - length_mm(&back)).abs() < 1e-12);
     assert_eq!(length_mm(&[(2.0, 2.0), (2.0, 2.0)]), 0.0);
 }
+
+#[test]
+fn the_parameters_of_a_tool_are_checked_before_a_plan_is_made() {
+    let good = params(1.0, 2, 0.5);
+    assert_eq!(good.validate(40.0), Ok(()));
+    assert_eq!(params(1.0, 0, 0.0).validate(40.0), Err(ParamsError::Passes));
+    assert_eq!(
+        params(1.0, u32::MAX, 0.0).validate(40.0),
+        Err(ParamsError::Passes)
+    );
+    assert_eq!(
+        params(f64::NAN, 1, 0.0).validate(40.0),
+        Err(ParamsError::Depth)
+    );
+    assert_eq!(params(-0.1, 1, 0.0).validate(40.0), Err(ParamsError::Depth));
+    assert_eq!(params(41.0, 1, 0.0).validate(40.0), Err(ParamsError::Depth));
+    assert_eq!(params(40.0, 1, 0.0).validate(40.0), Ok(()));
+    let mut slow = good;
+    slow.feed_xy_mm_min = 0.0;
+    assert_eq!(slow.validate(40.0), Err(ParamsError::Feed));
+    slow.feed_xy_mm_min = 1000.0;
+    slow.feed_z_mm_min = f64::INFINITY;
+    assert_eq!(slow.validate(40.0), Err(ParamsError::Feed));
+    assert_eq!(
+        params(1.0, 1, f64::NAN).validate(40.0),
+        Err(ParamsError::Approach)
+    );
+    assert_eq!(
+        params(1.0, 1, -1.0).validate(40.0),
+        Err(ParamsError::Approach)
+    );
+}
+
+#[test]
+fn a_number_of_passes_that_is_not_believable_is_bounded_and_not_planned_for_ever() {
+    let g = Geometry::default();
+    let path = [(0.0, 0.0), (5.0, 0.0)];
+    let wild = plan_polyline((0.0, 0.0), &path, &params(1.0, u32::MAX, 0.0), &g);
+    let capped = plan_polyline((0.0, 0.0), &path, &params(1.0, MAX_PASSES, 0.0), &g);
+    assert_eq!(wild, capped, "more passes than the limit are the limit");
+    let none = plan_polyline((0.0, 0.0), &path, &params(1.0, 0, 0.0), &g);
+    let one = plan_polyline((0.0, 0.0), &path, &params(1.0, 1, 0.0), &g);
+    assert_eq!(none, one, "no passes are one pass, as before");
+    let flat = |_x: f64, _y: f64| 0.0;
+    let wild = plan_polyline_levelled(
+        (0.0, 0.0),
+        &path,
+        &params(1.0, u32::MAX, 0.0),
+        &g,
+        &flat,
+        2.0,
+    );
+    let capped = plan_polyline_levelled(
+        (0.0, 0.0),
+        &path,
+        &params(1.0, MAX_PASSES, 0.0),
+        &g,
+        &flat,
+        2.0,
+    );
+    assert_eq!(wild, capped);
+}
