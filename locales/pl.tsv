@@ -34,6 +34,7 @@ Text.NoToolFile	Nie znaleziono pliku danych narzędzi
 Text.NoConfigFile	Nie znaleziono pliku konfiguracji
 Text.ErrRead	Błąd odczytu pliku wierceń
 Text.ErrToolParams	Ustawienia narzędzia poza zakresem (przejścia, głębokość, posuwy lub dosunięcie); zadanie nie jest planowane
+Text.ErrLevelLift	Mapa wysokości wymaga większej korekty Z, niż pozwala plik maszyny (level_max_lift_mm); zadanie nie jest planowane
 Text.SimOnly	SYMULACJA - brak podłączonej maszyny
 Text.Uncalibrated	Maszyna nieskalibrowana: ruch tylko symulowany
 Text.Connecting	Łączenie ze sterownikiem ...

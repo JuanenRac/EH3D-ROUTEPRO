@@ -34,6 +34,7 @@ Text.NoToolFile	Ez da erreminta-fitxategia aurkitu
 Text.NoConfigFile	Ez da konfigurazio fitxategia aurkitu
 Text.ErrRead	Errorea zulaketa fitxategia irakurtzean
 Text.ErrToolParams	Erremintaren ezarpenak tartetik kanpo daude (pasadak, sakonera, aurrerapenak edo hurbilketa); lana ez da planifikatzen
+Text.ErrLevelLift	Altuera-mapak makinaren fitxategiak onartzen duena baino Z zuzenketa handiagoa eskatzen du (level_max_lift_mm); lana ez da planifikatzen
 Text.SimOnly	SIMULAZIOA - ez dago makinarik konektatuta
 Text.Uncalibrated	Makina kalibratu gabe: mugimendua simulatua soilik
 Text.Connecting	Kontrol unitatera konektatzen ...

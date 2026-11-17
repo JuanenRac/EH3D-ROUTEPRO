@@ -35,6 +35,51 @@ pub fn check_tools(paths: &[Polyline], tools: &[Tool], m: &JobMachine) -> Result
     Ok(())
 }
 
+/// Where a height map would lift or lower Z by more than `max_lift_mm` along the paths (the machine file's `level_max_lift_mm`): the first such point, in mm of the machine,
+/// with the correction asked there. A correction that is not a number is refused too. The paths are followed in pieces of 10 mm, as the planner cuts them; a point outside the map
+/// is not corrected. Such a job is refused before it is planned, so a wrong map never moves Z by what it says.
+pub fn check_levelling(
+    paths: &[Polyline],
+    m: &JobMachine,
+    table: &eh3d_levelling::HeightMap,
+    max_lift_mm: f64,
+) -> Result<(), (f64, f64, f64)> {
+    let Some(reference) = table.height_at(m.offset_mm.0, m.offset_mm.1) else {
+        return Ok(());
+    };
+    let lift_at = |x: f64, y: f64| table.height_at(x, y).map_or(0.0, |h| h - reference);
+    let refused =
+        |lift: f64| !lift.is_finite() || !max_lift_mm.is_finite() || lift.abs() > max_lift_mm;
+    let mm = |p: (i32, i32)| {
+        (
+            p.0 as f64 * UNIT_MM + m.offset_mm.0,
+            p.1 as f64 * UNIT_MM + m.offset_mm.1,
+        )
+    };
+    for path in paths.iter().filter(|p| !p.points.is_empty()) {
+        let mut last = mm(path.points[0]);
+        let lift = lift_at(last.0, last.1);
+        if refused(lift) {
+            return Err((last.0, last.1, lift));
+        }
+        for &point in &path.points[1..] {
+            let to = mm(point);
+            let length = ((to.0 - last.0).powi(2) + (to.1 - last.1).powi(2)).sqrt();
+            let pieces = (length / 10.0).ceil().clamp(1.0, 10_000.0) as usize;
+            for i in 1..=pieces {
+                let t = i as f64 / pieces as f64;
+                let (x, y) = (last.0 + (to.0 - last.0) * t, last.1 + (to.1 - last.1) * t);
+                let lift = lift_at(x, y);
+                if refused(lift) {
+                    return Err((x, y, lift));
+                }
+            }
+            last = to;
+        }
+    }
+    Ok(())
+}
+
 /// Plans one polyline. `from` is the current XY position in plotter units;
 /// returns the steps and the final position, also in plotter units.
 pub fn plan_path(
