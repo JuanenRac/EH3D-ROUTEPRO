@@ -33,6 +33,7 @@ Text.NoFile	Failas neįkeltas
 Text.NoToolFile	Įrankių duomenų failas nerastas
 Text.NoConfigFile	Konfigūracijos failas nerastas
 Text.ErrRead	Gręžimo failo skaitymo klaida
+Text.ErrToolParams	Įrankio nustatymai už ribų (praėjimai, gylis, pastūmos ar priartėjimas); užduotis neplanuojama
 Text.SimOnly	IMITACIJA - staklės neprijungtos
 Text.Uncalibrated	Staklės nekalibruotos: judesys tik imituojamas
 Text.Connecting	Jungiamas valdymo blokas ...

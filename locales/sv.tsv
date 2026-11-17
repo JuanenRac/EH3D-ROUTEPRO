@@ -33,6 +33,7 @@ Text.NoFile	Ingen fil inläst
 Text.NoToolFile	Verktygsfilen hittades inte
 Text.NoConfigFile	Konfigurationsfilen hittades inte
 Text.ErrRead	Fel vid läsning av plotfil
+Text.ErrToolParams	Verktygsinställningarna är utanför intervallet (varv, djup, matningar eller inflygning); jobbet planeras inte
 Text.SimOnly	SIMULERING - ingen maskin ansluten
 Text.Uncalibrated	Maskinen är inte kalibrerad: rörelsen simuleras bara
 Text.Connecting	Ansluter styrenheten ...

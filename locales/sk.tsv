@@ -33,6 +33,7 @@ Text.NoFile	Žiadny súbor
 Text.NoToolFile	Súbor nástrojov sa nenašiel
 Text.NoConfigFile	Konfiguračný súbor sa nenašiel
 Text.ErrRead	Chyba čítania súboru plotra
+Text.ErrToolParams	Nastavenia nástroja sú mimo rozsahu (prechody, hĺbka, posuvy alebo priblíženie); úloha sa neplánuje
 Text.SimOnly	SIMULÁCIA - stroj nie je pripojený
 Text.Uncalibrated	Stroj nie je kalibrovaný: pohyb je len simulovaný
 Text.Connecting	Pripájam riadiacu jednotku ...

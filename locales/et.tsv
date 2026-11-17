@@ -33,6 +33,7 @@ Text.NoFile	Faili pole laaditud
 Text.NoToolFile	Tööriistafaili ei leitud
 Text.NoConfigFile	Seadistusfaili ei leitud
 Text.ErrRead	Viga plotterifaili lugemisel
+Text.ErrToolParams	Tööriista sätted on vahemikust väljas (käigud, sügavus, ettenihked või lähenemine); tööd ei planeerita
 Text.SimOnly	SIMULATSIOON - masin pole ühendatud
 Text.Uncalibrated	Masin kalibreerimata: liikumine on vaid simuleeritud
 Text.Connecting	Ühendan juhtseadet ...

@@ -304,6 +304,8 @@ impl App {
         let rack =
             eh3d_drillpro::job::job_rack_for(self.settings.as_ref(), pens.len(), &self.job_options)
                 .map_err(|why| why.message(self.lang))?;
+        crate::job::check_tools(&paths, &self.tools, &self.job_machine())
+            .map_err(|pen| format!("{} (T{pen})", tr(self.lang, Text::ErrToolParams)))?;
         let (items, _marks) = plan_route_job_atc_marked(
             &paths,
             &self.tools,
@@ -509,6 +511,10 @@ impl App {
                     return;
                 }
             };
+        if let Err(pen) = crate::job::check_tools(&paths, &self.tools, &self.job_machine()) {
+            self.error = Some(format!("{} (T{pen})", tr(self.lang, Text::ErrToolParams)));
+            return;
+        }
         let (items, marks) = plan_route_job_atc_marked(
             &paths,
             &self.tools,

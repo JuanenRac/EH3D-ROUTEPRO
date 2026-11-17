@@ -5,8 +5,8 @@ use eh3d_drillpro::protocol::safety::{Machine, Verified};
 use eh3d_drillpro::protocol::{Pacing, Simulator};
 use eh3d_routepro::hpgl::Polyline;
 use eh3d_routepro::job::{
-    default_tool, plan_path_levelled, plan_path_with, plan_route_job, plan_route_job_marked,
-    tool_for,
+    check_tools, default_tool, plan_path_levelled, plan_path_with, plan_route_job,
+    plan_route_job_marked, tool_for,
 };
 use eh3d_routepro::tools::Tool;
 
@@ -272,4 +272,45 @@ fn by_hand_the_router_stops_the_spindle_before_asking_for_the_next_cutter_and_st
         assert!(stops(&items[at[0]..at[1]]), "node: {node}");
         assert!(starts(&items[at[1]..]), "node: {node}");
     }
+}
+
+#[test]
+fn a_tool_with_settings_the_planner_cannot_use_refuses_the_job_naming_its_pen() {
+    let paths = vec![
+        Polyline {
+            pen: 1,
+            points: vec![(0, 0), (400, 0)],
+        },
+        Polyline {
+            pen: 2,
+            points: vec![(0, 0), (0, 400)],
+        },
+    ];
+    let good = tool(1);
+    let mut bad = tool(2);
+    assert_eq!(
+        check_tools(&paths, &[good.clone(), bad.clone()], &machine()),
+        Ok(())
+    );
+    bad.iterations = 0;
+    assert_eq!(
+        check_tools(&paths, &[good.clone(), bad.clone()], &machine()),
+        Err(2)
+    );
+    bad.iterations = 1;
+    bad.depth_mm = f64::NAN;
+    assert_eq!(
+        check_tools(&paths, &[good.clone(), bad.clone()], &machine()),
+        Err(2)
+    );
+    bad.depth_mm = 99.0; // deeper than the machine goes
+    assert_eq!(
+        check_tools(&paths, &[good.clone(), bad.clone()], &machine()),
+        Err(2)
+    );
+    bad.depth_mm = 0.1;
+    bad.feed_xy_mm_min = 0;
+    assert_eq!(check_tools(&paths, &[good, bad], &machine()), Err(2));
+    // a pen that the table does not give uses the cautious tool, which is valid
+    assert_eq!(check_tools(&paths, &[], &machine()), Ok(()));
 }

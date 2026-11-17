@@ -33,6 +33,7 @@ Text.NoFile	Není načten soubor
 Text.NoToolFile	Soubor nástrojů nenalezen
 Text.NoConfigFile	Konfig. soubor nenalezen
 Text.ErrRead	Chyba čtení plot souboru
+Text.ErrToolParams	Nastavení nástroje je mimo rozsah (průchody, hloubka, posuvy nebo přiblížení); úloha se neplánuje
 Text.SimOnly	SIMULACE - stroj není připojen
 Text.Uncalibrated	Stroj nekalibrován: pohyb jen simulován
 Text.Connecting	Připojování řídicí jednotky ...

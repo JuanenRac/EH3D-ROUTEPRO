@@ -20,6 +20,21 @@ fn route_params(tool: &Tool, approach_mm: f64) -> RouteParams {
     }
 }
 
+/// The first pen of the paths whose tool has settings the planner cannot use (no passes or too many, a depth that is not a number or is deeper than the machine goes, a feed that is
+/// not above zero): such a job is refused before it is planned.
+pub fn check_tools(paths: &[Polyline], tools: &[Tool], m: &JobMachine) -> Result<(), u8> {
+    for path in paths.iter().filter(|p| !p.points.is_empty()) {
+        let tool = tool_for(tools, path.pen);
+        if route_params(&tool, m.distance_tool_board_mm)
+            .validate(m.max_depth_mm)
+            .is_err()
+        {
+            return Err(path.pen);
+        }
+    }
+    Ok(())
+}
+
 /// Plans one polyline. `from` is the current XY position in plotter units;
 /// returns the steps and the final position, also in plotter units.
 pub fn plan_path(

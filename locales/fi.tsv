@@ -33,6 +33,7 @@ Text.NoFile	Tiedostoa ei ole ladattu
 Text.NoToolFile	Työkalutiedostoa ei löydy
 Text.NoConfigFile	Asetustiedostoa ei löydy
 Text.ErrRead	Virhe plotteritiedoston luvussa
+Text.ErrToolParams	Työkalun asetukset ovat sallitun alueen ulkopuolella (kierrokset, syvyys, syötöt tai lähestyminen); työtä ei suunnitella
 Text.SimOnly	SIMULAATIO - konetta ei ole kytketty
 Text.Uncalibrated	Konetta ei ole kalibroitu: liike vain simuloitu
 Text.Connecting	Yhdistetään ohjausyksikköön ...

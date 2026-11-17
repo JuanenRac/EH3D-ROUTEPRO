@@ -33,6 +33,7 @@ Text.NoFile	L-ebda fajl mtella'
 Text.NoToolFile	Fajl tad-dejta tal-għodod ma nstabx
 Text.NoConfigFile	Fajl tal-konfigurazzjoni ma nstabx
 Text.ErrRead	Żball fil-qari tal-fajl tat-titqib
+Text.ErrToolParams	L-issettjar tal-għodda huma barra mill-firxa (passaġġi, fond, avvanzi jew approċċ); ix-xogħol mhuwiex ippjanat
 Text.SimOnly	SIMULAZZJONI - l-ebda magna konnessa
 Text.Uncalibrated	Magna mhux ikkalibrata: il-moviment huwa simulat biss
 Text.Connecting	Qed jgħaqqad l-unità tal-kontroll ...

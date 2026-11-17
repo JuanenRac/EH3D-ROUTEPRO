@@ -33,6 +33,7 @@ Text.NoFile	Ingen fil lastet
 Text.NoToolFile	Verktøyfilen ble ikke funnet
 Text.NoConfigFile	Konfigurasjonsfilen ble ikke funnet
 Text.ErrRead	Feil ved lesing av plottfil
+Text.ErrToolParams	Verktøyinnstillinger utenfor området (gjennomganger, dybde, matinger eller tilnærming); jobben planlegges ikke
 Text.SimOnly	SIMULERING - ingen maskin tilkoblet
 Text.Uncalibrated	Maskinen er ikke kalibrert: bevegelsen simuleres bare
 Text.Connecting	Kobler til styreenheten ...
