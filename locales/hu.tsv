@@ -34,6 +34,7 @@ Text.NoToolFile	A szerszámfájl nem található
 Text.NoConfigFile	A beállításfájl nem található
 Text.ErrRead	Hiba a plotterfájl olvasásakor
 Text.ErrToolParams	A szerszám beállításai a tartományon kívül esnek (menetek, mélység, előtolások vagy közelítés); a munka nem kerül tervezésre
+Text.ErrLevelLift	A magassági térkép nagyobb Z-korrekciót kér, mint amennyit a gép fájlja megenged (level_max_lift_mm); a munka nem kerül tervezésre
 Text.SimOnly	SZIMULÁCIÓ - nincs gép csatlakoztatva
 Text.Uncalibrated	A gép nincs kalibrálva: a mozgás csak szimulált
 Text.Connecting	Vezérlőegység csatlakoztatása ...

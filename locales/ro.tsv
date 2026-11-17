@@ -34,6 +34,7 @@ Text.NoToolFile	Fișierul cu datele sculelor nu a fost găsit
 Text.NoConfigFile	Fișierul de configurare nu a fost găsit
 Text.ErrRead	Eroare la citirea fișierului de găurire
 Text.ErrToolParams	Setările sculei sunt în afara intervalului (treceri, adâncime, avansuri sau apropiere); lucrarea nu este planificată
+Text.ErrLevelLift	Harta înălțimilor cere o corecție de Z mai mare decât permite fișierul mașinii (level_max_lift_mm); lucrarea nu este planificată
 Text.SimOnly	SIMULARE - nicio mașină conectată
 Text.Uncalibrated	Mașină necalibrată: mișcarea este doar simulată
 Text.Connecting	Se conectează unitatea de comandă ...

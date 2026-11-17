@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A height map that asks for more correction than the machine file allows is refused before the job is planned:** the router reads `level_max_lift_mm` (2 mm by default) from the machine file, follows every path in pieces of 10 mm and refuses the job, naming the point and the correction asked, when the map would lift or lower Z by more than that (or by something that is not a number). The text of the refusal is in the 37 languages. Tested with a flat map, a tilted map, the limit and a limit that is not a number.
+
 - **A job whose tool has settings the planner cannot use is refused before it is planned:** the passes (none or too many), the depth (not a number, negative or deeper than the machine goes) and the feeds (not above zero) of every tool the paths use are checked when the job is built and when it starts, and the message, in the 37 languages of the program, names the pen. A pen that the table does not give still uses the cautious default tool. Tested with each fault and with a valid table.
 
 - **The parameters of a routing tool can be checked, and the planner no longer takes a number of passes that nobody typed:** `RouteParams::validate(max_depth_mm)` (new) says which parameter is wrong (passes outside 1 to 1000, a depth that is not a number, negative or deeper than the limit, a feed that is not above zero, an approach that is negative or not a number), and the two planners keep their signature but plan at most `MAX_PASSES` (1000) passes, so a corrupt tool table with billions of passes can no longer hang the program. Tests cover each wrong parameter and the cap. The desktop program does not call `validate` yet.

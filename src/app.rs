@@ -279,6 +279,26 @@ impl App {
         }
     }
 
+    /// Refuses a height map that asks for more than the machine file's `level_max_lift_mm` anywhere along the paths, naming the point (in mm) and the correction asked.
+    fn check_levelling_of(&self, paths: &[hpgl::Polyline]) -> Result<(), String> {
+        let Some(table) = self.job_options.table.as_ref() else {
+            return Ok(());
+        };
+        crate::job::check_levelling(
+            paths,
+            &self.job_machine(),
+            table,
+            self.connection.tuning.level_max_lift_mm,
+        )
+        .map_err(|(x, y, lift)| {
+            format!(
+                "{} (X {x:.1} Y {y:.1} mm: {lift:.2} / {:.2} mm)",
+                tr(self.lang, Text::ErrLevelLift),
+                self.connection.tuning.level_max_lift_mm
+            )
+        })
+    }
+
     /// The plan of the loaded plot, made on paper with no machine and no connection: the same paths, tools and rack that a start would plan, the exact steps followed against the
     /// course of the machine file (none when the folder has no machine file) and the sanity checks, said in the language of the screen. The lines are always the same for the same files, so
     /// a program or a test can compare them with a stored copy. An error says why no plan could be made.
@@ -306,6 +326,7 @@ impl App {
                 .map_err(|why| why.message(self.lang))?;
         crate::job::check_tools(&paths, &self.tools, &self.job_machine())
             .map_err(|pen| format!("{} (T{pen})", tr(self.lang, Text::ErrToolParams)))?;
+        self.check_levelling_of(&paths)?;
         let (items, _marks) = plan_route_job_atc_marked(
             &paths,
             &self.tools,
@@ -513,6 +534,10 @@ impl App {
             };
         if let Err(pen) = crate::job::check_tools(&paths, &self.tools, &self.job_machine()) {
             self.error = Some(format!("{} (T{pen})", tr(self.lang, Text::ErrToolParams)));
+            return;
+        }
+        if let Err(why) = self.check_levelling_of(&paths) {
+            self.error = Some(why);
             return;
         }
         let (items, marks) = plan_route_job_atc_marked(

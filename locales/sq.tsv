@@ -34,6 +34,7 @@ Text.NoToolFile	Skedari i mjeteve nuk u gjet
 Text.NoConfigFile	Skedari i konfigurimit nuk u gjet
 Text.ErrRead	Gabim në leximin e skedarit të plotterit
 Text.ErrToolParams	Cilësimet e veglës janë jashtë intervalit (kalime, thellësia, avancimet ose afrimi); puna nuk planifikohet
+Text.ErrLevelLift	Harta e lartësive kërkon më shumë korrigjim të Z-së sesa lejon skedari i makinës (level_max_lift_mm); puna nuk planifikohet
 Text.SimOnly	SIMULIM - asnjë makinë e lidhur
 Text.Uncalibrated	Makina nuk është kalibruar: lëvizja simulohet vetëm
 Text.Connecting	Lidhja e njësisë së kontrollit ...

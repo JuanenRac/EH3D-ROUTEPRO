@@ -34,6 +34,7 @@ Text.NoToolFile	Súbor nástrojov sa nenašiel
 Text.NoConfigFile	Konfiguračný súbor sa nenašiel
 Text.ErrRead	Chyba čítania súboru plotra
 Text.ErrToolParams	Nastavenia nástroja sú mimo rozsahu (prechody, hĺbka, posuvy alebo priblíženie); úloha sa neplánuje
+Text.ErrLevelLift	Mapa výšok žiada väčšiu korekciu Z, než dovoľuje súbor stroja (level_max_lift_mm); úloha sa neplánuje
 Text.SimOnly	SIMULÁCIA - stroj nie je pripojený
 Text.Uncalibrated	Stroj nie je kalibrovaný: pohyb je len simulovaný
 Text.Connecting	Pripájam riadiacu jednotku ...

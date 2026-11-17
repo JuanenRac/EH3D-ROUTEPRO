@@ -314,3 +314,28 @@ fn a_tool_with_settings_the_planner_cannot_use_refuses_the_job_naming_its_pen() 
     // a pen that the table does not give uses the cautious tool, which is valid
     assert_eq!(check_tools(&paths, &[], &machine()), Ok(()));
 }
+
+#[test]
+fn a_height_map_that_asks_for_more_than_the_limit_refuses_the_job_naming_the_point() {
+    use eh3d_levelling::{Grid, HeightMap};
+    use eh3d_routepro::job::check_levelling;
+    let unit = eh3d_routepro::hpgl::UNIT_MM;
+    let at = |mm: f64| (mm / unit).round() as i32;
+    let paths = vec![Polyline {
+        pen: 1,
+        points: vec![(at(10.0), at(10.0)), (at(90.0), at(90.0))],
+    }];
+    let grid = Grid::new((0.0, 0.0, 100.0, 100.0), 2, 2);
+    let flat = HeightMap::flat(grid, 0.0);
+    assert_eq!(check_levelling(&paths, &machine(), &flat, 2.0), Ok(()));
+    // the far corner of the table is 5 mm higher: the correction grows along the path past 2 mm
+    let mut tilted = HeightMap::flat(grid, 0.0);
+    tilted.set(3, 5.0).unwrap();
+    let (x, y, lift) = check_levelling(&paths, &machine(), &tilted, 2.0).unwrap_err();
+    assert!(lift > 2.0 && x > 10.0 && y > 10.0, "{x} {y} {lift}");
+    // the same map is fine when the file allows more, and a limit that is not a number refuses everything
+    assert_eq!(check_levelling(&paths, &machine(), &tilted, 10.0), Ok(()));
+    assert!(check_levelling(&paths, &machine(), &tilted, f64::NAN).is_err());
+    // no paths, nothing to refuse
+    assert_eq!(check_levelling(&[], &machine(), &tilted, 0.1), Ok(()));
+}

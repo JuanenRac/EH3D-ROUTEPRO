@@ -34,6 +34,7 @@ Text.NoToolFile	Datoteka alata nije nađena
 Text.NoConfigFile	Konfig. datoteka nije nađena
 Text.ErrRead	Greška pri čitanju plot datoteke
 Text.ErrToolParams	Postavke alata izvan raspona (prolazi, dubina, posmaci ili približavanje); posao se ne planira
+Text.ErrLevelLift	Karta visina traži veću korekciju Z nego što dopušta datoteka stroja (level_max_lift_mm); posao se ne planira
 Text.SimOnly	SIMULACIJA - stroj nije spojen
 Text.Uncalibrated	Stroj nije kalibriran: samo simulacija
 Text.Connecting	Spajanje upravljačke jedinice ...

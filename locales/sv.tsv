@@ -34,6 +34,7 @@ Text.NoToolFile	Verktygsfilen hittades inte
 Text.NoConfigFile	Konfigurationsfilen hittades inte
 Text.ErrRead	Fel vid läsning av plotfil
 Text.ErrToolParams	Verktygsinställningarna är utanför intervallet (varv, djup, matningar eller inflygning); jobbet planeras inte
+Text.ErrLevelLift	Höjdkartan kräver mer Z-korrigering än maskinfilen tillåter (level_max_lift_mm); jobbet planeras inte
 Text.SimOnly	SIMULERING - ingen maskin ansluten
 Text.Uncalibrated	Maskinen är inte kalibrerad: rörelsen simuleras bara
 Text.Connecting	Ansluter styrenheten ...
