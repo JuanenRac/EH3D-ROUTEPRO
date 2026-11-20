@@ -21,6 +21,10 @@ pub struct RouteParams {
 /// billions of passes; the server accepts at most 100.
 pub const MAX_PASSES: u32 = 1000;
 
+/// The most pieces a segment is cut into when the plan follows a table that is not flat. A piece of a millionth of a millimetre asked for a path of metres would otherwise
+/// ask for billions of them and the program would not come back.
+pub const MAX_PIECES_PER_SEGMENT: u32 = 10_000;
+
 /// What is wrong with the parameters of a tool, in the order it is looked for.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ParamsError {
@@ -148,7 +152,7 @@ pub fn plan_polyline_levelled(
         for &pt in &points_mm[1..] {
             let len = (pt.0 - cur.0).hypot(pt.1 - cur.1);
             let pieces = if piece_mm > 0.0 {
-                (len / piece_mm).ceil().max(1.0) as u32
+                ((len / piece_mm).ceil().max(1.0) as u32).min(MAX_PIECES_PER_SEGMENT)
             } else {
                 1
             };
