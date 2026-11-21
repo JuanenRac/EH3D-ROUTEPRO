@@ -17,7 +17,7 @@
 
 ---
 
-**Verificação de honestidade - o que funciona hoje:** um programa em Rust com interface de texto de 80x25 que lê ficheiros de traçado HP-GL `.PLT`, a tabela de ferramentas e a configuração da máquina, planeia trajetórias de fresagem de várias passagens (avanço rápido, penetração, corte, elevação) e executa-as **contra um simulador** (por omissão) ou, quando o ficheiro da máquina o indica, **numa máquina real** pela porta série do computador, um adaptador USB-série ou o EH3D-NODE-BUNGARD. 116 testes correm num computador. O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC real (a referência dos três eixos e os movimentos de cada eixo); **um trabalho de fresagem completo ainda não correu na máquina**, e os passos por milímetro só foram confrontados com a configuração do original. Por predefinição, aparecem os ecrãs clássicos do programa MS-DOS, verificados célula a célula com o original; `--modern` inicia a interface de menus. Funcionam com teclado e rato, a janela pode ser maximizada (o ecrã ajusta-se de 640x400 a 1080p e mais), os ficheiros de configuração e de ferramentas editam-se e gravam-se nos diálogos, e o botão Sobre indica as máquinas Bungard CCD e CCD/2 (MTC e ATC suportadas). Uma versão de consola (`routepro-console`) desenha os mesmos ecrãs num terminal, com teclado e rato e sem sistema de janelas (SSH, consola de texto, um PC antigo). Os pacotes de cada versão incluem a configuração básica, explicada linha a linha, e uma pasta `examples` desde um quadrado até cem mil pontos. Nos modelos ATC um trabalho de fresagem tira as ferramentas da barra do ficheiro da máquina e troca-as sozinho; segue o plano e o simulador e não foi experimentado numa máquina real.
+**Verificação de honestidade - o que funciona hoje:** um programa em Rust com interface de texto de 80x25 que lê ficheiros de traçado HP-GL `.PLT`, a tabela de ferramentas e a configuração da máquina, planeia trajetórias de fresagem de várias passagens (avanço rápido, penetração, corte, elevação) e executa-as **contra um simulador** (por omissão) ou, quando o ficheiro da máquina o indica, **numa máquina real** pela porta série do computador, um adaptador USB-série ou o EH3D-NODE-BUNGARD. 125 testes correm num computador. O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC real (a referência dos três eixos e os movimentos de cada eixo); **um trabalho de fresagem completo ainda não correu na máquina**, e os passos por milímetro só foram confrontados com a configuração do original. Por predefinição, aparecem os ecrãs clássicos do programa MS-DOS, verificados célula a célula com o original; `--modern` inicia a interface de menus. Funcionam com teclado e rato, a janela pode ser maximizada (o ecrã ajusta-se de 640x400 a 1080p e mais), os ficheiros de configuração e de ferramentas editam-se e gravam-se nos diálogos, e o botão Sobre indica as máquinas Bungard CCD e CCD/2 (MTC e ATC suportadas). Uma versão de consola (`routepro-console`) desenha os mesmos ecrãs num terminal, com teclado e rato e sem sistema de janelas (SSH, consola de texto, um PC antigo). Os pacotes de cada versão incluem a configuração básica, explicada linha a linha, e uma pasta `examples` desde um quadrado até cem mil pontos. Nos modelos ATC um trabalho de fresagem tira as ferramentas da barra do ficheiro da máquina e troca-as sozinho; segue o plano e o simulador e não foi experimentado numa máquina real.
 
 ---
 
@@ -29,7 +29,7 @@
 |---|---|
 | Versão | `0.1.8` |
 | Maturidade | Estrutura inicial |
-| Testes | 116 |
+| Testes | 125 |
 | Tecnologias | Rust |
 | Em hardware real | Sim, numa Bungard CCD MTC: a referência e os movimentos de cada eixo; um trabalho completo ainda não correu. Sem ficheiro da máquina corre no simulador |
 
@@ -44,7 +44,7 @@ Cada linha é uma parte deste repositório e a luz diz até onde chega hoje. É 
 | Área | Estado | O que significa aqui |
 |---|---|---|
 | Software | 🟡 | Um programa Rust com ecrã de texto de 80x25 lê ficheiros de traçado HP-GL, a tabela de ferramentas e o ficheiro da máquina, planeia trajetos de fresagem de várias passagens e executa-os num simulador, ou numa máquina real se o ficheiro da máquina o indicar; precisa da pasta do EH3D-DRILLPRO ao lado. |
-| Testes | 🟡 | Passam 116 testes (`cargo test --workspace`): o leitor de HP-GL, o planeamento de trajetos e os ecrãs nos 37 línguas; o protocolo é coberto pelos 410 testes do EH3D-DRILLPRO. |
+| Testes | 🟡 | Passam 125 testes (`cargo test --workspace`): o leitor de HP-GL, o planeamento de trajetos e os ecrãs nos 37 línguas; o protocolo é coberto pelos 410 testes do EH3D-DRILLPRO. |
 | Leitor de HP-GL | 🟡 | Só se entendem `IN`, `SP`, `PU`, `PD`, `PA` e `PR`; qualquer outro comando é contado e ignorado, nunca é fatal. Experimentado só com pequenos ficheiros de exemplo escritos para os testes. |
 | Planeamento de trajetos | 🟡 | Cada trajeto torna-se, em cada passagem, um movimento rápido, uma penetração, o corte e uma elevação, com a profundidade repartida por igual e a ferramenta a terminar sempre à superfície; verificado só em testes e no simulador. |
 | Hardware real | 🟠 | O protocolo série que partilha com o EH3D-DRILLPRO foi experimentado numa Bungard CCD MTC (o movimento de referência e os movimentos de cada eixo); nenhum trabalho de fresagem correu numa máquina, e as saídas do fuso e do aspirador não foram experimentadas. |
@@ -143,7 +143,7 @@ Execute-o com `run.bat` (Windows) ou `./run.sh` (Linux e macOS); ambos compilam 
 
 ## 🧪 Testes
 
-A suite tem 116 testes (`cargo test --workspace`). Verificam o leitor HP-GL, o planeamento de trajetos (passagens, mergulho, corte e elevação), o plano de fresagem do crate do protocolo, os ecrãs clássicos célula a célula e os ecrãs nos oito idiomas. O protocolo que reutiliza (bytes, movimento, barreira de segurança) é testado no EH3D-DRILLPRO. A CI também executa `cargo fmt --check` e `cargo clippy` com os avisos como erros, e `python -I tools/ci_validate.py` verifica o manifesto, as versões, o registo de alterações e os oito README.
+A suite tem 125 testes (`cargo test --workspace`). Verificam o leitor HP-GL, o planeamento de trajetos (passagens, mergulho, corte e elevação), o plano de fresagem do crate do protocolo, os ecrãs clássicos célula a célula e os ecrãs nos oito idiomas. O protocolo que reutiliza (bytes, movimento, barreira de segurança) é testado no EH3D-DRILLPRO. A CI também executa `cargo fmt --check` e `cargo clippy` com os avisos como erros, e `python -I tools/ci_validate.py` verifica o manifesto, as versões, o registo de alterações e os oito README.
 
 ## 🏗️ Compilação e publicação
 
@@ -184,6 +184,7 @@ EH3D-ROUTEPRO/
 ├── Cargo.toml Cargo.lock                        o pacote Rust e as suas dependências fixadas
 ├── rust-toolchain.toml                          a toolchain de Rust fixada
 ├── CHANGELOG.md                                 o que mudou em cada versão
+├── AGENTS.md                                    as regras para quem altera o repositório
 ├── SECURITY.md SUPPORT.md                       como comunicar uma vulnerabilidade e onde perguntar
 └── CONTRIBUTING.md CODE_OF_CONDUCT.md LICENSE   como contribuir, o código de conduta e a licença
 ```
@@ -224,6 +225,11 @@ O README e os textos existem em inglês, espanhol, francês, italiano, alemão, 
 * [Ligação e afinação](https://github.com/JuanenRac/EH3D-DRILLPRO/blob/main/docs/CONNECTION.md): o ficheiro da máquina, as três ligações e cada valor
 * [Os ecrãs clássicos](docs/CLASSIC.md): como os ecrãs do programa de MS-DOS são reproduzidos e verificados
 * [Registo de alterações](CHANGELOG.md)
+* [Âmbito](docs/SCOPE.md): para que serve o programa, o que não fará e o que nunca decide.
+* [Requisitos](docs/REQUIREMENTS.md): o registo das capacidades, o estado de cada uma e o teste que a mostra.
+* [Estado](docs/STATUS.md): o que existe, o que falta e o que continua em aberto.
+* [Ainda não](docs/NOT_YET.md): boas ideias que ficam fora desta versão.
+* [Regras para alterar o repositório](AGENTS.md): as regras para quem altera o repositório.
 
 ## 🤝 Contribuir e comunidade
 

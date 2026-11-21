@@ -17,7 +17,7 @@
 
 ---
 
-**Honesty check - what actually runs today:** a Rust program with an 80x25 text-mode interface that reads HP-GL `.PLT` plot files, the tool table and the machine configuration, plans multi-pass milling paths (rapid move, plunge, cut, lift) and runs them either **against a simulator** (the default) or, when the machine file says so, **on a real machine** through the computer's serial port, a USB serial adapter or the EH3D-NODE-BUNGARD. 116 tests run on a computer. The serial protocol it shares with EH3D-DRILLPRO has been tried on one real Bungard CCD MTC (the reference run of the three axes and the moves of every axis); **a whole routing job has not run on the machine yet**, and the steps per millimetre are only checked against the original's configuration. The screens you get by default are the classic ones of the MS-DOS program, checked cell by cell against the original; `--modern` starts the menu-driven interface instead. They work with the keyboard and the mouse, the window can be maximized (the screen scales from 640x400 up to 1080p and beyond), the configuration and tool table files are edited and saved from the dialogs, and the About button lists the Bungard CCD and CCD/2 machines (MTC and ATC supported). A console version (`routepro-console`) draws the same screens in a terminal, with the keyboard and the mouse and no window system (SSH, a text console, an old PC). The release packages carry the basic configuration, explained line by line, and an `examples` folder from a square to a hundred thousand points. On the ATC models a routing job takes the tools from the rack of the machine file and changes them itself; this follows the plan and the simulator and has not run on a real machine.
+**Honesty check - what actually runs today:** a Rust program with an 80x25 text-mode interface that reads HP-GL `.PLT` plot files, the tool table and the machine configuration, plans multi-pass milling paths (rapid move, plunge, cut, lift) and runs them either **against a simulator** (the default) or, when the machine file says so, **on a real machine** through the computer's serial port, a USB serial adapter or the EH3D-NODE-BUNGARD. 125 tests run on a computer. The serial protocol it shares with EH3D-DRILLPRO has been tried on one real Bungard CCD MTC (the reference run of the three axes and the moves of every axis); **a whole routing job has not run on the machine yet**, and the steps per millimetre are only checked against the original's configuration. The screens you get by default are the classic ones of the MS-DOS program, checked cell by cell against the original; `--modern` starts the menu-driven interface instead. They work with the keyboard and the mouse, the window can be maximized (the screen scales from 640x400 up to 1080p and beyond), the configuration and tool table files are edited and saved from the dialogs, and the About button lists the Bungard CCD and CCD/2 machines (MTC and ATC supported). A console version (`routepro-console`) draws the same screens in a terminal, with the keyboard and the mouse and no window system (SSH, a text console, an old PC). The release packages carry the basic configuration, explained line by line, and an `examples` folder from a square to a hundred thousand points. On the ATC models a routing job takes the tools from the rack of the machine file and changes them itself; this follows the plan and the simulator and has not run on a real machine.
 
 ---
 
@@ -29,7 +29,7 @@
 |---|---|
 | Version | `0.1.8` |
 | Maturity | Scaffolding |
-| Tests | 116 |
+| Tests | 125 |
 | Stack | Rust |
 | On real hardware | Yes, on one Bungard CCD MTC: the reference run and the moves of every axis; a whole job has not run yet. Without a machine file it runs on the simulator |
 
@@ -44,7 +44,7 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Software | 🟡 | A Rust program with an 80x25 text-mode screen reads HP-GL plot files, the tool table and the machine file, plans multi-pass milling paths and runs them against a simulator, or on a real machine when the machine file says so; it needs the folder of EH3D-DRILLPRO next to it. |
-| Tests | 🟡 | 116 tests pass (`cargo test --workspace`): the HP-GL reader, the path planning and the screens in all 37 languages; the protocol is covered by the 410 tests of EH3D-DRILLPRO. |
+| Tests | 🟡 | 125 tests pass (`cargo test --workspace`): the HP-GL reader, the path planning and the screens in all 37 languages; the protocol is covered by the 410 tests of EH3D-DRILLPRO. |
 | HP-GL reader | 🟡 | Only `IN`, `SP`, `PU`, `PD`, `PA` and `PR` are understood; any other command is counted and ignored, never fatal. Tried only with small sample files written for the tests. |
 | Path planning | 🟡 | Each path becomes a rapid move, a plunge, the cut and a lift for every pass, with the depth split evenly and the tool always ending at the surface; checked in tests and on the simulator only. |
 | Real hardware | 🟠 | The serial protocol it shares with EH3D-DRILLPRO has been tried on one Bungard CCD MTC (the reference run and the moves of every axis); no routing job has run on a machine, and the spindle and vacuum outputs are untried. |
@@ -143,7 +143,7 @@ Run it with `run.bat` (Windows) or `./run.sh` (Linux and macOS); both build the 
 
 ## 🧪 Testing
 
-The suite has 116 tests (`cargo test --workspace`). They check the HP-GL reader, the path planning (passes, plunge, cut and lift), the routing plan of the protocol crate, the classic screens cell by cell and the screens in all eight languages. The protocol it reuses (bytes, motion, the safety gate) is tested in EH3D-DRILLPRO. The CI also runs `cargo fmt --check` and `cargo clippy` with warnings as errors, and `python -I tools/ci_validate.py` checks the manifest, the versions, the changelog and the eight READMEs.
+The suite has 125 tests (`cargo test --workspace`). They check the HP-GL reader, the path planning (passes, plunge, cut and lift), the routing plan of the protocol crate, the classic screens cell by cell and the screens in all eight languages. The protocol it reuses (bytes, motion, the safety gate) is tested in EH3D-DRILLPRO. The CI also runs `cargo fmt --check` and `cargo clippy` with warnings as errors, and `python -I tools/ci_validate.py` checks the manifest, the versions, the changelog and the eight READMEs.
 
 ## 🏗️ Build & Release
 
@@ -184,6 +184,7 @@ EH3D-ROUTEPRO/
 ├── Cargo.toml Cargo.lock                        the Rust package and its locked dependencies
 ├── rust-toolchain.toml                          the pinned Rust toolchain
 ├── CHANGELOG.md                                 what changed in each version
+├── AGENTS.md                                    the rules for anyone who changes the repository
 ├── SECURITY.md SUPPORT.md                       how to report a vulnerability and where to ask
 └── CONTRIBUTING.md CODE_OF_CONDUCT.md LICENSE   how to contribute, the code of conduct and the licence
 ```
@@ -224,6 +225,11 @@ README and texts exist in English, Spanish, French, Italian, German, Chinese, Ja
 * [Connection and tuning](https://github.com/JuanenRac/EH3D-DRILLPRO/blob/main/docs/CONNECTION.md): the machine file, the three connections and every value
 * [The classic screens](docs/CLASSIC.md): how the screens of the MS-DOS program are reproduced and checked
 * [Changelog](CHANGELOG.md)
+* [Scope](docs/SCOPE.md): what the program is for, what it will not do and what it never decides.
+* [Requirements](docs/REQUIREMENTS.md): the register of capabilities, the state of each and the test that shows it.
+* [Status](docs/STATUS.md): what exists, what is missing and what is still open.
+* [Not yet](docs/NOT_YET.md): good ideas that are left out of this version.
+* [Rules for changing the repository](AGENTS.md): the rules for anyone who changes the repository.
 
 ## 🤝 Contributing & Community
 
