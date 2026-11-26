@@ -103,6 +103,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          # EH3D-DRILLPRO stays at main until it has a new tag with the code this program uses; pin it then.
           repository: JuanenRac/EH3D-DRILLPRO
           ref: main
           path: EH3D-DRILLPRO
@@ -111,7 +112,7 @@ jobs:
         with:
           persist-credentials: false
           repository: JuanenRac/EH3D-COMMON
-          ref: main
+          ref: v0.3.3
           path: EH3D-COMMON
       - name: Linux libraries of the window
         if: runner.os == 'Linux'
