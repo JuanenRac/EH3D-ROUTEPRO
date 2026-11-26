@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The plan of one layer no longer takes the place of another:** two outline layers with the same name but for the extension (`board.gko` and `board.gm1`) were both kept as `route-board.txt`, so the second silently replaced the first. When two layers would share a name, each is now kept with its whole name (`route+board.gko.txt`). A file name that two layers share is no longer chosen by guess with `--layer`: the path says which.
+- **The screen says when keeping a plan removed a signature** of the project.
+- 3 new tests with invented projects.
+
 ## [0.1.9] - Plans routing from the shared project of the suite
 
 - **The project of the suite (`.eh3d`):** `routepro-plan project info FILE.eh3d` shows the layers of the job (the branch `manufacturing/`, a `.eh3dproj` package) and the plans kept in the project (exit 2 when they are out of date), and `routepro-plan project plan FILE.eh3d [--layer NAME]` plans each outline layer of the job and keeps the plans in the branch `routepro/` only, with a copy of each layer and a reference to the content of the job. The screens open a `.eh3d` file with the first outline layer of its job and `Ctrl+S` keeps its plan; the file list offers `*.EH3D`.
