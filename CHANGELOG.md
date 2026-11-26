@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.1.9] - Plans routing from the shared project of the suite
+
 - **The project of the suite (`.eh3d`):** `routepro-plan project info FILE.eh3d` shows the layers of the job (the branch `manufacturing/`, a `.eh3dproj` package) and the plans kept in the project (exit 2 when they are out of date), and `routepro-plan project plan FILE.eh3d [--layer NAME]` plans each outline layer of the job and keeps the plans in the branch `routepro/` only, with a copy of each layer and a reference to the content of the job. The screens open a `.eh3d` file with the first outline layer of its job and `Ctrl+S` keeps its plan; the file list offers `*.EH3D`.
 - The crate `eh3d-project` of EH3D-COMMON is now used.
 - **Behaviour tests at the exact edge:** `tests/behaviour.rs` and `protocol/tests/route_behaviour.rs` add 46 deterministic tests without changing the behaviour: each rule of the settings of a tool tested on both sides of its limit (passes, depth, feeds, approach, which pen is named first), the cautious tool, the order and the number of the dialogs of a job, the marks of the paths, the paths that are chosen, grouped by pen and left out, jobs of seeded paths that run to the end on the simulated machine, the texts of the eight languages (places for numbers, hot keys, no repeats) and, in the protocol crate, the plans of the edge cases (no points, one point, a piece longer than the path, a flat table and a raised one).
