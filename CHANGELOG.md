@@ -4,6 +4,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Tool changer (safety):** after taking a cutter from the bar, the head now crosses to the work before the tool goes down. Checked on the planned steps; not tried on a machine.
 ## [0.2.0] - Asks before a signature is removed and never replaces one result with another
 
 - **The screens ask before they remove a signature:** `Ctrl+S` on a project that is signed, or whose branch `routepro/` is, shows what would be removed and writes nothing until it is agreed (`Enter` and `Esc` leave the project as it is), in the window and in the terminal, in both looks. The classic screen of the question is the one of EH3D-DRILLPRO, so EH3D-DRILLPRO is taken at the commit that has it.
