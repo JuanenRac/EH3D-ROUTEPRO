@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The screens ask before they remove a signature:** `Ctrl+S` on a project that is signed, or whose branch `routepro/` is, shows what would be removed and writes nothing until it is agreed (`Enter` and `Esc` leave the project as it is), in the window and in the terminal, in both looks. The classic screen of the question is the one of EH3D-DRILLPRO, so EH3D-DRILLPRO is taken at the commit that has it.
+- 1 new test.
 - **The plan of one layer no longer takes the place of another:** two outline layers with the same name but for the extension (`board.gko` and `board.gm1`) were both kept as `route-board.txt`, so the second silently replaced the first. When two layers would share a name, each is now kept with its whole name (`route+board.gko.txt`). A file name that two layers share is no longer chosen by guess with `--layer`: the path says which.
 - **The screen says when keeping a plan removed a signature** of the project.
 - 3 new tests with invented projects.

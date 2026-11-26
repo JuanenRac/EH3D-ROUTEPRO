@@ -6,7 +6,7 @@ EH3D-ROUTEPRO works on a computer and on the simulator: the readers, the planner
 
 ## Capabilities
 
-The official state of each capability is in `REQUIREMENTS.md`. The register has 46 requirements: 36 implemented, 5 prototype, 5 planned and 0 validated. By progress: 36 done, 5 partial, 1 pending and 4 blocked. This page never states a state that `REQUIREMENTS.md` does not.
+The official state of each capability is in `REQUIREMENTS.md`. The register has 47 requirements: 37 implemented, 5 prototype, 5 planned and 0 validated. By progress: 37 done, 5 partial, 1 pending and 4 blocked. This page never states a state that `REQUIREMENTS.md` does not.
 
 ## Open questions
 

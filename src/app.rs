@@ -26,6 +26,7 @@ use crate::texts::{tr, Text};
 use crate::tools::{self, Tool};
 use eh3d_bungard_formats::limits::{LimitVerdict, ReaderLimits};
 use eh3d_project::manufacturing::JobFile;
+use eh3d_project::suitetext::S;
 
 #[derive(Debug, Clone, PartialEq)]
 enum Mode {
@@ -117,6 +118,8 @@ pub struct App {
     summary: Option<Vec<String>>,
     summary_ok: bool,
     pub quit: bool,
+    /// What a person is being asked to agree to before the plan is written into the project; `None` while nothing is asked.
+    asking: Option<Vec<String>>,
 }
 
 const MENU_BG: u8 = LIGHT_GRAY;
@@ -170,6 +173,7 @@ impl App {
             summary: None,
             summary_ok: false,
             quit: false,
+            asking: None,
         };
         app.dir = config::work_dir(data_dir, app.config.as_ref());
         app.refresh_entries();
@@ -243,6 +247,81 @@ impl App {
         }
     }
 
+    /// What keeping the plan would take away from the project (a signature), in the language of the screen; empty when there is nothing to ask. A project that cannot be read asks
+    /// nothing: the write says why it cannot be done.
+    pub fn signature_question(&self) -> Vec<String> {
+        self.project
+            .as_ref()
+            .and_then(|job| eh3dfile::signature_warnings(&job.path, self.lang.code()).ok())
+            .unwrap_or_default()
+    }
+
+    /// Keeps the plan as [`App::keep_plan`] does, but asks first when writing would remove a signature of the project: nothing is written unless the person agrees.
+    pub fn ask_keep_plan(&mut self) {
+        let asked = self.signature_question();
+        if asked.is_empty() {
+            self.keep_plan();
+        } else {
+            self.asking = Some(asked);
+        }
+    }
+
+    /// Whether the screen is asking to agree to a write into the project.
+    pub fn is_asking(&self) -> bool {
+        self.asking.is_some()
+    }
+
+    fn answer_asking(&mut self, write: bool) {
+        if self.asking.take().is_some() && write {
+            self.keep_plan();
+        }
+    }
+
+    /// The question window: where it is, how wide it is and the columns of its two buttons.
+    fn asking_layout(&self, lines: &[String]) -> (usize, usize, usize, usize, usize) {
+        let yes = format!("[ {} ]", tr(self.lang, Text::BtnYes));
+        let no = format!("[ {} ]", tr(self.lang, Text::BtnNo));
+        let buttons = str_width(&yes) + 3 + str_width(&no);
+        let w = (lines.iter().map(|l| str_width(l)).max().unwrap_or(0) + 4)
+            .max(buttons + 4)
+            .max(str_width(S::ConfirmTitle.tr(self.lang.code())) + 6)
+            .min(COLS - 2);
+        let h = lines.len() + 5;
+        let x = (COLS - w) / 2;
+        let at = x + (w.saturating_sub(buttons)) / 2;
+        (x, 8, w, h, at)
+    }
+
+    fn render_asking(&self, s: &mut Screen, lines: &[String]) {
+        let (x, y, w, h, at) = self.asking_layout(lines);
+        s.window(x, y, w, h, S::ConfirmTitle.tr(self.lang.code()), WHITE, RED);
+        for (i, line) in lines.iter().enumerate() {
+            s.text(x + 2, y + 1 + i, line, WHITE, RED);
+        }
+        let yes = format!("[ {} ]", tr(self.lang, Text::BtnYes));
+        let no = format!("[ {} ]", tr(self.lang, Text::BtnNo));
+        s.text(at, y + h - 2, &yes, YELLOW, RED);
+        s.text(at + str_width(&yes) + 3, y + h - 2, &no, YELLOW, RED);
+    }
+
+    /// A click while the screen asks: one of the two buttons answers, anything else is left alone.
+    fn click_asking(&mut self, col: usize, row: usize) {
+        let Some(lines) = &self.asking else {
+            return;
+        };
+        let (_, y, _, h, at) = self.asking_layout(lines);
+        let yes = str_width(&format!("[ {} ]", tr(self.lang, Text::BtnYes)));
+        let no = str_width(&format!("[ {} ]", tr(self.lang, Text::BtnNo)));
+        if row != y + h - 2 {
+            return;
+        }
+        if (at..at + yes).contains(&col) {
+            self.answer_asking(true);
+        } else if (at + yes + 3..at + yes + 3 + no).contains(&col) {
+            self.answer_asking(false);
+        }
+    }
+
     /// Keeps the plan of the layer of the project that is loaded in the branch `routepro/` of the project, and says on the screen how it went. Nothing happens without a project.
     pub fn keep_plan(&mut self) {
         let Some(job) = self.project.clone() else {
@@ -274,6 +353,7 @@ impl App {
 
     /// Reads the plot, the drawing or the outline in `bytes`, named by `path`, and says whether it was taken.
     fn load_bytes(&mut self, path: &Path, bytes: &[u8]) -> bool {
+        self.asking = None;
         let text: String = bytes.iter().map(|&c| c as char).collect();
         let segments = self
             .settings
@@ -775,6 +855,9 @@ impl App {
     }
 
     pub fn click(&mut self, col: usize, row: usize) {
+        if self.asking.is_some() {
+            return self.click_asking(col, row);
+        }
         if row != 0 {
             return;
         }
@@ -789,6 +872,17 @@ impl App {
     }
 
     pub fn handle(&mut self, input: Input) {
+        if self.asking.is_some() {
+            // a signature is removed only by a clear yes: Enter and Esc leave the project as it is
+            match input {
+                Input::Char('y' | 'Y' | 's' | 'S' | 'j' | 'J' | 'o' | 'O') => {
+                    self.answer_asking(true)
+                }
+                Input::Enter | Input::Esc | Input::Char(_) => self.answer_asking(false),
+                _ => {}
+            }
+            return;
+        }
         if let Input::Alt(c) = input {
             let c = self.lang.hot_key(c);
             let hit = self
@@ -920,6 +1014,9 @@ impl App {
             Mode::Running => self.render_run(s),
             Mode::ConfirmQuit => self.render_quit(s),
             Mode::ConfirmStart => self.render_summary(s),
+        }
+        if let Some(lines) = &self.asking {
+            self.render_asking(s, lines);
         }
         s.fill(0, ROWS - 1, COLS, 1, ' ', BLACK, MENU_BG);
         s.text(1, ROWS - 1, tr(self.lang, Text::StatusMain), BLACK, MENU_BG);
@@ -1344,8 +1441,8 @@ impl App {
 
 impl TextApp for App {
     fn save_project(&mut self) {
-        if matches!(self.mode, Mode::Main | Mode::Paths) {
-            self.keep_plan();
+        if matches!(self.mode, Mode::Main | Mode::Paths) && self.asking.is_none() {
+            self.ask_keep_plan();
         }
     }
     fn handle(&mut self, input: Input) {
@@ -1567,6 +1664,10 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn save_to_project(&mut self) {
         self.keep_plan();
+    }
+
+    fn project_question(&mut self) -> Vec<String> {
+        self.signature_question()
     }
 
     fn file_loaded(&self) -> bool {
