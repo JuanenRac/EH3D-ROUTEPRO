@@ -21,6 +21,8 @@ eh3d-bungard-formats = { version = ">=0.0.1", path = "../EH3D-COMMON/crates/form
 eh3d-levelling = { version = ">=0.0.1", path = "../EH3D-COMMON/crates/levelling" }
 eh3d-summary = { version = ">=0.0.1", path = "../EH3D-COMMON/crates/summary" }
 serde_json = "1"
+# the `.eh3d` project of the suite, one file with a branch for each program: this program writes only `routepro/`
+eh3d-project = { version = ">=0.0.1", path = "../EH3D-COMMON/crates/project" }
 eh3d-routepro-protocol = { path = "protocol" }
 eh3d-drillpro = { version = ">=0.1.4", path = "../EH3D-DRILLPRO" }
 eframe = { version = "0.37.0", default-features = false, features = ["glow", "default_fonts", "clipboard"], optional = true }
@@ -42,6 +44,8 @@ required-features = ["console"]
 [dev-dependencies]
 zip = { version = "9", default-features = false, features = ["deflate-flate2"] }
 flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
+# the tests make their own project files
+tempfile = "3"
 
 [profile.dev]
 # a lighter debug build: the file and line of a panic stay, the full debug symbols (the bulk of the target folder) do not
