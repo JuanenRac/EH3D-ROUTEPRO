@@ -10,11 +10,8 @@ use eh3d_project::appbranch::BranchKit;
 use eh3d_project::manufacturing::{self as suite, JobFile};
 
 /// The branch of this program.
-pub const KIT: BranchKit<'static> = suite::kit(
-    "routepro",
-    "routepro.json",
-    env!("CARGO_PKG_VERSION"),
-);
+pub const KIT: BranchKit<'static> =
+    suite::kit("routepro", "routepro.json", env!("CARGO_PKG_VERSION"));
 
 /// The outline layers of the job of a project; an error when the job has none.
 pub fn outline_layers(path: &Path) -> Result<Vec<JobFile>, String> {

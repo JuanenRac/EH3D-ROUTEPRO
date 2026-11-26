@@ -73,14 +73,6 @@ The check is `tests/reqs.rs`: it reads this table, finds each test and fails whe
 | RPRO-037 | The chord angle is edited and saved to the real file, and zero is refused. | implemented | done | host-test | `classic_interaction::a_zero_chord_angle_is_refused` | - |
 | RPRO-038 | The basic configuration is rewritten without losing its explanations. | implemented | done | host-test | `release_files::the_basic_configuration_is_rewritten_without_losing_its_explanations` | - |
 
-## The project of the suite
-
-| ID | Requirement | State | Progress | Evidence | Test | Limits |
-|---|---|---|---|---|---|---|
-| RPRO-044 | The outline layers are read from the job of a `.eh3d` project and each plan is kept in the branch `routepro/` only. | implemented | done | host-test | `project::plan_keeps_a_plan_for_each_outline_layer_in_its_own_branch_only` | Invented files; no job of a real board. The plan is a text, not a file for the machine. |
-| RPRO-045 | A job that changes makes the plans out of date, and a refusal writes nothing. | implemented | done | host-test | `project::a_job_that_changes_makes_the_plans_out_of_date_and_a_refusal_writes_nothing` | - |
-| RPRO-046 | The screens open the first outline layer of a project, say when its plans are out of date and keep its plan with `Ctrl+S`. | prototype | partial | host-test | `project::the_screens_open_the_first_outline_layer_and_keep_its_plan` | Tested without a screen; only the first outline layer of the job is opened; no person has tried it. |
-
 ## Not written yet
 
 | ID | Requirement | State | Progress | Evidence | Test | Limits |
@@ -90,3 +82,11 @@ The check is `tests/reqs.rs`: it reads this table, finds each test and fails whe
 | RPRO-041 | The steps per millimetre are measured on a real machine and match the machine file. | planned | blocked | none | `planned:real_steps::the_steps_per_millimetre_match_a_measured_machine` | Needs a machine and a measure. |
 | RPRO-042 | The job goes through a running server to a machine. | planned | blocked | none | `planned:real_server::a_job_goes_through_a_running_server_to_a_machine` | Needs the server and a machine. |
 | RPRO-043 | The cut is offset by the radius of the cutter. | planned | pending | none | `planned:offset::the_cut_is_offset_by_the_radius_of_the_cutter` | Not written; the plan follows the path as drawn. |
+
+## The project of the suite
+
+| ID | Requirement | State | Progress | Evidence | Test | Limits |
+|---|---|---|---|---|---|---|
+| RPRO-044 | The outline layers are read from the job of a `.eh3d` project and each plan is kept in the branch `routepro/` only. | implemented | done | host-test | `project::plan_keeps_a_plan_for_each_outline_layer_in_its_own_branch_only` | Invented files; no job of a real board. The plan is a text, not a file for the machine. |
+| RPRO-045 | A job that changes makes the plans out of date, and a refusal writes nothing. | implemented | done | host-test | `project::a_job_that_changes_makes_the_plans_out_of_date_and_a_refusal_writes_nothing` | - |
+| RPRO-046 | The screens open the first outline layer of a project, say when its plans are out of date and keep its plan with `Ctrl+S`. | prototype | partial | host-test | `project::the_screens_open_the_first_outline_layer_and_keep_its_plan` | Tested without a screen; only the first outline layer of the job is opened; no person has tried it. |

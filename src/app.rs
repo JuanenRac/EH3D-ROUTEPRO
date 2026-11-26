@@ -314,9 +314,7 @@ impl App {
                         Err("not the outline of a board".to_string())
                     }
                 }),
-            _ => {
-                hpgl::parse_limited(&text, segments, &limits).map_err(|e| refusal(e, lang))
-            }
+            _ => hpgl::parse_limited(&text, segments, &limits).map_err(|e| refusal(e, lang)),
         };
         match read {
             Ok((p, verdict)) => {
