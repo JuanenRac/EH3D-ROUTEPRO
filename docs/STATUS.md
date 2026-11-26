@@ -15,7 +15,7 @@ The official state of each capability is in `REQUIREMENTS.md`. The register has 
 
 ## What it needs from other repositories
 
-* `EH3D-DRILLPRO`: the protocol, the machine file and the screens, as a sibling folder at the version named in the workflows (main until it has a new tag with the code this program uses).
+* `EH3D-DRILLPRO`: the protocol, the machine file and the screens, as a sibling folder at the version named in the workflows (the tag v0.2.2).
 * A Bungard CCD machine and a person at it, for any routing job that is not simulated.
 * `EH3D-SERVER`, for the connection `server`; that path has only been exercised against the simulator.
 
