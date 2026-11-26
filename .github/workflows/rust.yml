@@ -48,7 +48,8 @@ jobs:
         with:
           persist-credentials: false
           repository: JuanenRac/EH3D-DRILLPRO
-          ref: v0.2.2
+          # the commit of EH3D-DRILLPRO whose classic screen asks before a signature is removed
+          ref: 3caa48389b1b5e3de283cfc10c79a31c45a014f9
           path: EH3D-DRILLPRO
       - name: Check out the sibling EH3D-COMMON (a path dependency)
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
