@@ -4,6 +4,7 @@ use std::path::{Path, PathBuf};
 
 use eh3d_drillpro::app::Input;
 use eh3d_drillpro::config::{self, Config};
+use eh3d_drillpro::eh3dfile::ProjectJob;
 use eh3d_drillpro::i18n::{str_width, Lang};
 use eh3d_drillpro::input_guard::{self, InputKind};
 use eh3d_drillpro::job::Geometry;
@@ -14,6 +15,7 @@ use eh3d_drillpro::protocol::job::{Item, JobMachine, Pause};
 use eh3d_drillpro::protocol::{connect, Simulator};
 use eh3d_drillpro::runner::{RealRun, RunState};
 
+use crate::eh3dfile;
 use crate::{dxf, gerber};
 use eh3d_drillpro::screen::*;
 use eh3d_drillpro::textapp::TextApp;
@@ -23,6 +25,7 @@ use crate::job::plan_route_job_atc_marked;
 use crate::texts::{tr, Text};
 use crate::tools::{self, Tool};
 use eh3d_bungard_formats::limits::{LimitVerdict, ReaderLimits};
+use eh3d_project::manufacturing::JobFile;
 
 #[derive(Debug, Clone, PartialEq)]
 enum Mode {
@@ -85,6 +88,8 @@ impl Run {
 
 pub struct App {
     pub lang: Lang,
+    /// The layer of a project that is loaded, when the job came from an `.eh3d` file.
+    project: Option<ProjectJob>,
     teach: Option<eh3d_drillpro::runner::TeachSession>,
     mode: Mode,
     dir: PathBuf,
@@ -141,6 +146,7 @@ impl App {
         let geometry = eh3d_drillpro::job::geometry_from(settings.as_ref());
         let mut app = App {
             lang,
+            project: None,
             mode: Mode::Main,
             dir: data_dir.to_path_buf(),
             entries: Vec::new(),
@@ -193,90 +199,148 @@ impl App {
         machine
     }
 
+    /// Loads a plotter file, a drawing or a board outline, or the first outline layer of the job of an `.eh3d` project. What was loaded stays when the new one cannot be read.
     pub fn load_file(&mut self, path: &Path) {
+        if eh3d_project::manufacturing::is_project(path) {
+            self.load_project(path);
+            return;
+        }
         match std::fs::read(path) {
-            Ok(b) => {
-                let text: String = b.iter().map(|&c| c as char).collect();
-                let segments = self
-                    .settings
-                    .as_ref()
-                    .map_or(hpgl::SEGMENTS_PER_CIRCLE, |s| {
-                        hpgl::segments_for_chord(s.chord_angle)
-                    });
-                let name = path
-                    .file_name()
-                    .map(|n| n.to_string_lossy().to_string())
-                    .unwrap_or_default();
-                // a file that is far too big, not text or with absurd numbers is turned down with its code and line before the reader sees it
-                let kind = match path
-                    .extension()
-                    .map(|e| e.to_string_lossy().to_ascii_lowercase())
-                    .as_deref()
-                {
-                    Some(dxf::EXTENSION) => InputKind::Dxf,
-                    Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => InputKind::Gerber,
-                    _ => InputKind::Hpgl,
-                };
-                if let Err(problem) = input_guard::check(kind, &text) {
-                    self.error = Some(format!("{name}: {problem}"));
-                    return;
-                }
-                // the drawing of a board (DXF) and its outline (Gerber) are cut as a plotter file would be; every reader first checks the size of the file against
-                // the limits of reader_limits.cfg (a file past a hard limit is refused, one past a warning limit is read and said)
-                let limits = ReaderLimits::default();
-                let refusal = |e: eh3d_bungard_formats::error::FormatError, lang: Lang| {
-                    eh3d_drillpro::summary::refusal_message(&e, lang)
-                };
-                let lang = self.lang;
-                let read: Result<(Plot, LimitVerdict), String> = match path
-                    .extension()
-                    .map(|e| e.to_string_lossy().to_ascii_lowercase())
-                    .as_deref()
-                {
-                    Some(dxf::EXTENSION) => limits
-                        .guard(&text)
-                        .map_err(|e| refusal(e, lang))
-                        .and_then(|v| dxf::outline(&text, segments).map(|p| (p, v))),
-                    Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => limits
-                        .guard(&text)
-                        .map_err(|e| refusal(e, lang))
-                        .and_then(|v| {
-                            if gerber::looks_like_outline(&name, &text) {
-                                gerber::outline(&text, segments).map(|p| (p, v))
-                            } else {
-                                Err("not the outline of a board".to_string())
-                            }
-                        }),
-                    _ => {
-                        hpgl::parse_limited(&text, segments, &limits).map_err(|e| refusal(e, lang))
-                    }
-                };
-                match read {
-                    Ok((p, verdict)) => {
-                        // what looks wrong in the work is said as soon as it is loaded (a unit that is probably wrong, a work far from the corner)
-                        let looks_wrong = eh3d_drillpro::summary::load_warning(
-                            p.paths.iter().flat_map(|q| {
-                                q.points
-                                    .iter()
-                                    .map(|pt| (pt.0 as f64 * UNIT_MM, pt.1 as f64 * UNIT_MM))
-                            }),
-                            p.paths.len(),
-                            self.settings.as_ref(),
-                            &self.connection.tuning,
-                            self.lang,
-                        );
-                        self.warning = eh3d_drillpro::summary::join_warnings(
-                            eh3d_drillpro::summary::size_warning(verdict, self.lang),
-                            looks_wrong,
-                        );
-                        self.plot = Some((path.to_path_buf(), p));
-                        self.error = None;
-                    }
-                    Err(e) => self.error = Some(format!("{name}: {e}")),
+            Ok(bytes) => {
+                // a file of its own takes the place of the layer of a project
+                if self.load_bytes(path, &bytes) {
+                    self.project = None;
                 }
             }
             Err(e) => self.error = Some(format!("{}: {e}", tr(self.lang, Text::ErrRead))),
         }
+    }
+
+    fn load_project(&mut self, path: &Path) {
+        match ProjectJob::open(&eh3dfile::KIT, path, "outline") {
+            Ok(job) => {
+                // the plan names the layer, and the dialogs stay in the folder of the project
+                let shown = path.with_file_name(job.layer.file_name());
+                if self.load_bytes(&shown, &job.layer.bytes) {
+                    self.warning = eh3d_drillpro::summary::join_warnings(
+                        Some(job.notice(self.lang.code())),
+                        self.warning.take(),
+                    );
+                    self.project = Some(job);
+                }
+            }
+            Err(why) => self.error = Some(why),
+        }
+    }
+
+    /// Loads one outline layer of the job of a project, for a plan; the reason when it is not taken.
+    pub fn load_layer(&mut self, project: &Path, layer: &JobFile) -> Result<(), String> {
+        if self.load_bytes(&project.with_file_name(layer.file_name()), &layer.bytes) {
+            Ok(())
+        } else {
+            let why = self.error.clone().unwrap_or_default();
+            Err(format!("{}: {why}", layer.rel))
+        }
+    }
+
+    /// Keeps the plan of the layer of the project that is loaded in the branch `routepro/` of the project, and says on the screen how it went. Nothing happens without a project.
+    pub fn keep_plan(&mut self) {
+        let Some(job) = self.project.clone() else {
+            return;
+        };
+        let saved = self
+            .plan_report()
+            .and_then(|lines| eh3dfile::save_plan(&job.path, &job.layer, &lines));
+        match saved {
+            Ok(_) => {
+                let name = eh3dfile::result_name(&job.layer);
+                self.error = None;
+                self.warning = Some(ProjectJob::saved_notice(&name, self.lang.code()));
+            }
+            Err(why) => self.error = Some(why),
+        }
+    }
+
+    /// Reads the plot, the drawing or the outline in `bytes`, named by `path`, and says whether it was taken.
+    fn load_bytes(&mut self, path: &Path, bytes: &[u8]) -> bool {
+        let text: String = bytes.iter().map(|&c| c as char).collect();
+        let segments = self
+            .settings
+            .as_ref()
+            .map_or(hpgl::SEGMENTS_PER_CIRCLE, |s| {
+                hpgl::segments_for_chord(s.chord_angle)
+            });
+        let name = path
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_default();
+        // a file that is far too big, not text or with absurd numbers is turned down with its code and line before the reader sees it
+        let kind = match path
+            .extension()
+            .map(|e| e.to_string_lossy().to_ascii_lowercase())
+            .as_deref()
+        {
+            Some(dxf::EXTENSION) => InputKind::Dxf,
+            Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => InputKind::Gerber,
+            _ => InputKind::Hpgl,
+        };
+        if let Err(problem) = input_guard::check(kind, &text) {
+            self.error = Some(format!("{name}: {problem}"));
+            return false;
+        }
+        // the drawing of a board (DXF) and its outline (Gerber) are cut as a plotter file would be; every reader first checks the size of the file against
+        // the limits of reader_limits.cfg (a file past a hard limit is refused, one past a warning limit is read and said)
+        let limits = ReaderLimits::default();
+        let refusal = |e: eh3d_bungard_formats::error::FormatError, lang: Lang| {
+            eh3d_drillpro::summary::refusal_message(&e, lang)
+        };
+        let lang = self.lang;
+        let read: Result<(Plot, LimitVerdict), String> = match path
+            .extension()
+            .map(|e| e.to_string_lossy().to_ascii_lowercase())
+            .as_deref()
+        {
+            Some(dxf::EXTENSION) => limits
+                .guard(&text)
+                .map_err(|e| refusal(e, lang))
+                .and_then(|v| dxf::outline(&text, segments).map(|p| (p, v))),
+            Some(e) if gerber::OUTLINE_EXTENSIONS.contains(&e) => limits
+                .guard(&text)
+                .map_err(|e| refusal(e, lang))
+                .and_then(|v| {
+                    if gerber::looks_like_outline(&name, &text) {
+                        gerber::outline(&text, segments).map(|p| (p, v))
+                    } else {
+                        Err("not the outline of a board".to_string())
+                    }
+                }),
+            _ => hpgl::parse_limited(&text, segments, &limits).map_err(|e| refusal(e, lang)),
+        };
+        match read {
+            Ok((p, verdict)) => {
+                // what looks wrong in the work is said as soon as it is loaded (a unit that is probably wrong, a work far from the corner)
+                let looks_wrong = eh3d_drillpro::summary::load_warning(
+                    p.paths.iter().flat_map(|q| {
+                        q.points
+                            .iter()
+                            .map(|pt| (pt.0 as f64 * UNIT_MM, pt.1 as f64 * UNIT_MM))
+                    }),
+                    p.paths.len(),
+                    self.settings.as_ref(),
+                    &self.connection.tuning,
+                    self.lang,
+                );
+                self.warning = eh3d_drillpro::summary::join_warnings(
+                    eh3d_drillpro::summary::size_warning(verdict, self.lang),
+                    looks_wrong,
+                );
+                self.plot = Some((path.to_path_buf(), p));
+                self.error = None;
+                return true;
+            }
+            Err(e) => self.error = Some(format!("{name}: {e}")),
+        }
+        false
     }
 
     /// The plan of the loaded plot, made on paper with no machine and no connection: the same paths, tools and rack that a start would plan, the exact steps followed against the
@@ -356,7 +420,8 @@ impl App {
                 .filter_map(|e| {
                     let name = e.file_name().to_string_lossy().into_owned();
                     let dir = e.path().is_dir();
-                    (dir || name.to_ascii_lowercase().ends_with(".plt"))
+                    let lower = name.to_ascii_lowercase();
+                    (dir || lower.ends_with(".plt") || lower.ends_with(".eh3d"))
                         .then_some(Entry { name, dir })
                 })
                 .collect();
@@ -822,6 +887,9 @@ impl App {
             (None, None) => tr(self.lang, Text::NoFile).to_string(),
         };
         s.text(2, 5, &msg, WHITE, BLUE);
+        if let (Some(_), Some(said), None) = (&self.project, &self.warning, &self.error) {
+            s.text(2, 6, said, YELLOW, BLUE);
+        }
         if self.connection.is_real() {
             // A connection other than demo: the job moves the real machine. Say so, in red, with where it goes.
             let line = tr(self.lang, Text::RealMachine).replace("{}", &self.connection.describe());
@@ -1264,6 +1332,11 @@ impl App {
 }
 
 impl TextApp for App {
+    fn save_project(&mut self) {
+        if matches!(self.mode, Mode::Main | Mode::Paths) {
+            self.keep_plan();
+        }
+    }
     fn handle(&mut self, input: Input) {
         App::handle(self, input)
     }
@@ -1479,6 +1552,10 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn load(&mut self, path: &Path) {
         self.load_file(path);
+    }
+
+    fn save_to_project(&mut self) {
+        self.keep_plan();
     }
 
     fn file_loaded(&self) -> bool {

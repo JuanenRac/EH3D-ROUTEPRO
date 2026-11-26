@@ -2,7 +2,7 @@
 
 This register is the single source of the state of each capability: `STATUS.md` and the README files cite it and never state a state that it does not. A state is one of `planned`, `prototype`, `implemented` and `validated`. `validated` means that a person has run the capability on a real machine and the evidence of the manifest says `bench` or `field`; nothing here is validated, because a whole routing job has never run on a machine; only the serial protocol it shares with the drilling program has moved a real Bungard machine, and that evidence belongs to that program.
 
-The register has 43 requirements: 34 implemented, 4 prototype, 5 planned and 0 validated. By progress: 34 done, 4 partial, 1 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
+The register has 46 requirements: 36 implemented, 5 prototype, 5 planned and 0 validated. By progress: 36 done, 5 partial, 1 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
 
 ## How to read the register
 
@@ -82,3 +82,11 @@ The check is `tests/reqs.rs`: it reads this table, finds each test and fails whe
 | RPRO-041 | The steps per millimetre are measured on a real machine and match the machine file. | planned | blocked | none | `planned:real_steps::the_steps_per_millimetre_match_a_measured_machine` | Needs a machine and a measure. |
 | RPRO-042 | The job goes through a running server to a machine. | planned | blocked | none | `planned:real_server::a_job_goes_through_a_running_server_to_a_machine` | Needs the server and a machine. |
 | RPRO-043 | The cut is offset by the radius of the cutter. | planned | pending | none | `planned:offset::the_cut_is_offset_by_the_radius_of_the_cutter` | Not written; the plan follows the path as drawn. |
+
+## The project of the suite
+
+| ID | Requirement | State | Progress | Evidence | Test | Limits |
+|---|---|---|---|---|---|---|
+| RPRO-044 | The outline layers are read from the job of a `.eh3d` project and each plan is kept in the branch `routepro/` only. | implemented | done | host-test | `project::plan_keeps_a_plan_for_each_outline_layer_in_its_own_branch_only` | Invented files; no job of a real board. The plan is a text, not a file for the machine. |
+| RPRO-045 | A job that changes makes the plans out of date, and a refusal writes nothing. | implemented | done | host-test | `project::a_job_that_changes_makes_the_plans_out_of_date_and_a_refusal_writes_nothing` | - |
+| RPRO-046 | The screens open the first outline layer of a project, say when its plans are out of date and keep its plan with `Ctrl+S`. | prototype | partial | host-test | `project::the_screens_open_the_first_outline_layer_and_keep_its_plan` | Tested without a screen; only the first outline layer of the job is opened; no person has tried it. |
