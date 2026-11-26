@@ -195,3 +195,40 @@ fn a_routing_job_that_follows_a_drilling_job_takes_the_chuck_from_the_place_of_t
     let got = ends(&items, &marks);
     assert!((got[0].0 - 12.5).abs() < 0.2 && (got[0].1 - 12.5).abs() < 0.2);
 }
+
+#[test]
+fn after_a_change_of_tool_the_head_crosses_from_the_bar_before_the_tool_goes_down() {
+    use eh3d_drillpro::protocol::bits::ZDir;
+    let g = machine().geometry;
+    let (items, _) = plan(&rack());
+    // the bar of the tools stands at X 540 mm and the work ends well before 400 mm
+    let (mut x, mut z, mut at_bar, mut crossed_low) = (0i32, 0i32, false, 0usize);
+    for b in eh3d_drillpro::protocol::job::flatten_bytes(&items) {
+        if b & 0x80 != 0 {
+            continue;
+        }
+        match ZDir::of_step_byte(b) {
+            Some(ZDir::Down) => z += 1,
+            Some(ZDir::Up) => z = (z - 1).max(0),
+            None => {}
+        }
+        if b & 0x01 != 0 {
+            if b & 0x02 != 0 {
+                x += 1;
+            } else if x > 0 || b & 0x40 != 0 {
+                x -= 1;
+            }
+            if x > g.x_steps(400.0) {
+                at_bar = true;
+                if z > 0 {
+                    crossed_low += 1;
+                }
+            }
+        }
+    }
+    assert!(at_bar, "the plan goes to the bar");
+    assert_eq!(
+        crossed_low, 0,
+        "steps along X made with the tool down near the bar"
+    );
+}

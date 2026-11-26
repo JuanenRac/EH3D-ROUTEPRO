@@ -191,7 +191,10 @@ pub fn plan_route_job_atc_marked(
             }
             first_tool = false;
             b.spindle_on(tool.spindle_rpm);
-            b.z_to(travel_steps);
+            // from the bar the head crosses to the work first, with the tool still up
+            if !at_bar {
+                b.z_to(travel_steps);
+            }
             current = Some(path.pen);
         }
         let moved = Polyline {
@@ -209,6 +212,7 @@ pub fn plan_route_job_atc_marked(
                 g.x_steps(start.0 as f64 * UNIT_MM),
                 g.y_steps(start.1 as f64 * UNIT_MM),
             ));
+            b.z_to(travel_steps);
             at = start;
         }
         let (steps, end) =
