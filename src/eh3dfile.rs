@@ -8,10 +8,21 @@ use std::path::Path;
 use eh3d_drillpro::eh3dfile::plan_bytes;
 use eh3d_project::appbranch::BranchKit;
 use eh3d_project::manufacturing::{self as suite, JobFile};
+use eh3d_project::suiteview;
 
 /// The branch of this program.
 pub const KIT: BranchKit<'static> =
     suite::kit("routepro", "routepro.json", env!("CARGO_PKG_VERSION"));
+
+/// What keeping a plan in the project at `path` would take away (its signature, or the one of the branch of this program), in the language of a code such as `es`: the person has to
+/// agree to it before anything is written. Empty when there is nothing to ask.
+pub fn signature_warnings(path: &Path, code: &str) -> Result<Vec<String>, String> {
+    let own = KIT.branch;
+    let seen = suiteview::view(path, own)?.own_hash;
+    // the project as it is now, so that only what is said about its signatures is left to say
+    let said = suiteview::warnings(path, Some(path), seen.as_deref(), own)?;
+    Ok(said.iter().map(|w| w.text(code)).collect())
+}
 
 /// The outline layers of the job of a project; an error when the job has none.
 pub fn outline_layers(path: &Path) -> Result<Vec<JobFile>, String> {

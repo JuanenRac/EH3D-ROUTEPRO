@@ -2,7 +2,7 @@
 
 This register is the single source of the state of each capability: `STATUS.md` and the README files cite it and never state a state that it does not. A state is one of `planned`, `prototype`, `implemented` and `validated`. `validated` means that a person has run the capability on a real machine and the evidence of the manifest says `bench` or `field`; nothing here is validated, because a whole routing job has never run on a machine; only the serial protocol it shares with the drilling program has moved a real Bungard machine, and that evidence belongs to that program.
 
-The register has 46 requirements: 36 implemented, 5 prototype, 5 planned and 0 validated. By progress: 36 done, 5 partial, 1 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
+The register has 47 requirements: 37 implemented, 5 prototype, 5 planned and 0 validated. By progress: 37 done, 5 partial, 1 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
 
 ## How to read the register
 
@@ -90,3 +90,4 @@ The check is `tests/reqs.rs`: it reads this table, finds each test and fails whe
 | RPRO-044 | The outline layers are read from the job of a `.eh3d` project and each plan is kept in the branch `routepro/` only. | implemented | done | host-test | `project::plan_keeps_a_plan_for_each_outline_layer_in_its_own_branch_only` | Invented files; no job of a real board. The plan is a text, not a file for the machine. |
 | RPRO-045 | A job that changes makes the plans out of date, and a refusal writes nothing. | implemented | done | host-test | `project::a_job_that_changes_makes_the_plans_out_of_date_and_a_refusal_writes_nothing` | - |
 | RPRO-046 | The screens open the first outline layer of a project, say when its plans are out of date and keep its plan with `Ctrl+S`. | prototype | partial | host-test | `project::the_screens_open_the_first_outline_layer_and_keep_its_plan` | Tested without a screen; only the first outline layer of the job is opened; no person has tried it. |
+| RPRO-047 | The screens ask before a write that would remove a signature of the project and write nothing unless it is agreed. | implemented | done | host-test | `project::the_classic_screen_asks_before_removing_a_signature` | The screens are tested without a window; no person has tried them. |
