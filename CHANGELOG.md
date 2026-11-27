@@ -4,6 +4,9 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A height map that asks for more correction than the machine file allows refuses the job (safety):** the router reads `level_max_lift_mm` (2 mm by default, 0.1 to 20) from the machine file, looks at every point where the levelled plan moves Z (the start of each path and every piece of 10 mm) and, when the map would lift or lower Z by more than that, neither starts nor plans the job on paper; the message names the point, the correction asked and the limit, in the eight languages. The example machine file shows the key.
+- **2 more tests**, for the above.
+
 ## [0.2.2] - Safer saves, the eight languages and unreadable plot coordinates refused (not tried on a machine)
 
 - **A project saved by another program is not written over:** the mark of the project is taken when it is opened, before its layers are read, and after each write; a plan is refused (`EH3D-PKG-025`), also after a question about a signature, when another program saved the file since. The screens say it in the eight languages and offer to read the project again, to keep the plan in a copy under a name that can be typed, never over a file that is there, or to close; `Enter` closes unless another choice was taken. `routepro-plan project plan` is refused in the same way. 3 new tests.

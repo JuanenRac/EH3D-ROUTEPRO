@@ -314,3 +314,37 @@ fn a_tool_with_settings_the_planner_cannot_use_refuses_the_job_naming_its_pen() 
     // a pen that the table does not give uses the cautious tool, which is valid
     assert_eq!(check_tools(&paths, &[], &machine()), Ok(()));
 }
+
+#[test]
+fn a_height_map_that_asks_for_more_than_the_limit_refuses_the_job_naming_the_point() {
+    use eh3d_levelling::{Grid, HeightMap};
+    use eh3d_routepro::job::check_levelling;
+    let unit = eh3d_routepro::hpgl::UNIT_MM;
+    let at = |mm: f64| (mm / unit).round() as i32;
+    let paths = vec![Polyline {
+        pen: 1,
+        points: vec![(at(10.0), at(10.0)), (at(90.0), at(90.0))],
+    }];
+    let mut m = machine();
+    m.offset_mm = (0.0, 0.0);
+    let grid = Grid::new((0.0, 0.0, 100.0, 100.0), 2, 2);
+    let flat = HeightMap::flat(grid, 0.0);
+    assert_eq!(check_levelling(&paths, &m, Some(&flat), 2.0), Ok(()));
+    assert_eq!(check_levelling(&paths, &m, None, 2.0), Ok(()));
+    // the far corner is 5 mm higher or lower: the correction grows along the path past 2 mm
+    for corner in [5.0, -5.0] {
+        let mut tilted = HeightMap::flat(grid, 0.0);
+        tilted.set(3, corner).unwrap();
+        let found = check_levelling(&paths, &m, Some(&tilted), 2.0).unwrap_err();
+        assert!(
+            found.lift_mm.abs() > 2.0 && found.lift_mm.signum() == corner.signum(),
+            "{found:?}"
+        );
+        assert!(found.x_mm > 10.0 && found.y_mm > 10.0, "{found:?}");
+        // the same map is fine when the file allows more, and a limit that is not a number refuses everything
+        assert_eq!(check_levelling(&paths, &m, Some(&tilted), 10.0), Ok(()));
+        assert!(check_levelling(&paths, &m, Some(&tilted), f64::NAN).is_err());
+        // no paths, nothing to refuse
+        assert_eq!(check_levelling(&[], &m, Some(&tilted), 0.1), Ok(()));
+    }
+}
