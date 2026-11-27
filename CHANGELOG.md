@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.2.2] - Safer saves, the eight languages and unreadable plot coordinates refused (not tried on a machine)
+
 - **A project saved by another program is not written over:** the mark of the project is taken when it is opened, before its layers are read, and after each write; a plan is refused (`EH3D-PKG-025`), also after a question about a signature, when another program saved the file since. The screens say it in the eight languages and offer to read the project again, to keep the plan in a copy under a name that can be typed, never over a file that is there, or to close; `Enter` closes unless another choice was taken. `routepro-plan project plan` is refused in the same way. 3 new tests.
 - **Built against the tag v0.3.8 of EH3D-COMMON** (it was v0.3.3): every write of a project is checked once more just before the file is replaced.
 - **A plot with a number that cannot be read is not taken (safety):** a coordinate that is not a number, or one without its pair, was dropped without a word, so the coordinates after it were paired the other way round and another path would be cut. The file is refused with the code, the line and the column. Host-tested only.
