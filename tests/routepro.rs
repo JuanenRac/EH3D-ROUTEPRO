@@ -272,3 +272,28 @@ fn the_project_has_eight_languages_and_reads_the_codes_of_earlier_settings() {
     // a language the program has no more: the default is used
     assert_eq!(parse_prefs("ru").lang, None);
 }
+
+#[test]
+fn a_plot_with_a_number_that_cannot_be_read_is_not_taken() {
+    let dir = std::env::temp_dir().join(format!("eh3d_routepro_unread_{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    // dropping the bad number would pair the coordinates after it the other way round
+    for (name, text) in [
+        ("letter.plt", "PU0,0;PD100,2O0,300,300;PU;\n"),
+        ("odd.plt", "PU0,0;PD100,200,300;PU;\n"),
+    ] {
+        let file = dir.join(name);
+        std::fs::write(&file, text).unwrap();
+        let mut app = App::new(Lang::En, &data());
+        app.load_file(&file);
+        let why = app.plan_report().expect_err("the plot was taken");
+        assert!(why.contains("EH3D-FORMATS-00"), "{name}: {why}");
+    }
+    let file = dir.join("clean.plt");
+    std::fs::write(&file, "PU0,0;PD100,200,300,300;PU;\n").unwrap();
+    let mut app = App::new(Lang::En, &data());
+    app.load_file(&file);
+    let report = app.plan_report();
+    assert!(report.is_ok(), "{report:?}");
+    let _ = std::fs::remove_dir_all(&dir);
+}
