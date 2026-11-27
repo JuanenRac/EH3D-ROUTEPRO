@@ -4,6 +4,9 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The program speaks the eight languages of the project and no more:** English, Spanish, Italian, German, French, Portuguese of Portugal, Chinese and Japanese. The 29 other languages are removed, with their files in `locales/` and the tool that placed their hot keys. A settings file that names `pt-br` or `fr-ca` is read as Portuguese or French (also by `--lang`); one that names another language that is gone starts in English.
+- **The failures the program words itself are said in the language of the screen** (the same sentences as EH3D-DRILLPRO, whose current language code the program takes); the detail given by the system or by the link is shown as it comes, and the command line output is as before.
+
 ## [0.2.1] - Safer tool change and the current drilling protocol (not tried on a machine)
 
 - **Built with EH3D-DRILLPRO v0.2.4 (safety):** the spindle and chuck pauses last their whole time on the node, a stop also releases the run bit of the spindle and a job on the server is not started after a stop pressed while it was being made. Seen on the simulator only; not tried on a machine.

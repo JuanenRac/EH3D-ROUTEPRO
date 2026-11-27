@@ -5,7 +5,7 @@
 # <img src="images/brand/icon-64.png" alt="" width="40" height="40" align="absmiddle"> EH3D-ROUTEPRO
 <p align="center"><a href="README.md">🇺🇸 English</a> | <a href="README_spa.md">🇪🇸 Español</a> | 🇫🇷 <b>Français</b> | <a href="README_ita.md">🇮🇹 Italiano</a> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### Une réimplémentation multiplateforme en Rust du flux de fraisage du logiciel DOS classique des machines Bungard CCD, à partir de fichiers de traçage HP-GL, avec une interface en mode texte qui rappelle l'original, en 37 langues
+### Une réimplémentation multiplateforme en Rust du flux de fraisage du logiciel DOS classique des machines Bungard CCD, à partir de fichiers de traçage HP-GL, avec une interface en mode texte qui rappelle l'original, en huit langues
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
@@ -44,7 +44,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Logiciel | 🟡 | Un programme Rust à écran texte 80x25 lit des fichiers de tracé HP-GL, la table d'outils et le fichier de la machine, planifie des parcours de fraisage en plusieurs passes et les exécute sur un simulateur, ou sur une vraie machine si le fichier de la machine le dit ; le dossier d'EH3D-DRILLPRO doit se trouver à côté. |
-| Tests | 🟡 | 179 tests réussissent (`cargo test --workspace`) : le lecteur HP-GL, la planification des parcours et les écrans dans les 37 langues ; le protocole est couvert par les 410 tests d'EH3D-DRILLPRO. |
+| Tests | 🟡 | 179 tests réussissent (`cargo test --workspace`) : le lecteur HP-GL, la planification des parcours et les écrans dans les huit langues ; le protocole est couvert par les 410 tests d'EH3D-DRILLPRO. |
 | Lecteur HP-GL | 🟡 | Seuls `IN`, `SP`, `PU`, `PD`, `PA` et `PR` sont compris ; toute autre commande est comptée et ignorée, jamais fatale. Essayé seulement avec de petits fichiers d'exemple écrits pour les tests. |
 | Planification des trajets | 🟡 | Chaque parcours devient, à chaque passe, un déplacement rapide, une plongée, la coupe et un dégagement, avec la profondeur répartie également et l'outil finissant toujours en surface ; vérifié seulement en tests et sur le simulateur. |
 | Matériel réel | 🟠 | Le protocole série qu'il partage avec EH3D-DRILLPRO a été essayé sur une Bungard CCD MTC (la prise de référence et les déplacements de chaque axe) ; aucun travail de fraisage n'a tourné sur une machine, et les sorties de broche et d'aspirateur n'ont pas été essayées. |
@@ -94,7 +94,7 @@ L'original est le programme fermé pour MS-DOS de Bungard qui fraise avec les ma
 | Ajouts | Aucun de ceux-ci | Un simulateur qui exécute un travail entier, des sons pour la fin du travail et la demande d'outil, plusieurs machines à la fois via le serveur, des archives ZIP de travail, des contours DXF et Gerber, un curseur clignotant et une suite de tests lancée à chaque modification |
 | Source et licence | Fermé, propriétaire | Open source (GPL-3.0-or-later), écrit en Rust |
 | Maturité | Des années d'usage sur de vraies machines | Bien plus jeune : la course de référence et les mouvements de chaque axe ont été essayés sur une vraie Bungard CCD MTC ; un travail entier n'a pas encore tourné sur une machine, et le changeur d'outils des modèles ATC n'a pas tourné sur une vraie |
-* **37 langues :** les écrans de texte, les menus et les dialogues parlent anglais, espagnol, italien, allemand, français, portugais, chinois, japonais, bulgare, croate, tchèque, danois, néerlandais, estonien, finnois, grec, hongrois, irlandais, letton, lituanien, maltais, polonais, roumain, slovaque, slovène, suédois, norvégien, islandais, ukrainien, russe, serbe, albanais, catalan, galicien, basque, portugais du Brésil et français du Canada. Les mots des 29 langues au-delà des huit premières sont traduits par le modèle et attendent la relecture de locuteurs natifs ; un texte qu'une langue n'a pas s'affiche en anglais.
+* **Huit langues :** les écrans de texte, les menus et les dialogues parlent anglais, espagnol, italien, allemand, français, portugais du Portugal, chinois et japonais, de même que les échecs que le programme formule lui-même (le détail donné par le système ou la liaison est affiché tel quel). Un fichier de réglages qui nomme `pt-br` ou `fr-ca` est lu comme portugais ou français ; s'il nomme une langue que le programme avait et n'a plus, le programme démarre en anglais.
 
 ## 🧩 Rôle dans EH3D
 
@@ -140,7 +140,7 @@ cargo fmt --all --check
 python -I tools/ci_validate.py
 ```
 
-Lancez-le avec `run.bat` (Windows) ou `./run.sh` (Linux et macOS) ; les deux compilent d'abord le programme si nécessaire. Les deux ont besoin de Rust et du dossier frère `EH3D-DRILLPRO` : `run.bat [FICHIER.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`. `--data` est le dossier contenant `ROUTEPRO.RTD` et `ROUTEPRO.RCF` (par défaut : `testdata/`) et `--dump` affiche l'écran en texte brut. Touches : `Alt` plus la lettre en surbrillance ouvre un menu, les flèches déplacent, `Entrée` valide, `Échap` revient ; la barre de menus est aussi cliquable. Dans les 29 langues lues dans des fichiers, les lettres en surbrillance sont écrites par `tools/make_hotkeys.py`, une lettre par contrôle et jamais deux identiques sur un écran ; une lettre cyrillique ou grecque se tape avec le clavier de cet alphabet (le russe, l'ukrainien et le grec acceptent aussi la touche latine placée au même endroit ; le bulgare et le serbe demandent leur propre disposition). Le chinois et le japonais nécessitent une police CJK parmi les polices du système. `--connection FILE` désigne un autre fichier de machine que celui par défaut (`%APPDATA%\EH3D\machine.cfg` sous Windows, `~/.config/eh3d/machine.cfg` ailleurs) ; sans fichier de machine, le programme s'exécute sur le simulateur. `--modern` lance l'interface à menus au lieu des écrans classiques.
+Lancez-le avec `run.bat` (Windows) ou `./run.sh` (Linux et macOS) ; les deux compilent d'abord le programme si nécessaire. Les deux ont besoin de Rust et du dossier frère `EH3D-DRILLPRO` : `run.bat [FICHIER.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`. `--data` est le dossier contenant `ROUTEPRO.RTD` et `ROUTEPRO.RCF` (par défaut : `testdata/`) et `--dump` affiche l'écran en texte brut. Touches : `Alt` plus la lettre en surbrillance ouvre un menu, les flèches déplacent, `Entrée` valide, `Échap` revient ; la barre de menus est aussi cliquable. Le chinois et le japonais nécessitent une police CJK parmi les polices du système. `--connection FILE` désigne un autre fichier de machine que celui par défaut (`%APPDATA%\EH3D\machine.cfg` sous Windows, `~/.config/eh3d/machine.cfg` ailleurs) ; sans fichier de machine, le programme s'exécute sur le simulateur. `--modern` lance l'interface à menus au lieu des écrans classiques.
 
 ## 🧪 Tests
 
@@ -165,7 +165,7 @@ La version se trouve dans `Cargo.toml` et dans `eh3d.project.json`, et chaque ve
 EH3D-ROUTEPRO/
 ├── src/
 │   ├── job.rs                                   les trajets HP-GL transformés en travail de fraisage
-│   ├── app.rs texts.rs                          l'application et ses textes en 37 langues
+│   ├── app.rs texts.rs                          l'application et ses textes en huit langues
 │   ├── eh3dfile.rs                              projet .eh3d : le travail entre, les plans sortent
 │   └── bin/                                     routepro, routepro-console et routepro-plan
 ├── protocol/src/
@@ -176,8 +176,7 @@ EH3D-ROUTEPRO/
 ├── testdata/                                    petits fichiers d'exemple écrits pour les tests
 ├── config/                                      la configuration de base, expliquée ligne par ligne
 ├── examples/                                    exemples, d'un carré à 100000 points
-├── locales/                                     les mots des 29 langues lues dans des fichiers, un fichier par langue
-├── tools/                                       contrôle de CI, du README, écriture des raccourcis et outils d'images
+├── tools/                                       contrôle de CI, du README et outils d'images
 ├── images/                                      bannière, les deux images et les captures d'écran
 ├── .github/                                     workflows de CI et de publication, modèles d'issues et de pull requests
 ├── build.sh build.bat                           scripts de compilation et de test

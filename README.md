@@ -5,7 +5,7 @@
 # <img src="images/brand/icon-64.png" alt="" width="40" height="40" align="absmiddle"> EH3D-ROUTEPRO
 <p align="center">🇺🇸 <b>English</b> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | <a href="README_ita.md">🇮🇹 Italiano</a> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### A cross-platform Rust re-implementation of the routing (milling) workflow of the classic DOS software for Bungard CCD machines, from HP-GL plot files, with a text-mode look-alike interface in 37 languages
+### A cross-platform Rust re-implementation of the routing (milling) workflow of the classic DOS software for Bungard CCD machines, from HP-GL plot files, with a text-mode look-alike interface in eight languages
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
@@ -44,7 +44,7 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Software | 🟡 | A Rust program with an 80x25 text-mode screen reads HP-GL plot files, the tool table and the machine file, plans multi-pass milling paths and runs them against a simulator, or on a real machine when the machine file says so; it needs the folder of EH3D-DRILLPRO next to it. |
-| Tests | 🟡 | 179 tests pass (`cargo test --workspace`): the HP-GL reader, the path planning and the screens in all 37 languages; the protocol is covered by the 410 tests of EH3D-DRILLPRO. |
+| Tests | 🟡 | 179 tests pass (`cargo test --workspace`): the HP-GL reader, the path planning and the screens in all eight languages; the protocol is covered by the 410 tests of EH3D-DRILLPRO. |
 | HP-GL reader | 🟡 | Only `IN`, `SP`, `PU`, `PD`, `PA` and `PR` are understood; any other command is counted and ignored, never fatal. Tried only with small sample files written for the tests. |
 | Path planning | 🟡 | Each path becomes a rapid move, a plunge, the cut and a lift for every pass, with the depth split evenly and the tool always ending at the surface; checked in tests and on the simulator only. |
 | Real hardware | 🟠 | The serial protocol it shares with EH3D-DRILLPRO has been tried on one Bungard CCD MTC (the reference run and the moves of every axis); no routing job has run on a machine, and the spindle and vacuum outputs are untried. |
@@ -94,7 +94,7 @@ The original is the closed MS-DOS program of Bungard that routes with the CCD ma
 | Extras | None of these | A simulator that runs a whole job, sounds for the end of the job and for a tool request, several machines at once through the server, ZIP job archives, DXF and Gerber outlines, a blinking cursor, and a test suite that runs on every change |
 | Source and licence | Closed, proprietary | Open source (GPL-3.0-or-later), written in Rust |
 | Maturity | Years of use on real machines | Much younger: the reference run and the moves of every axis have been tried on one real Bungard CCD MTC; a whole job has not run on a machine yet, and the tool changer of the ATC models has not run on a real one |
-* **37 languages:** the text screens, menus and dialogs speak English, Spanish, Italian, German, French, Portuguese, Chinese, Japanese, Bulgarian, Croatian, Czech, Danish, Dutch, Estonian, Finnish, Greek, Hungarian, Irish, Latvian, Lithuanian, Maltese, Polish, Romanian, Slovak, Slovenian, Swedish, Norwegian, Icelandic, Ukrainian, Russian, Serbian, Albanian, Catalan, Galician, Basque, Brazilian Portuguese and Canadian French. The words of the 29 languages beyond the first eight are translated by the model and wait for a review by native speakers; a text that a language does not have is shown in English.
+* **Eight languages:** the text screens, menus and dialogs speak English, Spanish, Italian, German, French, Portuguese of Portugal, Chinese and Japanese, and so do the failures the program words itself (the detail given by the system or the link is shown as it comes). A settings file that names `pt-br` or `fr-ca` is read as Portuguese or French; one that names a language the program had before and has no more starts in English.
 
 ## 🧩 Role in EH3D
 
@@ -140,7 +140,7 @@ cargo fmt --all --check
 python -I tools/ci_validate.py
 ```
 
-Run it with `run.bat` (Windows) or `./run.sh` (Linux and macOS); both build the program first if needed. Both need Rust and the sibling folder `EH3D-DRILLPRO`: `run.bat [FILE.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`. `--data` is the folder with `ROUTEPRO.RTD` and `ROUTEPRO.RCF` (default: `testdata/`) and `--dump` prints the screen as plain text. Keys: `Alt` plus the highlighted letter opens a menu, arrows move, `Enter` accepts, `Esc` goes back; the menu bar can also be clicked. In the 29 languages read from files the highlighted letters are written by `tools/make_hotkeys.py`, one letter for each control and no two alike on a screen; a Cyrillic or Greek letter is typed on the keyboard of that alphabet (Russian, Ukrainian and Greek also take the Latin key that sits in the same place; Bulgarian and Serbian need their own layout). Chinese and Japanese need a CJK font among the system fonts. `--connection FILE` points to another machine file than the default one (`%APPDATA%\EH3D\machine.cfg` on Windows, `~/.config/eh3d/machine.cfg` elsewhere); without a machine file the program runs on the simulator. `--modern` starts the menu-driven interface instead of the classic screens.
+Run it with `run.bat` (Windows) or `./run.sh` (Linux and macOS); both build the program first if needed. Both need Rust and the sibling folder `EH3D-DRILLPRO`: `run.bat [FILE.PLT] [--lang en|es|it|de|fr|pt|zh|ja] [--data DIR] [--dump]`. `--data` is the folder with `ROUTEPRO.RTD` and `ROUTEPRO.RCF` (default: `testdata/`) and `--dump` prints the screen as plain text. Keys: `Alt` plus the highlighted letter opens a menu, arrows move, `Enter` accepts, `Esc` goes back; the menu bar can also be clicked. Chinese and Japanese need a CJK font among the system fonts. `--connection FILE` points to another machine file than the default one (`%APPDATA%\EH3D\machine.cfg` on Windows, `~/.config/eh3d/machine.cfg` elsewhere); without a machine file the program runs on the simulator. `--modern` starts the menu-driven interface instead of the classic screens.
 
 ## 🧪 Testing
 
@@ -165,7 +165,7 @@ The version lives in `Cargo.toml` and in `eh3d.project.json`, and each version h
 EH3D-ROUTEPRO/
 ├── src/
 │   ├── job.rs                                   HP-GL paths turned into the routing job
-│   ├── app.rs texts.rs                          the application and its texts in 37 languages
+│   ├── app.rs texts.rs                          the application and its texts in eight languages
 │   ├── eh3dfile.rs                              the .eh3d project: job in, plans out
 │   └── bin/                                     routepro, routepro-console and routepro-plan
 ├── protocol/src/
@@ -176,8 +176,7 @@ EH3D-ROUTEPRO/
 ├── testdata/                                    small sample files written for the tests
 ├── config/                                      the basic configuration, explained line by line
 ├── examples/                                    example files, from a square to 100000 points
-├── locales/                                     the words of the 29 languages that are read from files, one file per language
-├── tools/                                       CI check, README check, hot-key writer and the picture tools
+├── tools/                                       CI check, README check and the picture tools
 ├── images/                                      banner, the two pictures and the screenshots
 ├── .github/                                     CI and release workflows, issue and pull-request templates
 ├── build.sh build.bat                           build and test scripts

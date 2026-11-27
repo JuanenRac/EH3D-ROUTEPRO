@@ -12,7 +12,7 @@ The routing half of the Bungard workflow: it reads the plot of the outline and t
 * Plans each path with the depth split evenly across the passes and the tool always back at the surface, and plans a cut that follows a levelled table with the depth bounded.
 * Runs the job on the simulator by default, and on a real machine through the serial port, a USB adapter or the node when the machine file says so; with a tool changer it takes every tool from its place and never asks the operator for one.
 * Leaves out the pens that are switched off, the paths outside the working area and the paths already done when a job goes on, and cuts the outside of a panel at its tabs.
-* Draws the classic screens, checked against stored images of the original, in 37 languages, and edits and saves the machine file and the tool table from the dialogs.
+* Draws the classic screens, checked against stored images of the original, in eight languages, and edits and saves the machine file and the tool table from the dialogs.
 * Sends the job to the server of the suite and follows its progress when the connection is `server`.
 
 ## What it will not do

@@ -68,7 +68,7 @@ The check is `tests/reqs.rs`: it reads this table, finds each test and fails whe
 | RPRO-032 | A rack the server would refuse is refused before the job is planned. | implemented | done | host-test | `src/app::a_rack_the_server_would_refuse_is_refused_before_the_job_is_planned` | - |
 | RPRO-033 | The demo sends the very bytes of the plan of the machine. | implemented | done | simulator | `src/app::the_demo_sends_the_very_bytes_of_the_plan_of_the_machine` | - |
 | RPRO-034 | The main screen matches the stored image of the original cell by cell. | prototype | partial | host-test | `classic_golden::main_screen_matches_the_original` | Compared with stored images, not with the original program on a screen. |
-| RPRO-035 | The hot letters of the menu are unique in each of the 37 languages. | implemented | done | host-test | `classic::menu_hot_letters_are_unique_in_the_37_languages` | - |
+| RPRO-035 | The hot letters of the menu are unique in each of the eight languages. | implemented | done | host-test | `classic::menu_hot_letters_are_unique_in_the_eight_languages` | - |
 | RPRO-036 | Every language draws every screen. | implemented | done | host-test | `routepro::every_language_renders_every_screen` | - |
 | RPRO-037 | The chord angle is edited and saved to the real file, and zero is refused. | implemented | done | host-test | `classic_interaction::a_zero_chord_angle_is_refused` | - |
 | RPRO-038 | The basic configuration is rewritten without losing its explanations. | implemented | done | host-test | `release_files::the_basic_configuration_is_rewritten_without_losing_its_explanations` | - |

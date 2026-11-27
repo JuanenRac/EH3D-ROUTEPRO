@@ -2,7 +2,7 @@
 
 ## Current state
 
-EH3D-ROUTEPRO works on a computer and on the simulator: the readers, the planner, the job, the changer, the screens in 37 languages and the connection to the server are covered by tests. The serial protocol it shares with EH3D-DRILLPRO has been tried on one Bungard CCD MTC (the reference run and the moves of each axis), but a whole routing job has not run on a machine, the spindle and vacuum outputs are untried and the steps per millimetre are only checked against the original configuration.
+EH3D-ROUTEPRO works on a computer and on the simulator: the readers, the planner, the job, the changer, the screens in eight languages and the connection to the server are covered by tests. The serial protocol it shares with EH3D-DRILLPRO has been tried on one Bungard CCD MTC (the reference run and the moves of each axis), but a whole routing job has not run on a machine, the spindle and vacuum outputs are untried and the steps per millimetre are only checked against the original configuration.
 
 ## Capabilities
 
