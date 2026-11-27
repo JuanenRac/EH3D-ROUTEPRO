@@ -121,6 +121,11 @@ dry_run_margin_mm = 0.5
 sanity_tiny_mm = 5
 sanity_far_mm = 150
 
+# --- A table that is not flat -------------------------------------------------------------------------------------------------
+# The most the correction of a height map may lift or lower Z at any point of a route, in mm (0.1 to 20). A map that asks for more
+# is refused before the job is planned.
+level_max_lift_mm = 2
+
 # --- Sounds (all optional) ------------------------------------------------------------------------------------------------
 # A sound when the job ends by itself, and another when the machine asks for a tool. Each one is either off, the tone the program makes
 # ("default"), or a sound file of your own: write the full path of a WAV file. Nothing is played when the line is missing or says off.

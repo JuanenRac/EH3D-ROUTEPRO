@@ -207,6 +207,26 @@ impl App {
         machine
     }
 
+    /// Refuses a height map that asks for more than `level_max_lift_mm` of the machine file anywhere along the paths, naming the point and the correction asked there.
+    fn check_levelling_of(&self, paths: &[hpgl::Polyline]) -> Result<(), String> {
+        let max = self.connection.tuning.level_max_lift_mm;
+        crate::job::check_levelling(
+            paths,
+            &self.job_machine(),
+            self.job_options.table.as_ref(),
+            max,
+        )
+        .map_err(|p| {
+            format!(
+                "{} (X {:.1} Y {:.1} mm: {:.2} / {max:.2} mm)",
+                tr(self.lang, Text::ErrLevelLift),
+                p.x_mm,
+                p.y_mm,
+                p.lift_mm
+            )
+        })
+    }
+
     /// Loads a plotter file, a drawing or a board outline, or the first outline layer of the job of an `.eh3d` project. What was loaded stays when the new one cannot be read.
     pub fn load_file(&mut self, path: &Path) {
         if eh3d_project::manufacturing::is_project(path) {
@@ -563,6 +583,7 @@ impl App {
                 .map_err(|why| why.message(self.lang))?;
         crate::job::check_tools(&paths, &self.tools, &self.job_machine())
             .map_err(|pen| format!("{} (T{pen})", tr(self.lang, Text::ErrToolParams)))?;
+        self.check_levelling_of(&paths)?;
         let (items, _marks) = plan_route_job_atc_marked(
             &paths,
             &self.tools,
@@ -771,6 +792,10 @@ impl App {
             };
         if let Err(pen) = crate::job::check_tools(&paths, &self.tools, &self.job_machine()) {
             self.error = Some(format!("{} (T{pen})", tr(self.lang, Text::ErrToolParams)));
+            return;
+        }
+        if let Err(why) = self.check_levelling_of(&paths) {
+            self.error = Some(why);
             return;
         }
         let (items, marks) = plan_route_job_atc_marked(
@@ -2235,6 +2260,36 @@ mod demo_tests {
         assert!(app.run.is_none());
         // a job with nothing wrong in its rack starts as it always did
         app.job_options = eh3d_drillpro::job::JobOptions::default();
+        app.start();
+        assert!(app.error.is_none(), "{:?}", app.error);
+        assert!(app.run.is_some());
+    }
+
+    #[test]
+    fn a_height_map_past_the_limit_of_the_machine_file_refuses_the_start_and_the_plan() {
+        use eh3d_levelling::{Grid, HeightMap};
+        let data = Path::new(env!("CARGO_MANIFEST_DIR")).join("testdata");
+        let mut app = App::new(Lang::En, &data);
+        app.load_file(&data.join("FDEMO1.PLT"));
+        // the table climbs 0.4 mm for each mm of X, far past what the machine file allows by default
+        let grid = Grid::new((-500.0, -500.0, 500.0, 500.0), 2, 2);
+        let mut map = HeightMap::flat(grid, 0.0);
+        map.set(1, 400.0).unwrap();
+        map.set(3, 400.0).unwrap();
+        app.job_options.table = Some(map);
+        app.start();
+        let said = app.error.clone().expect("refused");
+        assert!(
+            said.contains("level_max_lift_mm")
+                && said.contains("(X ")
+                && said.contains("/ 2.00 mm)"),
+            "{said}"
+        );
+        assert!(app.run.is_none());
+        assert_eq!(app.plan_report(), Err(said));
+        // the same map is taken when the machine file allows more
+        app.connection.tuning.level_max_lift_mm = 1000.0;
+        app.error = None;
         app.start();
         assert!(app.error.is_none(), "{:?}", app.error);
         assert!(app.run.is_some());

@@ -4,7 +4,9 @@
 use eh3d_drillpro::job::Geometry;
 use eh3d_drillpro::protocol::job::{Item, JobBuilder, JobMachine, Pause, Rack};
 use eh3d_drillpro::protocol::Step;
-use eh3d_routepro_protocol::route::{plan_polyline, plan_polyline_levelled, RouteParams};
+use eh3d_routepro_protocol::route::{
+    plan_polyline, plan_polyline_levelled, RouteParams, MAX_PIECES_PER_SEGMENT,
+};
 
 use crate::hpgl::{Polyline, UNIT_MM};
 use crate::tools::Tool;
@@ -30,6 +32,74 @@ pub fn check_tools(paths: &[Polyline], tools: &[Tool], m: &JobMachine) -> Result
             .is_err()
         {
             return Err(path.pen);
+        }
+    }
+    Ok(())
+}
+
+/// The length of the pieces a cut is divided into on a table that is not flat: Z is moved at the end of each piece.
+const LEVEL_PIECE_MM: f64 = 10.0;
+
+/// A point of the paths where the height map asks for more correction than the machine file allows.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct LiftTooBig {
+    /// The point, in mm of the machine (the offset included).
+    pub x_mm: f64,
+    /// The point, in mm of the machine (the offset included).
+    pub y_mm: f64,
+    /// The correction the map asks there, in mm: positive where the table is higher than where the work starts.
+    pub lift_mm: f64,
+}
+
+/// Refuses a height map that would lift or lower Z by more than `max_lift_mm` (`level_max_lift_mm` of the machine file) anywhere along the paths, and gives the first
+/// such point. It looks at the very points where the levelled plan moves Z: the start of each path and the end of each piece of it. A correction or a limit that is
+/// not a number is refused too. With no map, or a map that does not cover the start of the work, nothing is corrected and nothing is refused.
+pub fn check_levelling(
+    paths: &[Polyline],
+    m: &JobMachine,
+    table: Option<&eh3d_levelling::HeightMap>,
+    max_lift_mm: f64,
+) -> Result<(), LiftTooBig> {
+    let Some((table, reference)) =
+        table.and_then(|t| Some((t, t.height_at(m.offset_mm.0, m.offset_mm.1)?)))
+    else {
+        return Ok(());
+    };
+    let shift = (
+        (m.offset_mm.0 / UNIT_MM).round() as i32,
+        (m.offset_mm.1 / UNIT_MM).round() as i32,
+    );
+    let mm = |p: (i32, i32)| {
+        (
+            (p.0 + shift.0) as f64 * UNIT_MM,
+            (p.1 + shift.1) as f64 * UNIT_MM,
+        )
+    };
+    let at = |(x, y): (f64, f64)| {
+        let lift = table.height_at(x, y).map_or(0.0, |h| h - reference);
+        if lift.is_finite() && max_lift_mm.is_finite() && lift.abs() <= max_lift_mm {
+            Ok(())
+        } else {
+            Err(LiftTooBig {
+                x_mm: x,
+                y_mm: y,
+                lift_mm: lift,
+            })
+        }
+    };
+    for path in paths.iter().filter(|p| !p.points.is_empty()) {
+        let mut cur = mm(path.points[0]);
+        at(cur)?;
+        for &point in &path.points[1..] {
+            let to = mm(point);
+            let length = (to.0 - cur.0).hypot(to.1 - cur.1);
+            let pieces =
+                ((length / LEVEL_PIECE_MM).ceil().max(1.0) as u32).min(MAX_PIECES_PER_SEGMENT);
+            for k in 1..=pieces {
+                let t = k as f64 / pieces as f64;
+                at((cur.0 + (to.0 - cur.0) * t, cur.1 + (to.1 - cur.1) * t))?;
+            }
+            cur = to;
         }
     }
     Ok(())
@@ -66,7 +136,7 @@ pub fn plan_path_with(
     (plan.steps, end)
 }
 
-/// Like [`plan_path_with`] on a table that is not flat (see `plan_polyline_levelled`); the cut is divided into pieces of 10 mm.
+/// Like [`plan_path_with`] on a table that is not flat (see `plan_polyline_levelled`); the cut is divided into pieces of 10 mm (`LEVEL_PIECE_MM`).
 pub fn plan_path_levelled(
     path: &Polyline,
     tool: &Tool,
@@ -78,7 +148,7 @@ pub fn plan_path_levelled(
     let mm = |p: (i32, i32)| (p.0 as f64 * UNIT_MM, p.1 as f64 * UNIT_MM);
     let points: Vec<(f64, f64)> = path.points.iter().map(|&p| mm(p)).collect();
     let params = route_params(tool, approach_mm);
-    let plan = plan_polyline_levelled(mm(from), &points, &params, g, lift, 10.0);
+    let plan = plan_polyline_levelled(mm(from), &points, &params, g, lift, LEVEL_PIECE_MM);
     let end = (
         (plan.end_mm.0 / UNIT_MM).round() as i32,
         (plan.end_mm.1 / UNIT_MM).round() as i32,
