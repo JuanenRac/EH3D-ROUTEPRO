@@ -1,7 +1,7 @@
 //! Tests of the behaviour of the routing job at the exact edge of each rule: the checks of the settings of a tool, the choice of the cautious tool, the order and the
 //! number of the dialogs, the marks of the paths, the paths that are chosen and left out, and the texts of the eight languages. Everything is deterministic.
 
-use eh3d_drillpro::i18n::{Lang, CORE_LANGS};
+use eh3d_drillpro::i18n::Lang;
 use eh3d_drillpro::job::{Geometry, JobOptions};
 use eh3d_drillpro::protocol::execute::{run_items, Hooks, Outcome};
 use eh3d_drillpro::protocol::job::{Item, JobMachine, Pause};
@@ -70,7 +70,7 @@ fn pauses_of(items: &[Item]) -> Vec<Pause> {
         .collect()
 }
 
-const CORE: [Lang; CORE_LANGS] = [
+const CORE: [Lang; 8] = [
     Lang::En,
     Lang::Es,
     Lang::It,
@@ -397,11 +397,11 @@ fn an_empty_plot_selects_nothing_and_skips_nothing() {
 // ---------------------------------------------------------------- the texts
 
 #[test]
-fn the_eight_core_languages_are_the_first_eight_in_the_fixed_order() {
+fn the_languages_of_the_program_are_the_eight_in_the_fixed_order() {
+    assert_eq!(CORE, Lang::ALL);
     for (index, lang) in CORE.iter().enumerate() {
         assert_eq!(*lang as usize, index);
     }
-    assert_eq!(CORE_LANGS, 8);
 }
 
 #[test]
@@ -423,10 +423,8 @@ fn a_few_texts_are_exactly_what_the_person_reads_in_each_language() {
 }
 
 #[test]
-fn the_name_of_a_text_in_the_files_of_the_languages_is_the_table_and_the_name() {
-    assert_eq!(Text::Done.locale_key(), "Text.Done");
-    assert_eq!(Text::MenuLoad.locale_key(), "Text.MenuLoad");
-    let mut keys: Vec<&str> = ALL_TEXTS.iter().map(|t| t.locale_key()).collect();
+fn every_text_has_a_name_of_its_own() {
+    let mut keys: Vec<String> = ALL_TEXTS.iter().map(|t| format!("{t:?}")).collect();
     let total = keys.len();
     keys.sort();
     keys.dedup();

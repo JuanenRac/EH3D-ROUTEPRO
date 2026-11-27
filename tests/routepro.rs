@@ -1,5 +1,5 @@
 use eh3d_drillpro::app::Input;
-use eh3d_drillpro::i18n::{cell_width, Lang, CORE_LANGS};
+use eh3d_drillpro::i18n::{cell_width, Lang};
 use eh3d_drillpro::job::Geometry;
 use eh3d_drillpro::protocol::{run_steps, Simulator};
 use eh3d_drillpro::screen::Screen;
@@ -133,10 +133,7 @@ fn texts_exist_in_all_languages_and_cjk_is_wide() {
         for l in Lang::ALL {
             let t = tr(l, k);
             assert!(!t.trim().is_empty());
-            // only the eight first languages have hot-key marks
-            if (l as usize) < CORE_LANGS {
-                assert_eq!(t.contains('~'), en, "{k:?} {l:?}");
-            }
+            assert_eq!(t.contains('~'), en, "{k:?} {l:?}");
         }
         for l in [Lang::Zh, Lang::Ja] {
             assert!(tr(l, k).chars().any(|c| cell_width(c) == 2), "{k:?} {l:?}");
@@ -147,7 +144,7 @@ fn texts_exist_in_all_languages_and_cjk_is_wide() {
 #[test]
 fn menu_hotkeys_unique_per_language() {
     use Text::*;
-    for l in Lang::ALL.into_iter().take(CORE_LANGS) {
+    for l in Lang::ALL {
         let mut seen: Vec<String> = Vec::new();
         for k in [
             MenuLoad,
@@ -266,16 +263,12 @@ M02*";
 }
 
 #[test]
-fn every_new_language_has_all_the_texts_of_the_program() {
-    use eh3d_drillpro::i18n::{Lang, CORE_LANGS};
-    use eh3d_routepro::texts::{locale_coverage, locale_problems};
-    assert!(locale_problems().is_empty());
-    for l in Lang::ALL.into_iter().skip(CORE_LANGS) {
-        let (have, total) = locale_coverage(l);
-        if l.fallback().is_some() {
-            assert!(have < total, "{l:?}");
-        } else {
-            assert_eq!(have, total, "{l:?}");
-        }
-    }
+fn the_project_has_eight_languages_and_reads_the_codes_of_earlier_settings() {
+    use eh3d_drillpro::cli::parse_prefs;
+    let codes: Vec<&str> = Lang::ALL.iter().map(|l| l.code()).collect();
+    assert_eq!(codes, ["en", "es", "it", "de", "fr", "pt", "zh", "ja"]);
+    assert_eq!(parse_prefs("pt-br").lang, Some(Lang::Pt));
+    assert_eq!(parse_prefs("fr-ca").lang, Some(Lang::Fr));
+    // a language the program has no more: the default is used
+    assert_eq!(parse_prefs("ru").lang, None);
 }

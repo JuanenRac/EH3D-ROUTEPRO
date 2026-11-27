@@ -113,7 +113,7 @@ fn load_of_the_tool_window_chooses_the_file() {
 
 /// The menu of the routing program: in every language the items have a hot letter each, and no two share it.
 #[test]
-fn menu_hot_letters_are_unique_in_the_37_languages() {
+fn menu_hot_letters_are_unique_in_the_eight_languages() {
     use eh3d_routepro::texts::{tr, Text, ALL_TEXTS};
     for lang in Lang::ALL {
         let mut seen = std::collections::HashSet::new();
@@ -140,7 +140,7 @@ fn menu_hot_letters_are_unique_in_the_37_languages() {
 
 /// The parameter window of this program has the chord angle where the drilling one has the sorting: its keys are different in every language.
 #[test]
-fn parameter_hot_letters_are_unique_in_the_37_languages() {
+fn parameter_hot_letters_are_unique_in_the_eight_languages() {
     use eh3d_drillpro::classic::hot_letter;
     use eh3d_drillpro::classic::texts::{ctr, CText};
     for lang in Lang::ALL {

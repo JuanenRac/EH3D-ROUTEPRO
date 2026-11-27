@@ -987,7 +987,7 @@ impl App {
         s.text(2, 2, "ROUTEPRO", YELLOW, BLUE);
         s.text(2, 3, "Bungard CCD", LIGHT_CYAN, BLUE);
         let msg = match (&self.error, &self.plot) {
-            (Some(e), _) => e.clone(),
+            (Some(e), _) => eh3d_drillpro::texts::failure_text(self.lang, e),
             (None, Some((p, _))) => format!("{}: {}", tr(self.lang, Text::LblFile), p.display()),
             (None, None) => tr(self.lang, Text::NoFile).to_string(),
         };
@@ -1270,7 +1270,10 @@ impl App {
             WIN_BG,
         );
         if let Some(RunState::Failed(why)) = &real {
-            let shown: String = why.chars().take(w - 4).collect();
+            let shown: String = eh3d_drillpro::texts::failure_text(self.lang, why)
+                .chars()
+                .take(w - 4)
+                .collect();
             s.text(x + 2, y + 3, &shown, RED, WIN_BG);
         }
         s.text(
