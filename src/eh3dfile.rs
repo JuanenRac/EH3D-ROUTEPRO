@@ -15,12 +15,10 @@ pub const KIT: BranchKit<'static> =
     suite::kit("routepro", "routepro.json", env!("CARGO_PKG_VERSION"));
 
 /// What keeping a plan in the project at `path` would take away (its signature, or the one of the branch of this program), in the language of a code such as `es`: the person has to
-/// agree to it before anything is written. Empty when there is nothing to ask.
-pub fn signature_warnings(path: &Path, code: &str) -> Result<Vec<String>, String> {
-    let own = KIT.branch;
-    let seen = suiteview::view(path, own)?.own_hash;
-    // the project as it is now, so that only what is said about its signatures is left to say
-    let said = suiteview::warnings(path, Some(path), seen.as_deref(), own)?;
+/// agree to it before anything is written. Empty when there is nothing to ask. Refused when another program saved the project since the mark `seen` was taken
+/// (see [`suiteview::is_changed_refusal`]).
+pub fn signature_warnings(path: &Path, seen: &str, code: &str) -> Result<Vec<String>, String> {
+    let said = suiteview::warnings(path, Some(path), Some(seen), KIT.branch)?;
     Ok(said.iter().map(|w| w.text(code)).collect())
 }
 
@@ -67,10 +65,19 @@ pub fn plan_name(path: &Path, layer: &JobFile) -> String {
 }
 
 /// Keeps the plan of one layer in the branch of this program. The plans of the other layers stay while the job is the one they were made from. Returns what a person should be told.
-pub fn save_plan(path: &Path, layer: &JobFile, lines: &[String]) -> Result<Vec<String>, String> {
-    suite::keep_result(
+///
+/// `seen` is the mark of the project as it was read ([`eh3d_drillpro::eh3dfile::mark_of`]). When another program saved the file since, nothing is written
+/// (`EH3D-PKG-025`); what this program wrote itself does not count.
+pub fn save_plan_since(
+    path: &Path,
+    seen: &str,
+    layer: &JobFile,
+    lines: &[String],
+) -> Result<Vec<String>, String> {
+    suite::keep_result_since(
         &KIT,
         path,
+        seen,
         layer,
         &plan_name(path, layer),
         plan_bytes(lines),

@@ -38,6 +38,8 @@ fn project(args: &[String], layer: Option<&str>, lang: Lang, data: &Path) -> Res
             Ok(0)
         }
         "plan" => {
+            // the mark is taken before the layers are read: what another program saves after it is not written over
+            let seen = eh3d_drillpro::eh3dfile::mark_of(&eh3dfile::KIT, file)?;
             let layers = eh3dfile::outline_layers(file)?;
             let chosen = match layer {
                 Some(name) => vec![eh3dfile::choose(&layers, name)?.clone()],
@@ -55,7 +57,7 @@ fn project(args: &[String], layer: Option<&str>, lang: Lang, data: &Path) -> Res
                 made.push((layer, lines));
             }
             for (layer, lines) in made {
-                for notice in eh3dfile::save_plan(file, &layer, &lines)? {
+                for notice in eh3dfile::save_plan_since(file, &seen, &layer, &lines)? {
                     eprintln!("note: {notice}");
                 }
                 println!(
