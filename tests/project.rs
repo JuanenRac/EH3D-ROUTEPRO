@@ -332,3 +332,110 @@ fn the_classic_screen_asks_before_removing_a_signature() {
     classic.handle(Input::Enter);
     assert_ne!(std::fs::read(&path).unwrap(), before);
 }
+
+/// Saves the project the way another program does: the change is made on a copy and the file is replaced with it, so this process has no memory of that
+/// write.
+fn saved_by_another(path: &Path, text: &str) {
+    let copy = path.with_file_name("another.eh3d");
+    std::fs::copy(path, &copy).unwrap();
+    write_branch(&copy, "pcb", &[("board.json", text.as_bytes())]);
+    std::fs::copy(&copy, path).unwrap();
+    std::fs::remove_file(&copy).unwrap();
+}
+
+#[test]
+fn a_project_another_program_saved_is_not_written_over_and_can_be_read_again_or_saved_apart() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = project(dir.path());
+    let mut app = App::new(Lang::En, &data());
+    app.load_file(&path);
+    saved_by_another(&path, "{\"made\":1}");
+    let bytes = std::fs::read(&path).unwrap();
+    app.save_project();
+    assert!(app.changed().is_some());
+    let shown = text(&app);
+    for word in [
+        "board.eh3d changed on disk",
+        "[ Read again ]",
+        "[ Save suite project as... ]",
+        "[ Close ]",
+    ] {
+        assert!(shown.contains(word), "{word}: {shown}");
+    }
+    // `Close` has the focus: Enter and Esc leave the project as it is
+    for no in [Input::Enter, Input::Esc] {
+        app.save_project();
+        app.handle(no);
+        assert!(app.changed().is_none());
+        assert_eq!(std::fs::read(&path).unwrap(), bytes);
+    }
+    // a copy under the name that is suggested takes the plan
+    app.save_project();
+    app.handle(Input::Down);
+    app.handle(Input::Down);
+    app.handle(Input::Enter);
+    assert!(app.changed().is_none(), "{}", text(&app));
+    let apart = dir.path().join("board-2.eh3d");
+    assert_eq!(suite::state(&KIT, &apart).unwrap().results.len(), 1);
+    assert_eq!(std::fs::read(&path).unwrap(), bytes);
+    // reading again what another program saved lets the plan be kept there
+    app.load_file(&path);
+    saved_by_another(&path, "{\"made\":2}");
+    app.save_project();
+    app.handle(Input::Down);
+    app.handle(Input::Enter);
+    assert!(app.changed().is_none(), "{}", text(&app));
+    app.save_project();
+    assert!(app.changed().is_none());
+    assert_eq!(suite::state(&KIT, &path).unwrap().results.len(), 1);
+}
+
+#[test]
+fn a_save_by_another_program_while_a_question_waits_refuses_the_agreed_write() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = project(dir.path());
+    let signer = eh3d_project::Ed25519Signer::from_seed(&[7; 32]);
+    Project::open(&path, &OpenOptions::default())
+        .unwrap()
+        .sign_project(&signer, &SaveOptions::default())
+        .unwrap();
+    let mut app = App::new(Lang::En, &data());
+    app.load_file(&path);
+    app.save_project();
+    assert!(app.is_asking());
+    saved_by_another(&path, "{\"made\":3}");
+    let bytes = std::fs::read(&path).unwrap();
+    app.handle(Input::Char('y'));
+    assert!(
+        app.changed().is_some() && !app.is_asking(),
+        "{}",
+        text(&app)
+    );
+    assert_eq!(std::fs::read(&path).unwrap(), bytes);
+}
+
+#[test]
+fn the_classic_screen_says_a_project_was_saved_by_another_in_the_eight_languages() {
+    for lang in Lang::ALL {
+        let dir = tempfile::tempdir().unwrap();
+        let path = project(dir.path());
+        let mut classic = ClassicApp::with_engine(App::new(lang, &data()));
+        classic.load_file(&path);
+        saved_by_another(&path, "{\"made\":4}");
+        let bytes = std::fs::read(&path).unwrap();
+        classic.save_project();
+        let shown = text(&classic);
+        for word in [
+            eh3d_project::suitetext::S::ReadAgain,
+            eh3d_project::suitetext::S::MenuSaveAs,
+            eh3d_project::suitetext::S::Close,
+        ] {
+            let word = word.tr(lang.code());
+            assert!(shown.contains(word), "{word}: {shown}");
+        }
+        classic.handle(Input::Esc);
+        let again = eh3d_project::suitetext::S::ReadAgain.tr(lang.code());
+        assert!(!text(&classic).contains(again));
+        assert_eq!(std::fs::read(&path).unwrap(), bytes);
+    }
+}
