@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A plot with a number that cannot be read is not taken (safety):** a coordinate that is not a number, or one without its pair, was dropped without a word, so the coordinates after it were paired the other way round and another path would be cut. The file is refused with the code, the line and the column. Host-tested only.
+
 - **The program speaks the eight languages of the project and no more:** English, Spanish, Italian, German, French, Portuguese of Portugal, Chinese and Japanese. The 29 other languages are removed, with their files in `locales/` and the tool that placed their hot keys. A settings file that names `pt-br` or `fr-ca` is read as Portuguese or French (also by `--lang`); one that names another language that is gone starts in English.
 - **The failures the program words itself are said in the language of the screen** (the same sentences as EH3D-DRILLPRO, whose current language code the program takes); the detail given by the system or by the link is shown as it comes, and the command line output is as before.
 

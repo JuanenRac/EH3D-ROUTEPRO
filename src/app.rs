@@ -405,7 +405,13 @@ impl App {
                         Err("not the outline of a board".to_string())
                     }
                 }),
-            _ => hpgl::parse_limited(&text, segments, &limits).map_err(|e| refusal(e, lang)),
+            // a number the reader would drop moves every coordinate after it to another place: such a plot is not taken
+            _ => hpgl::parse_limited(&text, segments, &limits)
+                .and_then(|read| match hpgl::diagnose(&text).into_iter().next() {
+                    Some(problem) => Err(problem),
+                    None => Ok(read),
+                })
+                .map_err(|e| refusal(e, lang)),
         };
         match read {
             Ok((p, verdict)) => {
