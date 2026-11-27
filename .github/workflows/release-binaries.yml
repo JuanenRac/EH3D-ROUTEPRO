@@ -143,7 +143,7 @@ jobs:
           name="routepro-${version}-${MATRIX_LABEL}"
           mkdir "$name"
           cp "target/${MATRIX_TARGET}/release/routepro${MATRIX_EXT}" "$name/"
-          cp LICENSE README.md CHANGELOG.md "$name/"
+          cp LICENSE README.md CHANGELOG.md docs/THIRD_PARTY_NOTICES "$name/"
           # the basic configuration (explained line by line) and the examples, from a square to a hundred thousand points
           cp config/ROUTEPRO.RCF config/ROUTEPRO.RTD config/machine.cfg.example config/GUIDE_*.txt "$name/"
           cp -r examples "$name/examples"
@@ -161,7 +161,7 @@ jobs:
           cname="routepro-${version}-console-${MATRIX_LABEL}"
           mkdir "$cname"
           cp "target/${MATRIX_TARGET}/release/routepro-console${MATRIX_EXT}" "$cname/"
-          cp LICENSE README.md CHANGELOG.md "$cname/"
+          cp LICENSE README.md CHANGELOG.md docs/THIRD_PARTY_NOTICES "$cname/"
           cp config/ROUTEPRO.RCF config/ROUTEPRO.RTD config/machine.cfg.example config/GUIDE_*.txt "$cname/"
           cp -r examples "$cname/examples"
           if [ "${MATRIX_ARCHIVE}" = "zip" ]; then
