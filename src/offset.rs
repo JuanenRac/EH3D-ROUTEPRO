@@ -133,8 +133,7 @@ fn offset_ring(ring: &[Pt], radius: f64, grow: bool) -> Option<Vec<Pt>> {
     // the step of the arcs that keeps them within the tolerance of the true circle
     let step = 2.0 * (1.0 - (TOLERANCE_MM / 2.0 / radius).min(1.0)).acos();
     let mut out: Vec<Pt> = Vec::new();
-    for i in 0..n {
-        let v = r[i];
+    for (i, &v) in r.iter().enumerate() {
         let (d1, d2) = (direction((i + n - 1) % n), direction(i));
         let (n1, n2) = ((side * d1.1, -side * d1.0), (side * d2.1, -side * d2.0));
         let turn = d1.0 * d2.1 - d1.1 * d2.0;
