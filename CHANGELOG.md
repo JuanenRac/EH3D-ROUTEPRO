@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.2.3] - A height map that asks for too much correction is refused (not tried on a machine)
+
 - **Third-party notices in every package (`docs/THIRD_PARTY_NOTICES`):** the packages of the releases now carry the copyright notices and licence texts of the Rust crates and of the data the program is built with, and the CI fails when a new dependency or licence is not in the file.
 
 - **A height map that asks for more correction than the machine file allows refuses the job (safety):** the router reads `level_max_lift_mm` (2 mm by default, 0.1 to 20) from the machine file, looks at every point where the levelled plan moves Z (the start of each path and every piece of 10 mm) and, when the map would lift or lower Z by more than that, neither starts nor plans the job on paper; the message names the point, the correction asked and the limit, in the eight languages. The example machine file shows the key.
