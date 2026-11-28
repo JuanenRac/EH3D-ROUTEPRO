@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The cut can be offset by the radius of the cutter:** with `cutter_mm` (or `cutter_mm_tN`) in the machine file, closed outlines are cut outside the line drawn and cut-outs inside it, so the part keeps its size; corners that stick out are rounded, open paths stay as drawn and a cutter that does not fit anywhere refuses the whole job, naming the tool. Off by default. 5 new tests; no part has been cut and measured.
+- **A pause for the operator (safety):** a routing job can be asked to hold; it does so at the end of the path it is on, with the tool clear of the board. `P` on the menu screens (again to take it back, `Enter` to go on); on the classic screens `Esc` opens the INTERRUPTED window, where until now a real machine went on routing: it now holds, says so, and `Cont.` goes on. `pause_spindle = stop` (off by default) also stops the spindle and asks again before the head moves. Through a node connection the program keeps the session alive while a dialog waits. The logic comes from EH3D-DRILLPRO; tried on the simulator, not on a machine.
+- **A record of the jobs run directly on a machine:** `eh3d-jobs.log` in the data folder gets a line when a routing job starts (connection, file name with its size and a hash, offset, thickness, paths, estimated time) and one when it ends (done, cancelled or failed, the item and the paths reached, the time and the reason). `job_log = off` in the machine file turns it off. The record comes from EH3D-DRILLPRO; not tried on a machine.
+
 ## [0.2.3] - A height map that asks for too much correction is refused (not tried on a machine)
 
 - **Third-party notices in every package (`docs/THIRD_PARTY_NOTICES`):** the packages of the releases now carry the copyright notices and licence texts of the Rust crates and of the data the program is built with, and the CI fails when a new dependency or licence is not in the file.

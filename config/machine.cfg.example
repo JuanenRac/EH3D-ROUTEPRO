@@ -126,6 +126,22 @@ sanity_far_mm = 150
 # is refused before the job is planned.
 level_max_lift_mm = 2
 
+# --- The record of the jobs ---------------------------------------------------------------------------------------------------
+# on: each job run directly on a machine from this computer is written to eh3d-jobs.log of the data folder (a line when it starts and
+# one when it ends, with the item it reached and the reason of a failure). The file is closed at job_log_max_kb and kept once.
+job_log = on
+job_log_max_kb = 1024
+
+# --- The pause (key P on the menu screens, Esc on the classic ones) ----------------------------------------------------------
+# A pause always holds at the end of a hole or path, with the head clear of the board. run: the spindle keeps turning. stop: it is
+# stopped; going on starts it again, waits for its speed and asks a second time before the head moves.
+pause_spindle = run
+
+# --- The radius of the cutter (ROUTEPRO) ------------------------------------------------------------------------------------
+# With the diameter of the cutter, in mm, a closed outline is cut outside the line drawn and a cut-out inside it, so the part keeps
+# its size. With no line (or 0) the cut goes along the path as drawn. cutter_mm is for every tool; cutter_mm_t2 = 1 gives tool 2 its own.
+# cutter_mm = 2
+
 # --- Sounds (all optional) ------------------------------------------------------------------------------------------------
 # A sound when the job ends by itself, and another when the machine asks for a tool. Each one is either off, the tone the program makes
 # ("default"), or a sound file of your own: write the full path of a WAV file. Nothing is played when the line is missing or says off.

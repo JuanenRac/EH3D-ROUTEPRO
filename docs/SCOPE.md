@@ -20,7 +20,7 @@ The routing half of the Bungard workflow: it reads the plot of the outline and t
 * No emergency stop of its own: `Esc` stops the job and switches the drivers off, and the control unit of the machine watches the limit switches (see below).
 * No drilling: the drilling program is EH3D-DRILLPRO, whose protocol and machine file this program shares.
 * No claim that the steps per millimetre are right for a machine: they are only checked against the original configuration.
-* No toolpath for anything but the paths of the plot: it does not offset a path by the radius of the cutter.
+* No toolpath for anything but the paths of the plot: it offsets closed paths by the radius of the cutter only when the machine file gives it, and never open ones.
 
 ## Where it sits
 
