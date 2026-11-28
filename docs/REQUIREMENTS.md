@@ -2,7 +2,7 @@
 
 This register is the single source of the state of each capability: `STATUS.md` and the README files cite it and never state a state that it does not. A state is one of `planned`, `prototype`, `implemented` and `validated`. `validated` means that a person has run the capability on a real machine and the evidence of the manifest says `bench` or `field`; nothing here is validated, because a whole routing job has never run on a machine; only the serial protocol it shares with the drilling program has moved a real Bungard machine, and that evidence belongs to that program.
 
-The register has 48 requirements: 38 implemented, 5 prototype, 5 planned and 0 validated. By progress: 38 done, 5 partial, 1 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
+The register has 48 requirements: 39 implemented, 5 prototype, 4 planned and 0 validated. By progress: 39 done, 5 partial, 0 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
 
 ## How to read the register
 
@@ -81,7 +81,7 @@ The check is `tests/reqs.rs`: it reads this table, finds each test and fails whe
 | RPRO-040 | The spindle and the vacuum are switched on a real machine by the job. | planned | blocked | none | `planned:real_outputs::the_spindle_and_the_vacuum_are_switched_on_a_real_machine` | Needs a machine. |
 | RPRO-041 | The steps per millimetre are measured on a real machine and match the machine file. | planned | blocked | none | `planned:real_steps::the_steps_per_millimetre_match_a_measured_machine` | Needs a machine and a measure. |
 | RPRO-042 | The job goes through a running server to a machine. | planned | blocked | none | `planned:real_server::a_job_goes_through_a_running_server_to_a_machine` | Needs the server and a machine. |
-| RPRO-043 | The cut is offset by the radius of the cutter. | planned | pending | none | `planned:offset::the_cut_is_offset_by_the_radius_of_the_cutter` | Not written; the plan follows the path as drawn. |
+| RPRO-043 | Closed paths are offset by the radius of the cutter the machine file gives (`cutter_mm`), outlines outwards and cut-outs inwards, and a cutter that does not fit refuses the job. | implemented | done | host-test | `route_job::the_cut_is_offset_by_the_radius_of_the_cutter` | Off unless the diameter is given; open paths stay as drawn; no part has been cut and measured. |
 
 ## The project of the suite
 

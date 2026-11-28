@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 use eh3d_drillpro::app::Input;
 use eh3d_drillpro::config::{self, Config};
 use eh3d_drillpro::eh3dfile::{mark_of, Changed, Choice, ProjectJob};
+use eh3d_drillpro::hold::{self, Hold};
 use eh3d_drillpro::i18n::{str_width, Lang};
 use eh3d_drillpro::input_guard::{self, InputKind};
 use eh3d_drillpro::job::Geometry;
@@ -71,6 +72,10 @@ struct Run {
     item_clock: f64,
     /// The sound of the tool change has been played for the dialog that is on.
     pause_sounded: bool,
+    /// The items after which the tool is clear of the board (the end of each path): where a pause can hold.
+    safe: Vec<usize>,
+    /// The pause of the simulated job (a real run keeps its own).
+    hold: eh3d_drillpro::hold::SimHold,
 }
 
 impl Run {
@@ -208,6 +213,20 @@ impl App {
     }
 
     /// Refuses a height map that asks for more than `level_max_lift_mm` of the machine file anywhere along the paths, naming the point and the correction asked there.
+    /// The paths of the plot as the centre of the cutter goes: closed ones moved by the radius the machine file gives (`cutter_mm`), the rest as drawn.
+    fn cutter_paths(&self, paths: &[hpgl::Polyline]) -> Result<Vec<hpgl::Polyline>, String> {
+        crate::offset::offset_paths(paths, |pen| self.connection.tuning.cutter_of(pen)).map_err(
+            |e| {
+                format!(
+                    "{} (T{}, {} mm)",
+                    tr(self.lang, Text::ErrCutterFits),
+                    e.pen,
+                    e.diameter_mm
+                )
+            },
+        )
+    }
+
     fn check_levelling_of(&self, paths: &[hpgl::Polyline]) -> Result<(), String> {
         let max = self.connection.tuning.level_max_lift_mm;
         crate::job::check_levelling(
@@ -574,7 +593,8 @@ impl App {
                 .map(|m| m.clip_mm)
                 .filter(|c| c.0 > 0.0 && c.1 > 0.0);
         }
-        let (paths, skipped) = crate::job::select_paths(&plot.paths, &area_options, offset);
+        let cut = self.cutter_paths(&plot.paths)?;
+        let (paths, skipped) = crate::job::select_paths(&cut, &area_options, offset);
         let mut pens: Vec<u8> = paths.iter().map(|p| p.pen).collect();
         pens.sort_unstable();
         pens.dedup();
@@ -771,6 +791,13 @@ impl App {
                 .map(|m| m.clip_mm)
                 .filter(|c| c.0 > 0.0 && c.1 > 0.0);
         }
+        let all_paths = match self.cutter_paths(&all_paths) {
+            Ok(cut) => cut,
+            Err(why) => {
+                self.error = Some(why);
+                return;
+            }
+        };
         let (plan, skipped) = crate::job::select_paths(&all_paths, &area_options, offset);
         // the same plan goes to the machine and to the simulation: the demo shows what the machine would do
         let paths = plan.clone();
@@ -853,7 +880,28 @@ impl App {
                 // the server reports its own progress in items; it does not tell the paths, so the marks are not used to place it
                 RealRun::start_on_server(self.connection.clone(), request, Vec::new(), n)
             } else {
-                RealRun::start(self.connection.clone(), items.clone())
+                let record = self.plot.as_ref().and_then(|(file, _)| {
+                    eh3d_drillpro::runlog::Record::new(
+                        &self.data_dir,
+                        &self.connection.tuning,
+                        eh3d_drillpro::runlog::Facts {
+                            file,
+                            offset_mm: offset,
+                            board_mm: self.board_mm,
+                            unit: "paths",
+                            marks: &marks,
+                            left_out: skipped,
+                            items: items.len(),
+                            estimate_s: progress.total_seconds(),
+                        },
+                    )
+                });
+                RealRun::start_job(
+                    self.connection.clone(),
+                    items.clone(),
+                    marks.clone(),
+                    record,
+                )
             })
         } else {
             None
@@ -872,6 +920,8 @@ impl App {
             waiting: None,
             item_clock: 0.0,
             pause_sounded: false,
+            safe: marks,
+            hold: Default::default(),
         });
         self.mode = Mode::Running;
     }
@@ -902,7 +952,7 @@ impl App {
             let Some(run) = self.run.as_mut() else {
                 return false;
             };
-            if run.waiting.is_some() || run.real.is_some() {
+            if run.waiting.is_some() || run.hold.resting() || run.real.is_some() {
                 return self.tick_n(1);
             }
             let Some(item) = run.items.get(run.next) else {
@@ -930,10 +980,11 @@ impl App {
         }
         let ask = self.job_options.ask_operator;
         let tool_sound = self.connection.sound_tool_change.clone();
+        let stops_spindle = self.connection.tuning.pause_stops_spindle;
         let Some(run) = self.run.as_mut() else {
             return false;
         };
-        if run.waiting.is_some() {
+        if run.waiting.is_some() || (run.real.is_none() && run.hold.resting()) {
             return true;
         }
         if let Some(real) = &run.real {
@@ -977,6 +1028,12 @@ impl App {
             }
             run.next += 1;
             run.done = run.progress.units_done(run.next);
+            if run
+                .hold
+                .item_done(run.next - 1, &run.safe, run.items.len(), stops_spindle)
+            {
+                return true;
+            }
         }
         run.next < run.items.len()
     }
@@ -1001,6 +1058,27 @@ impl App {
             .map(|(_, _, t)| t);
         if let Some(t) = hit {
             self.open(t);
+        }
+    }
+
+    /// Where the running job is with respect to a pause.
+    pub fn hold(&self) -> Hold {
+        self.run
+            .as_ref()
+            .map_or(Hold::Off, |r| hold::hold_of(r.real.as_ref(), &r.hold))
+    }
+
+    /// Asks the running job to pause at the end of the path it is on.
+    pub fn pause_job(&mut self) {
+        if let Some(r) = self.run.as_mut() {
+            hold::pause(r.real.as_ref(), &mut r.hold);
+        }
+    }
+
+    /// Takes back a pause that has not happened yet, or goes on from one that has.
+    pub fn resume_job(&mut self) {
+        if let Some(r) = self.run.as_mut() {
+            hold::resume(r.real.as_ref(), &mut r.hold);
         }
     }
 
@@ -1060,6 +1138,20 @@ impl App {
                 _ => {}
             },
             Mode::Running => {
+                if matches!(input, Input::Char('p' | 'P')) {
+                    match self.hold() {
+                        Hold::Off => self.pause_job(),
+                        Hold::Asked => self.resume_job(),
+                        _ => {}
+                    }
+                    return;
+                }
+                if let Some(r) = self.run.as_mut() {
+                    if input == Input::Enter && r.real.is_none() && r.hold.resting() {
+                        r.hold.confirm();
+                        return;
+                    }
+                }
                 let live = self.run.as_ref().and_then(|r| r.real.as_ref());
                 match (live, input) {
                     // A job on the real machine: Enter answers a dialog, Esc stops it, and once it has ended Esc leaves.
@@ -1388,6 +1480,7 @@ impl App {
             Some(RunState::WaitPause(Pause::SpindleStart)) => {
                 tr(self.lang, Text::WaitSpindle).to_string()
             }
+            Some(RunState::Paused { .. } | RunState::SpindleRestarted) => String::new(),
             Some(RunState::Done) => tr(self.lang, Text::Done).to_string(),
             Some(RunState::Cancelled) => tr(self.lang, Text::Stopped).to_string(),
             Some(RunState::Failed(_)) => tr(self.lang, Text::LinkFailed).to_string(),
@@ -1395,10 +1488,16 @@ impl App {
             None if r.next < r.items.len() => tr(self.lang, Text::Routing).to_string(),
             None => tr(self.lang, Text::Done).to_string(),
         };
+        // a pause says so instead, except on a server job, which cannot be paused and says nothing unless asked
+        let hold = self.hold();
+        let status = match hold::status_text(self.lang, hold) {
+            Some(line) if hold != Hold::Impossible => line.to_string(),
+            _ => status,
+        };
         let attention = matches!(
             real,
             Some(RunState::WaitPause(_)) | Some(RunState::Failed(_))
-        );
+        ) || matches!(hold, Hold::Paused { .. } | Hold::SpindleRestarted);
         s.text(
             x + 2,
             y + 2,
@@ -1981,6 +2080,9 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
         use eh3d_drillpro::classic::engine::Question;
         use eh3d_drillpro::protocol::job::Pause;
         let run = self.run.as_ref()?;
+        if hold::hold_of(run.real.as_ref(), &run.hold) == Hold::SpindleRestarted {
+            return Some(Question::SpindleRestarted);
+        }
         let pause = match run.real.as_ref().map(|r| r.state()) {
             Some(RunState::WaitPause(p)) => Some(p),
             Some(_) => None,
@@ -2005,7 +2107,11 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
             return;
         }
         if ok {
-            run.waiting = None;
+            if run.hold.resting() {
+                run.hold.confirm();
+            } else {
+                run.waiting = None;
+            }
         } else {
             self.run = None;
             self.mode = Mode::Main;
@@ -2018,6 +2124,22 @@ impl eh3d_drillpro::classic::engine::ClassicEngine for App {
 
     fn pending_summary(&self) -> Option<&[String]> {
         self.summary.as_deref()
+    }
+
+    fn hold(&self) -> Hold {
+        App::hold(self)
+    }
+
+    fn pause_job(&mut self) {
+        App::pause_job(self);
+    }
+
+    fn resume_job(&mut self) {
+        App::resume_job(self);
+    }
+
+    fn is_real_job(&self) -> bool {
+        self.run.as_ref().is_some_and(|r| r.real.is_some())
     }
 
     fn accept_summary(&mut self) {

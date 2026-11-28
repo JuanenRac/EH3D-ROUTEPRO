@@ -5,5 +5,6 @@ pub mod app;
 pub mod eh3dfile;
 pub use eh3d_bungard_formats::{dxf, gerber, hpgl};
 pub mod job;
+pub mod offset;
 pub mod texts;
 pub use eh3d_bungard_formats::route_tools as tools;

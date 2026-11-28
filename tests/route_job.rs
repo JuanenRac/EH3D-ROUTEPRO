@@ -348,3 +348,19 @@ fn a_height_map_that_asks_for_more_than_the_limit_refuses_the_job_naming_the_poi
         assert_eq!(check_levelling(&[], &m, Some(&tilted), 0.1), Ok(()));
     }
 }
+
+#[test]
+fn the_cut_is_offset_by_the_radius_of_the_cutter() {
+    use eh3d_routepro::hpgl::{Polyline, UNIT_MM};
+    // a square of 10 mm and a cutter of 2 mm: the centre of the cutter goes 1 mm outside it
+    let side = (10.0 / UNIT_MM) as i32;
+    let square = Polyline {
+        pen: 1,
+        points: vec![(0, 0), (side, 0), (side, side), (0, side), (0, 0)],
+    };
+    let moved =
+        eh3d_routepro::offset::offset_paths(std::slice::from_ref(&square), |_| 2.0).unwrap();
+    let out = (1.0 / UNIT_MM).round() as i32;
+    assert_eq!(moved[0].points.iter().map(|p| p.0).min(), Some(-out));
+    assert_eq!(moved[0].points.iter().map(|p| p.1).max(), Some(side + out));
+}
