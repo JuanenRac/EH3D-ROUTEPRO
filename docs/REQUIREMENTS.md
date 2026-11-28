@@ -2,7 +2,7 @@
 
 This register is the single source of the state of each capability: `STATUS.md` and the README files cite it and never state a state that it does not. A state is one of `planned`, `prototype`, `implemented` and `validated`. `validated` means that a person has run the capability on a real machine and the evidence of the manifest says `bench` or `field`; nothing here is validated, because a whole routing job has never run on a machine; only the serial protocol it shares with the drilling program has moved a real Bungard machine, and that evidence belongs to that program.
 
-The register has 48 requirements: 38 implemented, 5 prototype, 5 planned and 0 validated. By progress: 38 done, 5 partial, 1 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
+The register has 48 requirements: 39 implemented, 5 prototype, 4 planned and 0 validated. By progress: 39 done, 5 partial, 0 pending and 4 blocked. High coverage is not proof of correctness, so each row says how it is checked: the test that names it, and what it shows.
 
 ## How to read the register
 
